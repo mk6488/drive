@@ -1,4 +1,13 @@
-import type { Athlete, AthleteProgress, Quest, Squad, Submission } from '@/src/types';
+import type {
+  Athlete,
+  AthleteProgress,
+  Quest,
+  RiverMapProgress,
+  Squad,
+  SquadMission,
+  SquadMissionProgress,
+  Submission,
+} from '@/src/types';
 
 export interface MockClub {
   id: string;
@@ -79,11 +88,136 @@ export const mockAthleteProgress: AthleteProgress = {
   ],
   badges: [],
   squadMission: {
+    missionId: 'squad-mission-preview-001',
     squadId: mockSquad.id,
-    missionTitle: 'January Consistency Block',
-    current: 2,
-    target: 20,
+    missionTitle: 'Repair the Club Quad',
+    current: 15,
+    target: 30,
+    completedVerifiedSessions: 6,
+    pacingDisciplineContributions: 4,
+    rateControlContributions: 3,
+    reflectionContributions: 2,
+    squadContribution: 15,
     updatedAt: nowIso,
   },
+  updatedAt: nowIso,
+};
+
+export const mockSquadMission: SquadMission = {
+  id: 'squad-mission-preview-001',
+  squadId: mockSquad.id,
+  title: 'Repair the Club Quad',
+  description:
+    'The squad is restoring a winter training boat by banking verified sessions with controlled pacing, rate discipline, and useful reflections.',
+  targets: [
+    {
+      id: 'mission-target-verified-sessions',
+      label: 'Coach verified sessions',
+      description: 'Sessions count only after coach review confirms the evidence and training intent.',
+      contributionType: 'verified-sessions',
+      current: 6,
+      target: 12,
+      unit: 'sessions',
+    },
+    {
+      id: 'mission-target-pacing-discipline',
+      label: 'Pacing discipline',
+      description: 'Contributions come from holding the intended effort band, not chasing the fastest split.',
+      contributionType: 'pacing-discipline',
+      current: 4,
+      target: 8,
+      unit: 'quality marks',
+    },
+    {
+      id: 'mission-target-rate-control',
+      label: 'Rate control',
+      description: 'Controlled rhythm and respecting rate caps help the boat move along the river.',
+      contributionType: 'rate-control',
+      current: 3,
+      target: 6,
+      unit: 'quality marks',
+    },
+    {
+      id: 'mission-target-reflection',
+      label: 'Useful reflections',
+      description: 'Short, honest reflections help the coach see learning and consistency.',
+      contributionType: 'reflection-quality',
+      current: 2,
+      target: 4,
+      unit: 'reflections',
+    },
+  ],
+  previewOnly: true,
+  updatedAt: nowIso,
+};
+
+export const mockSquadMissionProgress: SquadMissionProgress = {
+  missionId: mockSquadMission.id,
+  squadId: mockSquad.id,
+  missionTitle: mockSquadMission.title,
+  current: 15,
+  target: 30,
+  completedVerifiedSessions: 6,
+  pacingDisciplineContributions: 4,
+  rateControlContributions: 3,
+  reflectionContributions: 2,
+  squadContribution: 15,
+  updatedAt: nowIso,
+};
+
+export const mockRiverMapProgress: RiverMapProgress = {
+  squadId: mockSquad.id,
+  currentNodeId: 'rate-20-rapids',
+  unlockedNodeIds: ['the-boathouse', 'winter-training-island', 'rate-20-rapids'],
+  nodes: [
+    {
+      id: 'the-boathouse',
+      title: 'The Boathouse',
+      description: 'The squad gathers for the winter block and sets the standard for honest evidence.',
+      order: 1,
+      qualityFocus: 'Start line: private squad training evidence and coach oversight.',
+    },
+    {
+      id: 'winter-training-island',
+      title: 'Winter Training Island',
+      description: 'Early verified sessions build shared momentum without public rankings.',
+      order: 2,
+      qualityFocus: 'Consistency and completed coach verified sessions.',
+    },
+    {
+      id: 'rate-20-rapids',
+      title: 'Rate 20 Rapids',
+      description: 'Progress here comes from keeping rhythm when the session asks for restraint.',
+      order: 3,
+      qualityFocus: 'Rate control and pacing discipline.',
+    },
+    {
+      id: 'the-pacing-marshes',
+      title: 'The Pacing Marshes',
+      description: 'The crew moves through when training shows patient, repeatable pacing.',
+      order: 4,
+      qualityFocus: 'Even effort and useful training reflections.',
+    },
+    {
+      id: 'sprint-bridge',
+      title: 'Sprint Bridge',
+      description: 'A later landmark for controlled intent, not reckless speed chasing.',
+      order: 5,
+      qualityFocus: 'Coach verified quality under higher pressure.',
+    },
+    {
+      id: 'regatta-harbour',
+      title: 'Regatta Harbour',
+      description: 'The destination represents squad identity built across the winter journey.',
+      order: 6,
+      qualityFocus: 'Shared contribution, honest effort, and verified execution.',
+    },
+  ],
+  completedVerifiedSessions: 6,
+  pacingDisciplineContributions: 4,
+  rateControlContributions: 3,
+  reflectionContributions: 2,
+  squadContribution: 15,
+  previewOnly: true,
   updatedAt: nowIso,
 };

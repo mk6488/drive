@@ -200,6 +200,21 @@ export function AthleteTodaysQuestScreen() {
         gateMessage={verificationGateMessage}
       />
 
+      <Card>
+        <AppText variant="subtitle">Squad Progress Preview</AppText>
+        <AppText variant="body" colour={theme.colours.mist}>
+          Open a read-only preview of how verified training quality could move the squad mission and winter river map.
+        </AppText>
+        <AppButton
+          title="View squad progress preview"
+          variant="secondary"
+          onPress={() => {
+            router.push('/athlete/progress');
+          }}
+          helperText="Preview shell only. No progress is written and no leaderboard is created."
+        />
+      </Card>
+
       <AttributeProgressPanel attributes={state.progress.attributes} />
     </Screen>
   );

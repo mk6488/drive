@@ -1,5 +1,12 @@
 import type { AttributeName } from './reward';
 
+export type SquadMissionContributionType =
+  | 'verified-sessions'
+  | 'pacing-discipline'
+  | 'rate-control'
+  | 'reflection-quality'
+  | 'squad-contribution';
+
 export interface AttributeProgress {
   name: AttributeName;
   value: number;
@@ -12,10 +19,58 @@ export interface BadgeProgress {
 }
 
 export interface SquadMissionProgress {
+  missionId?: string;
   squadId: string;
   missionTitle: string;
   current: number;
   target: number;
+  completedVerifiedSessions?: number;
+  pacingDisciplineContributions?: number;
+  rateControlContributions?: number;
+  reflectionContributions?: number;
+  squadContribution?: number;
+  updatedAt: string;
+}
+
+export interface SquadMissionTarget {
+  id: string;
+  label: string;
+  description: string;
+  contributionType: SquadMissionContributionType;
+  current: number;
+  target: number;
+  unit: string;
+}
+
+export interface SquadMission {
+  id: string;
+  squadId: string;
+  title: string;
+  description: string;
+  targets: SquadMissionTarget[];
+  previewOnly: true;
+  updatedAt: string;
+}
+
+export interface RiverMapNode {
+  id: string;
+  title: string;
+  description: string;
+  order: number;
+  qualityFocus: string;
+}
+
+export interface RiverMapProgress {
+  squadId: string;
+  currentNodeId: string;
+  unlockedNodeIds: string[];
+  nodes: RiverMapNode[];
+  completedVerifiedSessions: number;
+  pacingDisciplineContributions: number;
+  rateControlContributions: number;
+  reflectionContributions: number;
+  squadContribution: number;
+  previewOnly: true;
   updatedAt: string;
 }
 

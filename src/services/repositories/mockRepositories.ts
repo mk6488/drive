@@ -1,6 +1,25 @@
-import type { Athlete, AthleteProgress, Quest, RewardResult, Squad, Submission } from '@/src/types';
+import type {
+  Athlete,
+  AthleteProgress,
+  Quest,
+  RewardResult,
+  RiverMapProgress,
+  Squad,
+  SquadMission,
+  SquadMissionProgress,
+  Submission,
+} from '@/src/types';
 
-import { mockAthlete, mockAthleteProgress, mockQuest, mockSquad, mockSubmission } from './mockData';
+import {
+  mockAthlete,
+  mockAthleteProgress,
+  mockQuest,
+  mockRiverMapProgress,
+  mockSquad,
+  mockSquadMission,
+  mockSquadMissionProgress,
+  mockSubmission,
+} from './mockData';
 import type {
   AthleteRepository,
   ProgressReadRepository,
@@ -19,6 +38,9 @@ const squadStore: Squad[] = [mockSquad];
 const questStore: Quest[] = [mockQuest];
 const submissionStore: Submission[] = [mockSubmission];
 const progressStore: AthleteProgress[] = [mockAthleteProgress];
+const squadMissionStore: SquadMission[] = [mockSquadMission];
+const squadMissionProgressStore: SquadMissionProgress[] = [mockSquadMissionProgress];
+const riverMapProgressStore: RiverMapProgress[] = [mockRiverMapProgress];
 const rewardStore: RewardResult[] = [];
 
 export const mockAthleteRepository: AthleteRepository = {
@@ -107,6 +129,18 @@ export const mockProgressReadRepository: ProgressReadRepository = {
   async getAthleteProgress(athleteId) {
     await delay();
     return progressStore.find((progress) => progress.athleteId === athleteId) ?? null;
+  },
+  async getSquadMission(squadId) {
+    await delay();
+    return squadMissionStore.find((mission) => mission.squadId === squadId) ?? null;
+  },
+  async getSquadMissionProgress(squadId) {
+    await delay();
+    return squadMissionProgressStore.find((progress) => progress.squadId === squadId) ?? null;
+  },
+  async getRiverMapProgress(squadId) {
+    await delay();
+    return riverMapProgressStore.find((progress) => progress.squadId === squadId) ?? null;
   },
 };
 

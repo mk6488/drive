@@ -1,4 +1,14 @@
-import type { Athlete, AthleteProgress, Quest, RewardResult, Squad, Submission } from '@/src/types';
+import type {
+  Athlete,
+  AthleteProgress,
+  Quest,
+  RewardResult,
+  RiverMapProgress,
+  Squad,
+  SquadMission,
+  SquadMissionProgress,
+  Submission,
+} from '@/src/types';
 
 export interface AthleteRepository {
   getAthleteById(athleteId: string): Promise<Athlete | null>;
@@ -35,6 +45,9 @@ export interface TrustedRewardWriteRepository {
 
 export interface ProgressReadRepository {
   getAthleteProgress(athleteId: string): Promise<AthleteProgress | null>;
+  getSquadMission(squadId: string): Promise<SquadMission | null>;
+  getSquadMissionProgress(squadId: string): Promise<SquadMissionProgress | null>;
+  getRiverMapProgress(squadId: string): Promise<RiverMapProgress | null>;
 }
 
 export interface TrustedProgressWriteRepository {
