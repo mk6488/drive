@@ -47,6 +47,8 @@ Future work must read these documents before implementation:
 - `docs/07-build-roadmap.md`
 - `docs/08-definition-of-done.md`
 - `docs/09-development-setup.md`
+- `docs/10-ui-and-navigation-shell.md`
+- `docs/11-domain-model-and-repository-boundaries.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -82,8 +84,8 @@ npm run lint
 
 ## Current Status
 
-This repository currently contains the DRIVE guardrails and the Step 2 Expo React Native TypeScript app foundation.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, and Step 4 domain model plus mock repository boundaries.
 
-Step 3 has added a static UI and navigation shell only, with preview routes for the welcome, athlete, and coach spaces.
+Step 4 adds type-safe DRIVE domain language and preview-only mock repository data for development screens, without implementing real workflows.
 
-Firebase code, product workflows, reward logic, verification flows, and future integrations have not been added.
+Firebase code, authentication, PM5 upload workflows, coach verification actions, reward calculation logic, and future integrations have not been added.

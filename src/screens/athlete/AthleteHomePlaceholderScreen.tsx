@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { AttributeChip } from '@/src/components/game/AttributeChip';
@@ -7,6 +8,8 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import { mockQuestRepository } from '@/src/services/repositories/mockRepositories';
+import type { Quest } from '@/src/types';
 
 const attributes = [
   {
@@ -28,6 +31,26 @@ const attributes = [
 ];
 
 export function AthleteHomePlaceholderScreen() {
+  const [previewQuest, setPreviewQuest] = useState<Quest | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    // Temporary preview loader so screens can consume repository boundaries before Firebase exists.
+    const loadPreviewQuest = async () => {
+      const quests = await mockQuestRepository.listQuestsForSquad('club-example-001', 'squad-example-juniors');
+      if (isMounted) {
+        setPreviewQuest(quests[0] ?? null);
+      }
+    };
+
+    void loadPreviewQuest();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <Screen>
       <View style={styles.header}>
@@ -40,11 +63,16 @@ export function AthleteHomePlaceholderScreen() {
         </AppText>
       </View>
 
-      <GamePanel title="Today's Quest" eyebrow="Coach-set session" status="Not active">
+      <GamePanel title="Today's Quest" eyebrow="Coach-set session" status={previewQuest ? 'Preview' : 'Not active'}>
         <AppText variant="body" colour={theme.colours.mist}>
-          Future quests will show the erg session, target rate, pacing focus, and what good execution
-          means before any upload is submitted.
+          {previewQuest?.title ??
+            'Future quests will show the erg session, target rate, pacing focus, and what good execution means before any upload is submitted.'}
         </AppText>
+        {previewQuest ? (
+          <AppText variant="caption" colour={theme.colours.mutedInk}>
+            Execution focus: {previewQuest.executionFocus.join(', ')}.
+          </AppText>
+        ) : null}
       </GamePanel>
 
       <Card>
