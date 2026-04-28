@@ -49,6 +49,7 @@ Future work must read these documents before implementation:
 - `docs/09-development-setup.md`
 - `docs/10-ui-and-navigation-shell.md`
 - `docs/11-domain-model-and-repository-boundaries.md`
+- `docs/12-athlete-todays-quest-screen.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -84,8 +85,8 @@ npm run lint
 
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, and Step 4 domain model plus mock repository boundaries.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, and Step 5's mock-backed athlete Today's Quest screen.
 
-Step 4 adds type-safe DRIVE domain language and preview-only mock repository data for development screens, without implementing real workflows.
+Step 5 adds the first athlete-facing product screen using mock repository reads only. It does not implement real PM5 upload, coach verification actions, or reward calculation workflows.
 
 Firebase code, authentication, PM5 upload workflows, coach verification actions, reward calculation logic, and future integrations have not been added.

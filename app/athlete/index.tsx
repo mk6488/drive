@@ -1,5 +1,5 @@
-import { AthleteHomePlaceholderScreen } from '@/src/screens/athlete/AthleteHomePlaceholderScreen';
+import { AthleteTodaysQuestScreen } from '@/src/screens/athlete/AthleteTodaysQuestScreen';
 
 export default function AthleteIndex() {
-  return <AthleteHomePlaceholderScreen />;
+  return <AthleteTodaysQuestScreen />;
 }
