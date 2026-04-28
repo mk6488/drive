@@ -45,6 +45,21 @@ export function CoachHomePlaceholderScreen() {
         </View>
       </Card>
 
+      <GamePanel title="Quest Builder" eyebrow="Weekly training quality" status="Preview shell">
+        <AppText variant="body" colour={theme.colours.mist}>
+          Draft how a coach might set a weekly erg quest around execution focus, pacing discipline, rate control,
+          consistency, and reflection quality. This preview does not save or create real quests.
+        </AppText>
+        <AppButton
+          title="Open quest builder preview"
+          variant="secondary"
+          onPress={() => {
+            router.push('/coach/quest-builder');
+          }}
+          helperText="Opens a local-state preview shell only. Saving remains disabled."
+        />
+      </GamePanel>
+
       <GamePanel title="Submission Review" eyebrow="Verification gate" status="Future">
         <AppText variant="body" colour={theme.colours.mist}>
           PM5 evidence review, respectful rejection reasons, and verification actions will be added in a
