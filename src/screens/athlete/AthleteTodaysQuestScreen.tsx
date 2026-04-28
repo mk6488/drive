@@ -182,7 +182,7 @@ export function AthleteTodaysQuestScreen() {
           <AppText variant="subtitle" colour={theme.colours.parchment}>
             {state.quest.title}
           </AppText>
-          <StatusPill label={submissionStatusLabel} tone={submissionStatus === 'verified' ? 'success' : 'pending'} />
+          <StatusPill label={submissionStatusLabel} tone={submissionStatus === 'verified' ? 'success' : 'attention'} />
         </View>
         <AppText variant="body" colour={theme.colours.mist}>
           {state.quest.description}

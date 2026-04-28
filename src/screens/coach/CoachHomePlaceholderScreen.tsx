@@ -1,6 +1,8 @@
+import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { GamePanel } from '@/src/components/game/GamePanel';
+import { AppButton } from '@/src/components/ui/AppButton';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
@@ -15,6 +17,8 @@ const responsibilities = [
 ];
 
 export function CoachHomePlaceholderScreen() {
+  const router = useRouter();
+
   return (
     <Screen>
       <View style={styles.header}>
@@ -46,6 +50,14 @@ export function CoachHomePlaceholderScreen() {
           PM5 evidence review, respectful rejection reasons, and verification actions will be added in a
           later approved step. This screen does not verify anything yet.
         </AppText>
+        <AppButton
+          title="Open verification queue preview"
+          variant="secondary"
+          onPress={() => {
+            router.push('/coach/verification');
+          }}
+          helperText="Opens a preview shell only. Real approve and reject actions stay disabled."
+        />
       </GamePanel>
 
       <GamePanel title="Squad Progress" eyebrow="Shared winter block" status="Future">

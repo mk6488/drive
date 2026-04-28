@@ -39,7 +39,7 @@ Build the core athlete loop:
 - Upload PM5 photo
 - Add reflection
 - Submit for verification
-- See pending, verified, or rejected state
+- See submitted, verified, or rejected state
 
 No automatic PM5 reading in this phase.
 
@@ -47,7 +47,7 @@ No automatic PM5 reading in this phase.
 
 Build the coach verification workflow:
 
-- Review pending submissions
+- Review submissions awaiting coach review
 - View PM5 evidence and reflection
 - Verify or reject
 - Add practical rejection reason

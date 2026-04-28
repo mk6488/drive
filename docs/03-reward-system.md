@@ -26,7 +26,7 @@ The MVP does not use OCR, Concept2 API data, or live PM5 Bluetooth data. PM5 evi
 The verification gate is mandatory:
 
 1. Athlete submits upload and reflection.
-2. Submission waits in a pending state.
+2. Submission is submitted and waiting for coach review.
 3. Coach verifies or rejects it.
 4. Reward engine runs only for verified submissions.
 5. Progress updates are saved after reward calculation.

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { AppText } from '@/src/components/ui/AppText';
 import { theme } from '@/src/constants/theme';
 
-type StatusTone = 'bronze' | 'pending' | 'success' | 'neutral';
+type StatusTone = 'bronze' | 'attention' | 'success' | 'neutral';
 
 type StatusPillProps = {
   label: string;
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   bronze: {
     backgroundColor: theme.colours.bronze,
   },
-  pending: {
+  attention: {
     backgroundColor: theme.colours.parchmentDeep,
   },
   success: {

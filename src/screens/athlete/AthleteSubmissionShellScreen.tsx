@@ -158,7 +158,7 @@ export function AthleteSubmissionShellScreen() {
           <AppText variant="subtitle" colour={theme.colours.parchment}>
             {state.quest.title}
           </AppText>
-          <StatusPill label={submissionStatusLabel} tone={submissionStatus === 'verified' ? 'success' : 'pending'} />
+          <StatusPill label={submissionStatusLabel} tone={submissionStatus === 'verified' ? 'success' : 'attention'} />
         </View>
         <AppText variant="caption" colour={theme.colours.parchmentMuted}>
           Target summary: {formatTargetSummary(state.quest)}

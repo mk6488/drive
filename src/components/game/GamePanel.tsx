@@ -27,7 +27,7 @@ export function GamePanel({ title, eyebrow, status, children }: GamePanelProps) 
             {title}
           </AppText>
         </View>
-        {status ? <StatusPill label={status} tone="pending" /> : null}
+        {status ? <StatusPill label={status} tone="attention" /> : null}
       </View>
       {children}
     </Card>
