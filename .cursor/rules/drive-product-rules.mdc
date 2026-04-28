@@ -1,0 +1,15 @@
+---
+description: Product guardrails for DRIVE: Winter Quest
+alwaysApply: true
+---
+
+# DRIVE Product Rules
+
+- Before coding, read every file in `docs/`, especially `00-product-brief.md`, `01-mvp-scope.md`, and `02-game-design-rules.md`.
+- DRIVE rewards execution quality, not just completion. Protect pacing discipline, rate control, consistency, honest uploads, reflection, improvement, good habits, and coach verified effort.
+- Keep the MVP centred on coach-created quests, PM5 photo upload, athlete reflection, coach verification, rewards, squad missions, River Map, and Boathouse progress.
+- Do not add unrequested features. Future possibilities are not permission to build OCR, Concept2 API, live PM5 Bluetooth, Unity, Godot, social features, or pure speed leaderboards.
+- Do not turn DRIVE into a generic workout tracker or metres leaderboard.
+- Do not change unrelated files. Keep each task scoped to the user's request.
+- If a request conflicts with the docs, stop and explain the conflict before implementing.
+- After every task, summarise changed files and explain how each change supports the DRIVE brief.

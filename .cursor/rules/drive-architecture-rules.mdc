@@ -1,0 +1,17 @@
+---
+description: Architecture boundaries for future DRIVE app code
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# DRIVE Architecture Rules
+
+- Before implementation, read `docs/05-technical-architecture.md`, `docs/06-firestore-schema.md`, and `docs/03-reward-system.md`.
+- Plan first, then implement. For non-trivial tasks, describe the files to change and how the change supports the DRIVE brief before editing.
+- Screens are UI only. They may display state and collect input, but must not hold business logic, Firebase calls, reward calculations, or permission decisions.
+- Put business workflows in services.
+- Put data access in repositories or services. Do not import Firebase SDKs directly into screens.
+- Put reward calculation in a dedicated reward engine. Do not calculate XP, badges, attributes, squad progress, River Map progress, or Boathouse progress inside screens.
+- Keep reward behaviour verification-gated. Unverified submissions must not unlock progress.
+- Once the app exists, run typecheck and lint after substantive code changes and report the result.
+- Do not refactor unrelated architecture while completing a narrow request.

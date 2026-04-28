@@ -1,0 +1,17 @@
+---
+description: UI and tone rules for DRIVE screens and components
+globs: **/*.{tsx,ts,md}
+alwaysApply: false
+---
+
+# DRIVE UI Rules
+
+- Before UI work, read `docs/00-product-brief.md`, `docs/02-game-design-rules.md`, and `docs/04-user-roles-and-safeguarding.md`.
+- Use a serious but fun junior rowing tone. Avoid childish gimmicks, empty hype, and generic fitness app language.
+- Do not use purple or blue gradients, or purple/blue as the primary colour direction.
+- Screens must stay UI only. Move business logic, verification logic, Firebase access, and reward decisions out of screens.
+- UI should reinforce execution quality: pacing discipline, rate control, reflection, honest uploads, and coach verified effort.
+- Do not create pure speed leaderboard UI unless explicitly approved.
+- Do not add public athlete profiles, public rankings, social feeds, direct messaging, or unnecessary junior athlete data collection without explicit approval.
+- Keep copy in UK English.
+- After UI changes, summarise changed files and explain how the UI supports the DRIVE brief.

@@ -1,0 +1,17 @@
+---
+description: Firebase access and data integrity rules for DRIVE
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# DRIVE Firebase Rules
+
+- Before Firebase work, read `docs/05-technical-architecture.md` and `docs/06-firestore-schema.md`.
+- Do not add Firebase code until the user explicitly requests Firebase implementation.
+- Keep Firebase access inside repositories or services. Screens and presentational components must not read or write Firestore or Storage directly.
+- Treat PM5 photos as private squad training evidence. Do not add public sharing or galleries.
+- Athletes may submit their own evidence, but must not verify submissions or write rewards directly.
+- Coaches may verify or reject submissions only for squads they are authorised to coach.
+- Reward records must be created only after coach verification and should reference the verified submission.
+- Do not let client UI write arbitrary XP, attributes, badges, River Map progress, Boathouse progress, or squad mission progress.
+- Once the app exists, run typecheck and lint after Firebase changes and report the result.
