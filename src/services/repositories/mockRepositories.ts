@@ -3,11 +3,13 @@ import type { Athlete, AthleteProgress, Quest, RewardResult, Squad, Submission }
 import { mockAthlete, mockAthleteProgress, mockQuest, mockSquad, mockSubmission } from './mockData';
 import type {
   AthleteRepository,
-  ProgressRepository,
+  ProgressReadRepository,
   QuestRepository,
-  RewardRepository,
+  RewardReadRepository,
   SquadRepository,
   SubmissionRepository,
+  TrustedProgressWriteRepository,
+  TrustedRewardWriteRepository,
 } from './types';
 
 const delay = async () => Promise.resolve();
@@ -75,7 +77,7 @@ export const mockSubmissionRepository: SubmissionRepository = {
   },
 };
 
-export const mockRewardRepository: RewardRepository = {
+export const mockRewardReadRepository: RewardReadRepository = {
   async getRewardResultByVerifiedSubmissionId(verifiedSubmissionId) {
     await delay();
     return rewardStore.find((reward) => reward.verifiedSubmissionId === verifiedSubmissionId) ?? null;
@@ -84,6 +86,9 @@ export const mockRewardRepository: RewardRepository = {
     await delay();
     return rewardStore.filter((reward) => reward.athleteId === athleteId);
   },
+};
+
+export const mockTrustedRewardWriteRepository: TrustedRewardWriteRepository = {
   async saveRewardResult(result) {
     await delay();
     const existingRewardIndex = rewardStore.findIndex((reward) => reward.id === result.id);
@@ -98,11 +103,14 @@ export const mockRewardRepository: RewardRepository = {
   },
 };
 
-export const mockProgressRepository: ProgressRepository = {
+export const mockProgressReadRepository: ProgressReadRepository = {
   async getAthleteProgress(athleteId) {
     await delay();
     return progressStore.find((progress) => progress.athleteId === athleteId) ?? null;
   },
+};
+
+export const mockTrustedProgressWriteRepository: TrustedProgressWriteRepository = {
   async saveAthleteProgress(progress) {
     await delay();
     const existingProgressIndex = progressStore.findIndex((item) => item.athleteId === progress.athleteId);
@@ -117,5 +125,16 @@ export const mockProgressRepository: ProgressRepository = {
   },
 };
 
+export const mockRewardRepository = {
+  ...mockRewardReadRepository,
+  ...mockTrustedRewardWriteRepository,
+};
+
+export const mockProgressRepository = {
+  ...mockProgressReadRepository,
+  ...mockTrustedProgressWriteRepository,
+};
+
 // This mock boundary is for preview reads and shape validation only.
-// It must not be interpreted as permission to let athletes write rewards or progress directly.
+// Reward and progress trusted write boundaries are for service-side workflows only.
+// Athlete-facing previews should depend on read repositories.

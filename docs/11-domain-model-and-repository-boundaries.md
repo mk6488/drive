@@ -45,6 +45,15 @@ Repositories are added now to lock in product language and workflow boundaries b
 - Business workflows can stay in services instead of screens.
 - Reward and progress integrity rules remain explicit while infrastructure evolves.
 
+## Read Versus Trusted Writes
+
+Repository boundaries are intentionally split:
+
+- Read repositories can be used by UI screens for previews and display.
+- Trusted write repositories are reserved for verified workflows.
+- Reward and progress writes must never be triggered by athlete-facing UI.
+- Later Firebase repositories and Cloud Functions should preserve this split so clients cannot grant arbitrary progress.
+
 ## What Mock Data Is Allowed For
 
 The mock data is for local previews only:

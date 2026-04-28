@@ -85,12 +85,19 @@ Suggested fields:
 - `createdByUserId`
 - `pm5PhotoPath`
 - `reflection`
-- `status`: `pending`, `verified`, or `rejected`
+- `status`: `draft`, `submitted`, `verified`, or `rejected`
 - `submittedAt`
 - `verifiedAt`
 - `verifiedByCoachId`
 - `rejectionReason`
 - `rewardResultId`
+
+Status guidance:
+
+- `draft`: started by the athlete but not yet submitted for coach review.
+- `submitted`: sent by the athlete and waiting for coach review.
+- `verified`: approved by a coach and eligible for reward processing.
+- `rejected`: reviewed by a coach but not accepted as valid evidence.
 
 ### `rewardResults`
 

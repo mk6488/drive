@@ -23,15 +23,24 @@ export interface SubmissionRepository {
   ): Promise<Submission>;
 }
 
-export interface RewardRepository {
+export interface RewardReadRepository {
   getRewardResultByVerifiedSubmissionId(verifiedSubmissionId: string): Promise<RewardResult | null>;
   listRewardsForAthlete(athleteId: string): Promise<RewardResult[]>;
-  // Trusted workflow only: do not expose this directly to athlete-facing actions.
+}
+
+export interface TrustedRewardWriteRepository {
+  // Trusted workflows only; do not call from athlete-facing UI screens.
   saveRewardResult(result: RewardResult): Promise<RewardResult>;
 }
 
-export interface ProgressRepository {
+export interface ProgressReadRepository {
   getAthleteProgress(athleteId: string): Promise<AthleteProgress | null>;
-  // Trusted workflow only: athlete clients should not write progress records directly.
+}
+
+export interface TrustedProgressWriteRepository {
+  // Trusted workflows only; do not call from athlete-facing UI screens.
   saveAthleteProgress(progress: AthleteProgress): Promise<AthleteProgress>;
 }
+
+export type RewardRepository = RewardReadRepository & TrustedRewardWriteRepository;
+export type ProgressRepository = ProgressReadRepository & TrustedProgressWriteRepository;
