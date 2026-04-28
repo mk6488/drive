@@ -32,7 +32,7 @@ DRIVE domain status remains:
 | Status | User-facing label | Can unlock rewards | Meaning |
 | --- | --- | --- | --- |
 | `draft` | Draft | No | Athlete has started evidence and reflection but has not submitted for coach review. |
-| `submitted` | Awaiting coach review | No | Athlete submitted evidence; coach review is still pending. |
+| `submitted` | Awaiting coach review | No | Athlete submitted evidence; the submission is awaiting coach review. |
 | `verified` | Verified | Yes | Coach has verified the submission, so reward workflows may proceed. |
 | `rejected` | Rejected | No | Coach reviewed and rejected the submission; athlete must update and resubmit. |
 

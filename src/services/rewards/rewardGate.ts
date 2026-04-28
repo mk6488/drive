@@ -11,7 +11,7 @@ export function getRewardLockReason(status: SubmissionStatus): string | null {
   }
 
   if (status === 'submitted') {
-    return 'Coach review is still pending. Reward processing remains locked until verification.';
+    return 'This submission is awaiting coach review. Reward processing remains locked until verification.';
   }
 
   if (status === 'rejected') {
