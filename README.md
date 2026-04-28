@@ -84,4 +84,6 @@ npm run lint
 
 This repository currently contains the DRIVE guardrails and the Step 2 Expo React Native TypeScript app foundation.
 
-The app currently shows only a minimal DRIVE placeholder screen. Firebase code, product workflows, reward logic, verification flows, and future integrations have not been added.
+Step 3 has added a static UI and navigation shell only, with preview routes for the welcome, athlete, and coach spaces.
+
+Firebase code, product workflows, reward logic, verification flows, and future integrations have not been added.

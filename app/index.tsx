@@ -1,5 +1,5 @@
-import { DrivePlaceholderScreen } from '@/src/screens/DrivePlaceholderScreen';
+import { WelcomeScreen } from '@/src/screens/auth/WelcomeScreen';
 
 export default function Index() {
-  return <DrivePlaceholderScreen />;
+  return <WelcomeScreen />;
 }
