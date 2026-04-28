@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { CoachSubmissionReviewCard } from '@/src/components/game/CoachSubmissionReviewCard';
 import { CoachVerificationBoundaryPanel } from '@/src/components/game/CoachVerificationBoundaryPanel';
+import { SubmissionLifecycleTimeline } from '@/src/components/game/SubmissionLifecycleTimeline';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
@@ -184,6 +185,8 @@ export function CoachVerificationQueueShellScreen() {
           Awaiting coach review: {awaitingReviewCount}
         </AppText>
       </Card>
+
+      <SubmissionLifecycleTimeline submissionStatus={awaitingReviewCount > 0 ? 'submitted' : 'draft'} />
 
       {queueItems.length === 0 ? (
         <Card>

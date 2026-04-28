@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { PM5EvidencePanel } from '@/src/components/game/PM5EvidencePanel';
 import { ReflectionDraftPanel } from '@/src/components/game/ReflectionDraftPanel';
+import { SubmissionLifecycleTimeline } from '@/src/components/game/SubmissionLifecycleTimeline';
 import { SubmissionReadinessPanel } from '@/src/components/game/SubmissionReadinessPanel';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
@@ -154,6 +155,7 @@ export function AthleteSubmissionShellScreen() {
 
       <PM5EvidencePanel />
       <ReflectionDraftPanel reflectionDraft={reflectionDraft} onChangeReflectionDraft={setReflectionDraft} />
+      <SubmissionLifecycleTimeline submissionStatus={submissionStatus} />
       <SubmissionReadinessPanel submissionStatus={submissionStatus} submissionStatusTone={submissionStatusTone} />
     </Screen>
   );

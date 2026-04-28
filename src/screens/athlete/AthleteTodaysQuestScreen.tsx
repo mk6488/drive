@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { AttributeProgressPanel } from '@/src/components/game/AttributeProgressPanel';
 import { QuestFocusPanel } from '@/src/components/game/QuestFocusPanel';
 import { RewardFocusPreviewPanel } from '@/src/components/game/RewardFocusPreviewPanel';
+import { SubmissionLifecycleTimeline } from '@/src/components/game/SubmissionLifecycleTimeline';
 import { VerificationGatePanel } from '@/src/components/game/VerificationGatePanel';
 import { AppButton } from '@/src/components/ui/AppButton';
 import { AppText } from '@/src/components/ui/AppText';
@@ -176,6 +177,7 @@ export function AthleteTodaysQuestScreen() {
       <QuestFocusPanel qualityTarget={state.quest.target.notes ?? 'Execute clean pacing and controlled rating.'} executionFocus={executionFocus} />
 
       <RewardFocusPreviewPanel executionFocus={state.quest.executionFocus} submissionStatus={submissionStatus} />
+      <SubmissionLifecycleTimeline submissionStatus={submissionStatus} />
 
       <Card>
         <AppText variant="subtitle">PM5 Evidence</AppText>
