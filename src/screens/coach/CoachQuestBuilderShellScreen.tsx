@@ -7,12 +7,19 @@ import {
 } from '@/src/components/game/ExecutionFocusSelector';
 import { QuestBuilderPreviewCard } from '@/src/components/game/QuestBuilderPreviewCard';
 import { QuestQualityTargetPanel } from '@/src/components/game/QuestQualityTargetPanel';
+import { QuestTemplatePicker } from '@/src/components/game/QuestTemplatePicker';
 import { AppButton } from '@/src/components/ui/AppButton';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import {
+  createDraftFromTemplate,
+  listQuestTemplates,
+  type QuestTemplate,
+  type QuestTemplateDraft,
+} from '@/src/services/quests/questTemplates';
 import { getRewardFocusSummaryForSignal, toRewardSignal } from '@/src/services/rewards/rewardRules';
 import type { ExecutionFocus, QuestSessionType } from '@/src/types/quest';
 
@@ -58,6 +65,8 @@ const executionFocusOptions: readonly ExecutionFocusOption[] = [
 ];
 
 export function CoachQuestBuilderShellScreen() {
+  const questTemplates = useMemo(() => listQuestTemplates(), []);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>();
   const [questTitle, setQuestTitle] = useState('Week 3 Rate Control Builder');
   const [sessionType, setSessionType] = useState<QuestSessionType>('rate-cap');
   const [durationOrDistance, setDurationOrDistance] = useState('3 x 12 minutes');
@@ -69,6 +78,10 @@ export function CoachQuestBuilderShellScreen() {
   const [reflectionPrompt, setReflectionPrompt] = useState(
     'What was hardest to control: rate, pace, or consistency?',
   );
+  const [templateGuidance, setTemplateGuidance] = useState<Pick<
+    QuestTemplateDraft,
+    'coachingPurpose' | 'safeguardingNote'
+  > | null>(null);
 
   const selectedSessionLabel = useMemo(
     () => sessionTypeOptions.find((option) => option.value === sessionType)?.label ?? 'Session',
@@ -83,6 +96,23 @@ export function CoachQuestBuilderShellScreen() {
     [executionFocus],
   );
 
+  function handleSelectTemplate(template: QuestTemplate) {
+    const draft = createDraftFromTemplate(template);
+
+    setSelectedTemplateId(draft.sourceTemplateId);
+    setQuestTitle(draft.title);
+    setSessionType(draft.sessionType);
+    setDurationOrDistance(draft.durationOrDistance);
+    setTargetRate(draft.targetRate);
+    setTargetPaceOrEffort(draft.targetPaceOrEffort);
+    setExecutionFocus(draft.executionFocus);
+    setReflectionPrompt(draft.reflectionPrompt);
+    setTemplateGuidance({
+      coachingPurpose: draft.coachingPurpose,
+      safeguardingNote: draft.safeguardingNote,
+    });
+  }
+
   return (
     <Screen>
       <View style={styles.header}>
@@ -95,6 +125,12 @@ export function CoachQuestBuilderShellScreen() {
           draft state only and cannot save.
         </AppText>
       </View>
+
+      <QuestTemplatePicker
+        templates={questTemplates}
+        selectedTemplateId={selectedTemplateId}
+        onSelectTemplate={handleSelectTemplate}
+      />
 
       <Card>
         <AppText variant="subtitle">Draft quest inputs</AppText>
@@ -163,6 +199,17 @@ export function CoachQuestBuilderShellScreen() {
         />
       </Card>
 
+      {templateGuidance ? (
+        <Card>
+          <AppText variant="subtitle">Template guidance</AppText>
+          <GuidanceRow label="Coaching purpose" value={templateGuidance.coachingPurpose} />
+          <GuidanceRow label="Safeguarding note" value={templateGuidance.safeguardingNote} />
+          <AppText variant="caption" colour={theme.colours.mutedInk}>
+            This guidance was copied into local preview state only. It has not created a quest or written any data.
+          </AppText>
+        </Card>
+      ) : null}
+
       <QuestQualityTargetPanel
         focusLabel={selectedFocusOption.label}
         focusSummary={selectedFocusSummary}
@@ -208,6 +255,17 @@ export function CoachQuestBuilderShellScreen() {
         />
       </Card>
     </Screen>
+  );
+}
+
+function GuidanceRow({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.guidanceRow}>
+      <AppText variant="label">{label}</AppText>
+      <AppText variant="body" colour={theme.colours.mutedInk}>
+        {value}
+      </AppText>
+    </View>
   );
 }
 
@@ -301,5 +359,8 @@ const styles = StyleSheet.create({
   },
   copyText: {
     flex: 1,
+  },
+  guidanceRow: {
+    gap: theme.spacing.xs,
   },
 });

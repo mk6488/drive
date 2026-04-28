@@ -57,6 +57,7 @@ Future work must read these documents before implementation:
 - `docs/17-submission-lifecycle-timeline.md`
 - `docs/18-controlled-lifecycle-preview-harness.md`
 - `docs/19-coach-quest-builder-shell.md`
+- `docs/20-quest-template-catalogue.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -101,10 +102,12 @@ submit, approve, reject, calculate rewards, or write progress.
 
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, and Step 12's coach quest builder shell preview.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, and Step 13's static quest template catalogue with a local template picker only.
 
 Step 11 adds `/dev/submission-lifecycle` as a local-state preview for draft, submitted, verified, and rejected lifecycle states only. Real lifecycle actions, reward calculation, and trusted reward/progress writes remain intentionally out of scope.
 
 Step 12 adds `/coach/quest-builder` as a local-state coach quest builder shell only. It previews training quality target language and attribute focus, but does not save quests, write repositories, mutate mock data, calculate rewards, unlock badges, or write progress.
+
+Step 13 adds static rowing quest templates and a local-only picker for the coach builder. Template selection fills draft preview state only; it does not create real quests, write repositories, mutate mock data, calculate rewards, or unlock badges.
 
 Firebase code, authentication, PM5 upload workflows, coach verification actions, reward calculation logic, and future integrations have not been added.
