@@ -5,15 +5,17 @@ import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import type { SubmissionStatusTone } from '@/src/services/submissions/submissionStatus';
 
 type GamePanelProps = {
   title: string;
   eyebrow?: string;
   status?: string;
+  statusTone?: SubmissionStatusTone;
   children: ReactNode;
 };
 
-export function GamePanel({ title, eyebrow, status, children }: GamePanelProps) {
+export function GamePanel({ title, eyebrow, status, statusTone = 'attention', children }: GamePanelProps) {
   return (
     <Card tone="river">
       <View style={styles.header}>
@@ -27,7 +29,7 @@ export function GamePanel({ title, eyebrow, status, children }: GamePanelProps) 
             {title}
           </AppText>
         </View>
-        {status ? <StatusPill label={status} tone="attention" /> : null}
+        {status ? <StatusPill label={status} tone={statusTone} /> : null}
       </View>
       {children}
     </Card>

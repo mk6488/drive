@@ -3,15 +3,26 @@ import { StyleSheet, View } from 'react-native';
 import { GamePanel } from '@/src/components/game/GamePanel';
 import { AppText } from '@/src/components/ui/AppText';
 import { theme } from '@/src/constants/theme';
+import type { SubmissionStatusTone } from '@/src/services/submissions/submissionStatus';
 
 type VerificationGatePanelProps = {
   submissionStatusLabel: string;
+  submissionStatusTone: SubmissionStatusTone;
   gateMessage: string;
 };
 
-export function VerificationGatePanel({ submissionStatusLabel, gateMessage }: VerificationGatePanelProps) {
+export function VerificationGatePanel({
+  submissionStatusLabel,
+  submissionStatusTone,
+  gateMessage,
+}: VerificationGatePanelProps) {
   return (
-    <GamePanel title="Coach Verification Gate" eyebrow="Rewards lock" status={submissionStatusLabel}>
+    <GamePanel
+      title="Coach Verification Gate"
+      eyebrow="Rewards lock"
+      status={submissionStatusLabel}
+      statusTone={submissionStatusTone}
+    >
       <View style={styles.content}>
         <AppText variant="body" colour={theme.colours.mist}>
           {gateMessage}

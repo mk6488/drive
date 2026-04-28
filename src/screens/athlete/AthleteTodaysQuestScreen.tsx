@@ -16,6 +16,11 @@ import {
   mockQuestRepository,
   mockSubmissionRepository,
 } from '@/src/services/repositories/mockRepositories';
+import {
+  getRewardGateMessage,
+  getSubmissionStatusLabel,
+  getSubmissionStatusTone,
+} from '@/src/services/submissions/submissionStatus';
 import type { AthleteProgress, Quest, Submission } from '@/src/types';
 
 const previewClubId = 'club-example-001';
@@ -30,33 +35,6 @@ type ScreenState = {
 
 function formatExecutionFocus(focus: Quest['executionFocus'][number]) {
   return focus.replace('-', ' ');
-}
-
-function getSubmissionStatusLabel(status: Submission['status'] | 'none') {
-  switch (status) {
-    case 'draft':
-      return 'Draft';
-    case 'submitted':
-      return 'Awaiting coach review';
-    case 'verified':
-      return 'Verified';
-    case 'rejected':
-      return 'Needs resubmission';
-    default:
-      return 'Not submitted';
-  }
-}
-
-function getVerificationGateMessage(status: Submission['status'] | 'none') {
-  if (status === 'verified') {
-    return 'Coach has verified this submission. Reward and progress workflows can run in a trusted backend step.';
-  }
-
-  if (status === 'rejected') {
-    return 'This submission was rejected. Update the evidence and reflection before rewards can unlock.';
-  }
-
-  return 'This session is not verified yet, so rewards remain locked even if you completed the workout.';
 }
 
 export function AthleteTodaysQuestScreen() {
@@ -161,9 +139,10 @@ export function AthleteTodaysQuestScreen() {
     );
   }
 
-  const submissionStatus = state.submission?.status ?? 'none';
+  const submissionStatus = state.submission?.status ?? 'draft';
   const submissionStatusLabel = getSubmissionStatusLabel(submissionStatus);
-  const verificationGateMessage = getVerificationGateMessage(submissionStatus);
+  const submissionStatusTone = getSubmissionStatusTone(submissionStatus);
+  const verificationGateMessage = getRewardGateMessage(submissionStatus);
 
   return (
     <Screen>
@@ -182,7 +161,7 @@ export function AthleteTodaysQuestScreen() {
           <AppText variant="subtitle" colour={theme.colours.parchment}>
             {state.quest.title}
           </AppText>
-          <StatusPill label={submissionStatusLabel} tone={submissionStatus === 'verified' ? 'success' : 'attention'} />
+          <StatusPill label={submissionStatusLabel} tone={submissionStatusTone} />
         </View>
         <AppText variant="body" colour={theme.colours.mist}>
           {state.quest.description}
@@ -210,7 +189,11 @@ export function AthleteTodaysQuestScreen() {
         />
       </Card>
 
-      <VerificationGatePanel submissionStatusLabel={submissionStatusLabel} gateMessage={verificationGateMessage} />
+      <VerificationGatePanel
+        submissionStatusLabel={submissionStatusLabel}
+        submissionStatusTone={submissionStatusTone}
+        gateMessage={verificationGateMessage}
+      />
 
       <AttributeProgressPanel attributes={state.progress.attributes} />
     </Screen>

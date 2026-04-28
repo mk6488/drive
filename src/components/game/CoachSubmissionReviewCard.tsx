@@ -5,11 +5,13 @@ import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import { getSubmissionStatusLabel, getSubmissionStatusTone } from '@/src/services/submissions/submissionStatus';
+import type { SubmissionStatus } from '@/src/types/submission';
 
 type CoachSubmissionReviewCardProps = {
   questTitle: string;
   athleteDisplayName: string;
-  submissionStatusLabel: string;
+  submissionStatus: SubmissionStatus;
   reflectionSummary: string;
   pm5EvidencePath: string;
 };
@@ -17,10 +19,13 @@ type CoachSubmissionReviewCardProps = {
 export function CoachSubmissionReviewCard({
   questTitle,
   athleteDisplayName,
-  submissionStatusLabel,
+  submissionStatus,
   reflectionSummary,
   pm5EvidencePath,
 }: CoachSubmissionReviewCardProps) {
+  const submissionStatusLabel = getSubmissionStatusLabel(submissionStatus);
+  const submissionStatusTone = getSubmissionStatusTone(submissionStatus);
+
   return (
     <Card tone="river">
       <View style={styles.header}>
@@ -32,10 +37,7 @@ export function CoachSubmissionReviewCard({
             Athlete: {athleteDisplayName}
           </AppText>
         </View>
-        <StatusPill
-          label={submissionStatusLabel}
-          tone={submissionStatusLabel === 'Verified' ? 'success' : 'attention'}
-        />
+        <StatusPill label={submissionStatusLabel} tone={submissionStatusTone} />
       </View>
 
       <View style={styles.section}>

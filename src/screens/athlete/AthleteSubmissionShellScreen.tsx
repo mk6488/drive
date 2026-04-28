@@ -10,6 +10,7 @@ import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
 import { mockQuestRepository, mockSubmissionRepository } from '@/src/services/repositories/mockRepositories';
+import { getSubmissionStatusLabel, getSubmissionStatusTone } from '@/src/services/submissions/submissionStatus';
 import type { Quest, Submission } from '@/src/types';
 
 const previewClubId = 'club-example-001';
@@ -20,21 +21,6 @@ type ScreenState = {
   quest: Quest;
   submission: Submission | null;
 };
-
-function getSubmissionStatusLabel(status: Submission['status'] | 'none') {
-  switch (status) {
-    case 'draft':
-      return 'Draft';
-    case 'submitted':
-      return 'Awaiting coach review';
-    case 'verified':
-      return 'Verified';
-    case 'rejected':
-      return 'Needs resubmission';
-    default:
-      return 'Not submitted';
-  }
-}
 
 function formatTargetSummary(quest: Quest) {
   const rate = quest.target.targetRate ?? 'coach-set rate';
@@ -137,8 +123,9 @@ export function AthleteSubmissionShellScreen() {
     );
   }
 
-  const submissionStatus = state.submission?.status ?? 'none';
+  const submissionStatus = state.submission?.status ?? 'draft';
   const submissionStatusLabel = getSubmissionStatusLabel(submissionStatus);
+  const submissionStatusTone = getSubmissionStatusTone(submissionStatus);
 
   return (
     <Screen>
@@ -158,7 +145,7 @@ export function AthleteSubmissionShellScreen() {
           <AppText variant="subtitle" colour={theme.colours.parchment}>
             {state.quest.title}
           </AppText>
-          <StatusPill label={submissionStatusLabel} tone={submissionStatus === 'verified' ? 'success' : 'attention'} />
+          <StatusPill label={submissionStatusLabel} tone={submissionStatusTone} />
         </View>
         <AppText variant="caption" colour={theme.colours.parchmentMuted}>
           Target summary: {formatTargetSummary(state.quest)}
@@ -167,7 +154,7 @@ export function AthleteSubmissionShellScreen() {
 
       <PM5EvidencePanel />
       <ReflectionDraftPanel reflectionDraft={reflectionDraft} onChangeReflectionDraft={setReflectionDraft} />
-      <SubmissionReadinessPanel submissionStatusLabel={submissionStatusLabel} />
+      <SubmissionReadinessPanel submissionStatus={submissionStatus} submissionStatusTone={submissionStatusTone} />
     </Screen>
   );
 }

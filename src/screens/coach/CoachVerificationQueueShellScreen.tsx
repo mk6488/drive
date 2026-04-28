@@ -13,6 +13,7 @@ import {
   mockQuestRepository,
   mockSubmissionRepository,
 } from '@/src/services/repositories/mockRepositories';
+import { isSubmissionAwaitingCoachReview } from '@/src/services/submissions/submissionStatus';
 import type { Submission } from '@/src/types';
 
 const previewClubId = 'club-example-001';
@@ -26,21 +27,6 @@ type QueueItem = {
   reflectionSummary: string;
   pm5EvidencePath: string;
 };
-
-function getSubmissionStatusLabel(status: Submission['status']) {
-  switch (status) {
-    case 'draft':
-      return 'Draft';
-    case 'submitted':
-      return 'Awaiting coach review';
-    case 'verified':
-      return 'Verified';
-    case 'rejected':
-      return 'Rejected';
-    default:
-      return 'Awaiting coach review';
-  }
-}
 
 function summarizeReflection(reflection: string) {
   if (!reflection.trim()) {
@@ -143,7 +129,7 @@ export function CoachVerificationQueueShellScreen() {
   }, []);
 
   const awaitingReviewCount = useMemo(
-    () => queueItems.filter((item) => item.status === 'submitted').length,
+    () => queueItems.filter((item) => isSubmissionAwaitingCoachReview(item.status)).length,
     [queueItems],
   );
 
@@ -209,7 +195,7 @@ export function CoachVerificationQueueShellScreen() {
             key={item.submissionId}
             questTitle={item.questTitle}
             athleteDisplayName={item.athleteDisplayName}
-            submissionStatusLabel={getSubmissionStatusLabel(item.status)}
+            submissionStatus={item.status}
             reflectionSummary={item.reflectionSummary}
             pm5EvidencePath={item.pm5EvidencePath}
           />
