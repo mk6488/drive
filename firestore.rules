@@ -58,10 +58,12 @@ service cloud.firestore {
       return isAthlete() && isSameClub(clubId) && hasResourceSquad() && userSquadIds().hasAny([resource.data.squadId]);
     }
 
-    function keepsIdentityFields() {
+    function keepsSubmissionIdentityFields() {
       return request.resource.data.clubId == resource.data.clubId
         && request.resource.data.squadId == resource.data.squadId
-        && request.resource.data.athleteId == resource.data.athleteId;
+        && request.resource.data.athleteId == resource.data.athleteId
+        && request.resource.data.questId == resource.data.questId
+        && request.resource.data.createdByUserId == resource.data.createdByUserId;
     }
 
     match /clubs/{clubId} {
@@ -100,19 +102,32 @@ service cloud.firestore {
 
         allow create: if isAthlete()
           && isSameClub(clubId)
-          && request.resource.data.keys().hasAll(['clubId', 'squadId', 'athleteId', 'createdByUserId', 'status'])
+          && request.resource.data.keys().hasAll(['questId', 'clubId', 'squadId', 'athleteId', 'createdByUserId', 'status'])
+          && request.resource.data.keys().hasOnly([
+            'questId',
+            'clubId',
+            'squadId',
+            'athleteId',
+            'createdByUserId',
+            'pm5PhotoPath',
+            'reflection',
+            'status',
+            'submittedAt',
+            'createdAt',
+            'updatedAt'
+          ])
           && request.resource.data.clubId == clubId
+          && request.resource.data.questId is string
           && request.resource.data.squadId is string
           && request.resource.data.athleteId == linkedAthleteId()
           && request.resource.data.createdByUserId == request.auth.uid
-          && request.resource.data.status in ['draft', 'submitted']
-          && !request.resource.data.keys().hasAny(['verifiedAt', 'verifiedByCoachId', 'rewardResultId']);
+          && request.resource.data.status in ['draft', 'submitted'];
 
         allow update: if isAthlete()
           && isSameClub(clubId)
           && isLinkedAthlete(resource.data.athleteId)
-          && resource.data.status in ['draft', 'submitted']
-          && keepsIdentityFields()
+          && resource.data.status == 'draft'
+          && keepsSubmissionIdentityFields()
           && request.resource.data.status in ['draft', 'submitted']
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
             'pm5PhotoPath',
@@ -120,20 +135,18 @@ service cloud.firestore {
             'status',
             'submittedAt',
             'updatedAt'
-          ])
-          && !request.resource.data.keys().hasAny(['verifiedAt', 'verifiedByCoachId', 'rewardResultId']);
+          ]);
 
         allow update: if isCoachForResourceSquad(clubId)
           && resource.data.status == 'submitted'
-          && keepsIdentityFields()
+          && keepsSubmissionIdentityFields()
           && request.resource.data.status in ['verified', 'rejected']
-          && request.resource.data.verifiedByCoachId == request.auth.uid
+          && request.resource.data.reviewedByUserId == request.auth.uid
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
             'status',
-            'verifiedAt',
-            'verifiedByCoachId',
-            'rejectionReason',
-            'coachNotes',
+            'reviewedAt',
+            'reviewedByUserId',
+            'coachNote',
             'updatedAt'
           ]);
 

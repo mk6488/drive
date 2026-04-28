@@ -44,11 +44,19 @@ The foundation deliberately excludes public athlete profile access, public train
 
 Coaches are intended to read squad and athlete training evidence only within their authorised club and squad scope. Coach access is based on future role and squad claims, not global access.
 
-The rules allow future coaches to create quest documents for their assigned squads and to review submitted athlete evidence for those squads. Coach review is limited to review fields, keeping athlete identity fields and reward/progress outputs outside direct coach client writes.
+The rules allow future coaches to create quest documents for their assigned squads and to review submitted athlete evidence for those squads. Coach review fields follow the existing submission domain model: `reviewedByUserId`, `reviewedAt`, and `coachNote`.
+
+Coach review is limited to submitted submissions. The coach client may change the submission status to `verified` or `rejected` and add review audit fields, but it must keep identity fields unchanged and must not write reward results or progress directly.
+
+## Submission Audit Boundary
+
+Athletes may only edit their own draft submissions. Draft edits are limited to PM5 evidence path, reflection, status, `submittedAt`, and `updatedAt`.
+
+Submitting evidence moves the record into the awaiting coach review state. Once a submission is `submitted`, `verified`, or `rejected`, athlete edits are locked so the PM5 evidence and reflection remain stable for coach review and future audit trails.
 
 ## Reward And Progress Writes
 
-Athletes cannot write `rewardResults`, `athleteProgress`, or `squadProgress`. This protects the DRIVE rule that XP, badges, attributes, squad mission progress, River Map progress, and Boathouse progress are earned only after coach verified execution quality.
+Athletes cannot write `rewardResults`, `athleteProgress`, or `squadProgress`. Coaches also cannot write those records from client UI during review. This protects the DRIVE rule that XP, badges, attributes, squad mission progress, River Map progress, and Boathouse progress are earned only after coach verified execution quality.
 
 Reward and progress writes are expected to come later from trusted server workflows, such as Cloud Functions or another server-side process using appropriate privileged credentials. Client UI must not be able to grant arbitrary progress.
 

@@ -87,9 +87,9 @@ Suggested fields:
 - `reflection`
 - `status`: `draft`, `submitted`, `verified`, or `rejected`
 - `submittedAt`
-- `verifiedAt`
-- `verifiedByCoachId`
-- `rejectionReason`
+- `reviewedAt`
+- `reviewedByUserId`
+- `coachNote`
 - `rewardResultId`
 
 Status guidance:
@@ -181,6 +181,6 @@ Future Firebase rules must enforce:
 
 Reward results must reference the verified submission that caused them. This makes progress auditable and reduces disputes.
 
-Coach verification should create an auditable trail showing who verified or rejected the submission, when they did it, and any practical reason or note they added.
+Coach verification should create an auditable trail through `reviewedByUserId`, `reviewedAt`, and `coachNote`, showing who verified or rejected the submission, when they did it, and any practical note they added.
 
 Do not let client screens write arbitrary XP, attributes, badge unlocks, River Map progress, or Boathouse progress.
