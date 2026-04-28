@@ -61,6 +61,7 @@ Future work must read these documents before implementation:
 - `docs/21-squad-mission-and-river-map-shell.md`
 - `docs/22-boathouse-builder-shell.md`
 - `docs/23-repository-provider-foundation.md`
+- `docs/24-submission-and-verification-command-boundaries.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -105,7 +106,7 @@ submit, approve, reject, calculate rewards, or write progress.
 
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, and Step 16's mock-backed repository provider foundation only.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, and Step 17's submission and verification command boundary foundation only.
 
 Step 11 adds `/dev/submission-lifecycle` as a local-state preview for draft, submitted, verified, and rejected lifecycle states only. Real lifecycle actions, reward calculation, and trusted reward/progress writes remain intentionally out of scope.
 
@@ -118,5 +119,7 @@ Step 14 adds `/athlete/progress` as a read-only preview for squad mission and Ri
 Step 15 adds `/athlete/boathouse` as a read-only Boathouse Builder shell. Static preview resources and upgrades show how future coach verified training quality could build a shared rowing space; it does not write progress, calculate rewards, mutate mock data, or create leaderboards.
 
 Step 16 adds a mock-backed repository provider foundation so product screens depend on repository contracts rather than direct mock imports. It does not add Firebase, authentication, environment switching, real writes, reward calculation, or provider selection beyond the mock provider.
+
+Step 17 adds TypeScript command input types, pure validation helpers, and pure verification boundary helpers for future submission and coach review workflows. It does not expose command writes through the repository provider, mutate mock data, upload PM5 evidence, submit, approve, reject, calculate rewards, or write progress.
 
 Firebase code, authentication, PM5 upload workflows, coach verification actions, reward calculation logic, and future integrations have not been added.
