@@ -1,12 +1,14 @@
 import { Link } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
+import { AuthBoundaryPanel } from '@/src/components/game/AuthBoundaryPanel';
 import { AppButton } from '@/src/components/ui/AppButton';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import { unauthenticatedPreviewSession } from '@/src/services/auth/mockAuthSession';
 
 export function WelcomeScreen() {
   return (
@@ -28,7 +30,7 @@ export function WelcomeScreen() {
         <AppText variant="subtitle">Preview the shell</AppText>
         <AppText variant="body" colour={theme.colours.mutedInk}>
           This is not a working login. These routes show the intended athlete and coach spaces before
-          quests, uploads, verification, or rewards are implemented.
+          real authentication, protected routes, quests, uploads, verification, or rewards are implemented.
         </AppText>
         <View style={styles.actions}>
           <Link href="/athlete" asChild>
@@ -39,6 +41,11 @@ export function WelcomeScreen() {
           </Link>
         </View>
       </Card>
+
+      <AuthBoundaryPanel
+        session={unauthenticatedPreviewSession}
+        title="No real auth yet"
+      />
     </Screen>
   );
 }

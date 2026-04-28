@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
+import { AuthBoundaryPanel } from '@/src/components/game/AuthBoundaryPanel';
 import { GamePanel } from '@/src/components/game/GamePanel';
 import { AppButton } from '@/src/components/ui/AppButton';
 import { AppText } from '@/src/components/ui/AppText';
@@ -8,6 +9,7 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import { exampleCoachSession } from '@/src/services/auth/mockAuthSession';
 
 const responsibilities = [
   'Set weekly erg quests for the squad.',
@@ -27,9 +29,15 @@ export function CoachHomePlaceholderScreen() {
           Coach Launch
         </AppText>
         <AppText variant="body" colour={theme.colours.mist}>
-          A static home for the future coach role, focused on trusted training oversight.
+          A static home for the future coach role, focused on trusted training oversight. This is not a
+          protected route yet.
         </AppText>
       </View>
+
+      <AuthBoundaryPanel
+        session={exampleCoachSession}
+        title="Coach role boundary"
+      />
 
       <Card>
         <AppText variant="subtitle">Future responsibilities</AppText>

@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { AttributeProgressPanel } from '@/src/components/game/AttributeProgressPanel';
+import { AuthBoundaryPanel } from '@/src/components/game/AuthBoundaryPanel';
 import { QuestFocusPanel } from '@/src/components/game/QuestFocusPanel';
 import { RewardFocusPreviewPanel } from '@/src/components/game/RewardFocusPreviewPanel';
 import { SubmissionLifecycleTimeline } from '@/src/components/game/SubmissionLifecycleTimeline';
@@ -13,6 +14,7 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import { exampleAthleteSession } from '@/src/services/auth/mockAuthSession';
 import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import {
   getRewardGateMessage,
@@ -151,9 +153,16 @@ export function AthleteTodaysQuestScreen() {
           Today&apos;s Quest
         </AppText>
         <AppText variant="body" colour={theme.colours.mist}>
-          Train for quality first. Rewards unlock only after coach verification.
+          Train for quality first. This athlete preview is not a real login, and rewards unlock only after
+          coach verification.
         </AppText>
       </View>
+
+      <AuthBoundaryPanel
+        session={exampleAthleteSession}
+        title="Athlete role boundary"
+        linkedAthleteId={previewAthleteId}
+      />
 
       <Card tone="river">
         <View style={styles.questHeader}>

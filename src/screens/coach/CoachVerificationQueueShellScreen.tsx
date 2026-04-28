@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { AuthBoundaryPanel } from '@/src/components/game/AuthBoundaryPanel';
 import { CoachSubmissionReviewCard } from '@/src/components/game/CoachSubmissionReviewCard';
 import { CoachVerificationBoundaryPanel } from '@/src/components/game/CoachVerificationBoundaryPanel';
 import { SubmissionLifecycleTimeline } from '@/src/components/game/SubmissionLifecycleTimeline';
@@ -9,6 +10,7 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import { exampleCoachSession } from '@/src/services/auth/mockAuthSession';
 import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import { isSubmissionAwaitingCoachReview } from '@/src/services/submissions/submissionStatus';
 import type { Submission } from '@/src/types';
@@ -166,12 +168,17 @@ export function CoachVerificationQueueShellScreen() {
         </AppText>
         <AppText variant="body" colour={theme.colours.mist}>
           This queue is a shell preview. Rewards unlock only after trusted coach verification, and actions here are
-          intentionally disabled.
+          intentionally disabled. Once auth exists, this must remain coach-only for authorised squad context.
         </AppText>
         <AppText variant="caption" colour={theme.colours.parchmentMuted}>
           Verification is the future trigger for reward processing, but no real reward processing runs from this screen.
         </AppText>
       </View>
+
+      <AuthBoundaryPanel
+        session={exampleCoachSession}
+        title="Verification role boundary"
+      />
 
       <Card>
         <AppText variant="subtitle">Queue overview</AppText>
