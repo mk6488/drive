@@ -10,6 +10,7 @@ alwaysApply: true
 - Do not add unrequested features, dependencies, app setup, screens, Firebase code, or integrations.
 - Do not change unrelated files. Preserve user work and keep diffs narrow.
 - Follow the roadmap in `docs/07-build-roadmap.md` unless the user explicitly changes priority.
+- Before finishing any substantive task, check `docs/08-definition-of-done.md`.
 - Once the app exists, run typecheck and lint after substantive implementation work. If either cannot run, explain why.
 - After every task, provide a concise summary of changed files.
 - After every task, explain how the change supports the DRIVE brief.

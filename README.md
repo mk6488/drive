@@ -45,6 +45,9 @@ Future work must read these documents before implementation:
 - `docs/05-technical-architecture.md`
 - `docs/06-firestore-schema.md`
 - `docs/07-build-roadmap.md`
+- `docs/08-definition-of-done.md`
+
+Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
 ## Cursor Rules
 

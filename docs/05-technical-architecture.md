@@ -65,6 +65,16 @@ Firebase should be treated as infrastructure, not scattered throughout the app.
 
 Use repositories for collection access and services for workflow logic. This keeps screens clean and makes reward behaviour easier to test.
 
+## Trusted Workflows
+
+Screens must not write XP, badges, attributes, squad mission progress, River Map progress, or Boathouse progress directly.
+
+Reward calculations should happen in a dedicated reward engine. Firebase repositories should handle data access, while services coordinate the verification and reward workflows.
+
+Later, reward writes and verification workflows may need trusted server side handling, such as Firebase Cloud Functions, to prevent clients from writing arbitrary progress.
+
+MVP implementation can begin with clean local or mock repository boundaries before Firebase is connected. Do not rush Firebase into the app before the domain flow is clear.
+
 ## Testing Direction
 
 Once an app exists, prioritise tests around:

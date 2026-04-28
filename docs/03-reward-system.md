@@ -60,14 +60,54 @@ Attribute changes must be explainable. Do not increase attributes randomly or on
 
 ## Badges
 
-Badges should be tied to meaningful behaviour or improvement. Examples:
+Badges should be tied to meaningful behaviour, verified milestones, or improvement. First milestone badges are allowed when they reinforce a useful habit, such as uploading evidence properly, completing a first verified session, or writing a useful coach-facing reflection.
 
-- Holding a narrow pace band across a verified session
-- Completing several verified sessions with useful reflections
-- Improving consistency over multiple weeks
-- Contributing to a squad mission without needing to be the fastest athlete
+Example badge groups:
 
-Avoid vague badges such as "First Upload" unless the badge teaches or reinforces a useful habit.
+### Bronze
+
+- First Screen Uploaded
+- First Verified Session
+- 3 Sessions Completed
+- First Negative Split
+- First Rate Cap Completed
+- First Coach Reflection
+
+### Silver
+
+- 10 Verified Sessions
+- 4 Week Streak
+- Rate 20 Mastery
+- Split Discipline
+- Recovery Hero
+- Honest Upload
+
+### Gold
+
+- 50 Verified Sessions
+- 100k Club
+- 250k Club
+- 500k Club
+- Perfect Week
+- Captain's Standard
+- Winter Warrior
+- Pacing Surgeon
+- Grit Badge
+
+### Secret Or Fun
+
+- Comeback Session
+- Silent Grinder
+- The Metronome
+- No Drama November
+- Coach's Choice
+- Big Dog Energy
+- Tiny Rate Monster
+- Split Goblin Slayer
+
+These examples are product direction, not a requirement for MVP day one. Do not add every badge at once unless the user explicitly asks for that implementation scope.
+
+Do not add badges just to fill a collection screen. Each badge should have a clear training reason and a clear unlock condition.
 
 ## Reward Engine
 

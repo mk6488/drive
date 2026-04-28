@@ -4,7 +4,9 @@
 
 DRIVE is for junior rowing athletes aged 14 to 18 and the coaches who support them.
 
-The product must be designed with safeguarding, privacy, and healthy training behaviour in mind.
+Privacy and safeguarding are core product requirements, not legal polish to add later. The product must be designed around healthy training behaviour, appropriate coach oversight, and careful handling of junior athlete data.
+
+Parent or guardian awareness may be required for under 18 use, especially if DRIVE is used outside a club environment.
 
 ## Roles
 
@@ -49,12 +51,18 @@ Design decisions should support:
 - Healthy training habits
 - No public shaming
 - No pressure to train through illness, injury, or exhaustion
+- No unnecessary personal information collection
+- No direct private messaging between coaches and athletes in the MVP
+
+The app must not encourage training through pain, illness, injury, or exhaustion. Reward design, streaks, quests, copy, and coach feedback must all respect this.
 
 ## Public Visibility
 
-The MVP should avoid public athlete profiles and public performance rankings.
+The MVP must not include public athlete profiles or public performance rankings.
 
 Squad progress can be shared within the squad context, but it must not expose unnecessary personal data.
+
+Any future communication, social, or sharing feature requires explicit safeguarding review before implementation.
 
 ## Reflections
 
@@ -68,13 +76,13 @@ Useful prompts can ask:
 
 ## Evidence Uploads
 
-PM5 photos are training evidence. Treat them as private squad data.
+PM5 photos and reflections are private training evidence. Treat them as private squad data.
 
 Do not introduce social sharing, public galleries, or automatic analysis in the MVP.
 
 ## Coach Verification
 
-Verification must be auditable and respectful. Rejection should include a practical reason where possible, such as:
+Verification must be auditable and respectful. Coach notes must be practical and respectful. Rejection should include a useful reason where possible, such as:
 
 - Wrong session uploaded
 - PM5 screen unclear
@@ -85,4 +93,4 @@ Avoid blame-heavy wording.
 
 ## Agent Warning
 
-Do not add public social features, direct messaging, public rankings, or extra data collection for junior athletes without explicit product approval and safeguarding review.
+Do not add public social features, direct messaging, public rankings, private coach-athlete messaging, or extra data collection for junior athletes without explicit product approval and safeguarding review.

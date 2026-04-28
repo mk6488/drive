@@ -8,7 +8,8 @@ alwaysApply: false
 
 - Before UI work, read `docs/00-product-brief.md`, `docs/02-game-design-rules.md`, and `docs/04-user-roles-and-safeguarding.md`.
 - Use a serious but fun junior rowing tone. Avoid childish gimmicks, empty hype, and generic fitness app language.
-- Do not use purple or blue gradients, or purple/blue as the primary colour direction.
+- Do not choose or change the primary visual direction without product approval. Avoid generic SaaS gradients, generic fitness app styling, and visual choices that make DRIVE feel like a basic workout tracker.
+- Visual work should support one of the approved DRIVE directions: pixel rowing RPG, dark neon training game, hand drawn rowing world, or carefully controlled retro arcade regatta.
 - Screens must stay UI only. Move business logic, verification logic, Firebase access, and reward decisions out of screens.
 - UI should reinforce execution quality: pacing discipline, rate control, reflection, honest uploads, and coach verified effort.
 - Do not create pure speed leaderboard UI unless explicitly approved.

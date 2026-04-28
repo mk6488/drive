@@ -6,6 +6,21 @@ This is a planning document for the future Firebase implementation. Step 1 must 
 
 The schema below is an initial shape for DRIVE: Winter Quest and should be refined when implementation begins.
 
+Do not overbuild the schema at this stage. Treat this as planning guidance for future implementation.
+
+## Ownership And Audit Fields
+
+Key records should include ownership and audit fields where appropriate:
+
+- `clubId`
+- `squadId`
+- `athleteId`
+- `createdByUserId`
+- `createdAt`
+- `updatedAt`
+
+Use these fields to make permissions, squad boundaries, and support investigations easier to reason about.
+
 ## Collections
 
 ### `users`
@@ -41,6 +56,7 @@ Stores coach-created erg quests.
 
 Suggested fields:
 
+- `clubId`
 - `squadId`
 - `title`
 - `description`
@@ -51,6 +67,7 @@ Suggested fields:
 - `qualityFocus`
 - `weekStartDate`
 - `createdByCoachId`
+- `createdByUserId`
 - `status`
 - `createdAt`
 - `updatedAt`
@@ -62,8 +79,10 @@ Stores athlete evidence uploads and reflections.
 Suggested fields:
 
 - `questId`
+- `clubId`
 - `squadId`
 - `athleteId`
+- `createdByUserId`
 - `pm5PhotoPath`
 - `reflection`
 - `status`: `pending`, `verified`, or `rejected`
@@ -80,6 +99,8 @@ Stores reward calculations for verified submissions.
 Suggested fields:
 
 - `submissionId`
+- `clubId`
+- `squadId`
 - `questId`
 - `athleteId`
 - `xpAwarded`
@@ -89,7 +110,9 @@ Suggested fields:
 - `riverMapDelta`
 - `boathouseDelta`
 - `explanation`
+- `createdByUserId`
 - `createdAt`
+- `updatedAt`
 
 ### `athleteProgress`
 
@@ -98,6 +121,7 @@ Stores current progress by athlete.
 Suggested fields:
 
 - `athleteId`
+- `clubId`
 - `squadId`
 - `xp`
 - `level`
@@ -113,6 +137,7 @@ Stores shared squad goals.
 
 Suggested fields:
 
+- `clubId`
 - `squadId`
 - `title`
 - `description`
@@ -131,18 +156,24 @@ Suggested path:
 
 - `squads/{squadId}/submissions/{submissionId}/pm5-photo`
 
+PM5 photo paths must be private and scoped by squad and submission.
+
 ## Security Direction
 
 Future Firebase rules must enforce:
 
 - Athletes can create their own submissions.
 - Athletes cannot verify submissions.
+- Athletes cannot write `rewardResults` directly.
+- Athletes cannot update `athleteProgress` directly.
 - Coaches can verify submissions for their own squads.
 - Rewards can only be created through trusted verification workflow.
 - Users cannot access squad data unless they belong to that squad.
 
 ## Reward Integrity
 
-Reward results should reference the verified submission that caused them. This makes progress auditable and reduces disputes.
+Reward results must reference the verified submission that caused them. This makes progress auditable and reduces disputes.
+
+Coach verification should create an auditable trail showing who verified or rejected the submission, when they did it, and any practical reason or note they added.
 
 Do not let client screens write arbitrary XP, attributes, badge unlocks, River Map progress, or Boathouse progress.
