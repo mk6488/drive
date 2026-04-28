@@ -17,7 +17,7 @@ export function VerificationGatePanel({ submissionStatusLabel, gateMessage }: Ve
           {gateMessage}
         </AppText>
         <AppText variant="caption" colour={theme.colours.parchmentMuted}>
-          Rewards only unlock after coach verification. Unverified submissions stay pending.
+          Rewards only unlock after coach verification. Unverified submissions stay awaiting coach review.
         </AppText>
       </View>
     </GamePanel>
