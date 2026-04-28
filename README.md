@@ -65,6 +65,7 @@ Future work must read these documents before implementation:
 - `docs/25-auth-and-role-boundary-foundation.md`
 - `docs/26-firebase-app-and-environment-foundation.md`
 - `docs/27-firestore-security-rules-foundation.md`
+- `docs/28-storage-rules-and-pm5-evidence-paths.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -111,7 +112,7 @@ submit, approve, reject, calculate rewards, or write progress.
 
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, Step 19's Firebase app and environment boundary foundation only, and Step 20's Firestore rules, indexes, config, and path foundation only.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, Step 19's Firebase app and environment boundary foundation only, Step 20's Firestore rules, indexes, config, and path foundation only, and Step 21's Firebase Storage rules and PM5 evidence path foundations only.
 
 Step 11 adds `/dev/submission-lifecycle` as a local-state preview for draft, submitted, verified, and rejected lifecycle states only. Real lifecycle actions, reward calculation, and trusted reward/progress writes remain intentionally out of scope.
 
@@ -132,5 +133,7 @@ Step 18 adds auth role types, pure role access helpers, static preview sessions,
 Step 19 adds the official Firebase SDK, placeholder-only Firebase environment variable guidance, and controlled Firebase app initialisation helpers. It does not add Firebase Auth, Firestore, Storage upload, Firebase repositories, repository provider switching, real workflow actions, or screen-level Firebase imports.
 
 Step 20 adds planning-level Firestore security rules, a minimal indexes placeholder, Firebase config references for those files, and pure Firestore path helpers. Firestore is not connected to the app yet: there are no Firestore repositories, no app reads or writes, and no provider switch away from mock repositories.
+
+Step 21 adds planning-level Firebase Storage rules for private PM5 evidence and pure Storage path helpers. Firebase Storage is not connected to the app yet: there is no Storage initialisation in app code, no image picking, no upload workflow, and no public file access.
 
 Authentication, PM5 upload workflows, coach verification actions, reward calculation logic, live Firebase data access, and future integrations have not been added.

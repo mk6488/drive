@@ -1,0 +1,91 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAthlete() {
+      return isSignedIn() && request.auth.token.role == 'athlete';
+    }
+
+    function isCoach() {
+      return isSignedIn() && request.auth.token.role == 'coach';
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.role == 'admin';
+    }
+
+    function userClubId() {
+      return request.auth.token.clubId;
+    }
+
+    function linkedAthleteId() {
+      return request.auth.token.linkedAthleteId;
+    }
+
+    function userSquadIds() {
+      return isSignedIn() && request.auth.token.squadIds is list ? request.auth.token.squadIds : [];
+    }
+
+    function isSameClub(clubId) {
+      return isSignedIn() && userClubId() == clubId;
+    }
+
+    function hasLinkedAthleteContext() {
+      return linkedAthleteId() is string && linkedAthleteId().size() > 0;
+    }
+
+    function hasAssignedSquadContext() {
+      return userSquadIds().size() > 0;
+    }
+
+    function isPm5ImageFile() {
+      return request.resource != null
+        && request.resource.contentType.matches('image/(jpeg|png|heic|heif|webp)');
+    }
+
+    function isReasonablePm5EvidenceSize() {
+      return request.resource != null
+        && request.resource.size > 0
+        && request.resource.size <= 8 * 1024 * 1024;
+    }
+
+    function canCreatePm5Evidence(clubId) {
+      // Future workflow work should link the Storage object to the Firestore
+      // submission document and verify that the submission belongs to
+      // linkedAthleteId(), has the same clubId, and is still in a writable
+      // athlete-owned draft/submitted state.
+      return isAthlete()
+        && isSameClub(clubId)
+        && hasLinkedAthleteContext()
+        && isPm5ImageFile()
+        && isReasonablePm5EvidenceSize();
+    }
+
+    function canReadPm5Evidence(clubId) {
+      // Coaches are intended to read PM5 evidence only for assigned club or
+      // squad review contexts. Future Firestore-linked validation should tie
+      // submissionId to a squadId so squad-level access can be enforced here.
+      return isCoach()
+        && isSameClub(clubId)
+        && hasAssignedSquadContext();
+    }
+
+    match /clubs/{clubId}/submissions/{submissionId}/pm5/{fileName} {
+      allow read: if canReadPm5Evidence(clubId) || (isAdmin() && isSameClub(clubId));
+      allow create: if canCreatePm5Evidence(clubId);
+
+      // Client UI must not replace or delete evidence in this foundation.
+      // Trusted server cleanup can be designed later with privileged credentials.
+      allow update, delete: if false;
+    }
+
+    // No public evidence, galleries, social sharing, messaging, or arbitrary user folders.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
