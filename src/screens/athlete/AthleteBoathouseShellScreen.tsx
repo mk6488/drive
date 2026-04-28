@@ -7,10 +7,11 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
-import { mockProgressReadRepository } from '@/src/services/repositories/mockRepositories';
+import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import type { BoathouseProgress } from '@/src/types';
 
 const previewSquadId = 'squad-example-juniors';
+const { progressReadRepository } = getRepositoryProvider();
 
 export function AthleteBoathouseShellScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +26,7 @@ export function AthleteBoathouseShellScreen() {
       setHasError(false);
 
       try {
-        const boathouseProgress = await mockProgressReadRepository.getBoathouseProgress(previewSquadId);
+        const boathouseProgress = await progressReadRepository.getBoathouseProgress(previewSquadId);
 
         if (!isMounted) {
           return;

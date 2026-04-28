@@ -10,10 +10,11 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
-import { mockProgressReadRepository } from '@/src/services/repositories/mockRepositories';
+import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import type { RiverMapProgress, SquadMission, SquadMissionProgress } from '@/src/types';
 
 const previewSquadId = 'squad-example-juniors';
+const { progressReadRepository } = getRepositoryProvider();
 
 type ScreenState = {
   squadMission: SquadMission;
@@ -36,9 +37,9 @@ export function AthleteProgressShellScreen() {
 
       try {
         const [squadMission, squadMissionProgress, riverMapProgress] = await Promise.all([
-          mockProgressReadRepository.getSquadMission(previewSquadId),
-          mockProgressReadRepository.getSquadMissionProgress(previewSquadId),
-          mockProgressReadRepository.getRiverMapProgress(previewSquadId),
+          progressReadRepository.getSquadMission(previewSquadId),
+          progressReadRepository.getSquadMissionProgress(previewSquadId),
+          progressReadRepository.getRiverMapProgress(previewSquadId),
         ]);
 
         if (!isMounted) {

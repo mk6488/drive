@@ -8,7 +8,7 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
-import { mockQuestRepository } from '@/src/services/repositories/mockRepositories';
+import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import type { Quest } from '@/src/types';
 
 const attributes = [
@@ -30,6 +30,8 @@ const attributes = [
   },
 ];
 
+const { questRepository } = getRepositoryProvider();
+
 export function AthleteHomePlaceholderScreen() {
   const [previewQuest, setPreviewQuest] = useState<Quest | null>(null);
 
@@ -38,7 +40,7 @@ export function AthleteHomePlaceholderScreen() {
 
     // Temporary preview loader so screens can consume repository boundaries before Firebase exists.
     const loadPreviewQuest = async () => {
-      const quests = await mockQuestRepository.listQuestsForSquad('club-example-001', 'squad-example-juniors');
+      const quests = await questRepository.listQuestsForSquad('club-example-001', 'squad-example-juniors');
       if (isMounted) {
         setPreviewQuest(quests[0] ?? null);
       }

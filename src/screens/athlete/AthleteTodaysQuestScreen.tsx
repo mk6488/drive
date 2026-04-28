@@ -13,11 +13,7 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
-import {
-  mockProgressReadRepository,
-  mockQuestRepository,
-  mockSubmissionRepository,
-} from '@/src/services/repositories/mockRepositories';
+import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import {
   getRewardGateMessage,
   getSubmissionStatusLabel,
@@ -28,6 +24,7 @@ import type { AthleteProgress, Quest, Submission } from '@/src/types';
 const previewClubId = 'club-example-001';
 const previewSquadId = 'squad-example-juniors';
 const previewAthleteId = 'athlete-example-001';
+const { progressReadRepository, questRepository, submissionRepository } = getRepositoryProvider();
 
 type ScreenState = {
   quest: Quest;
@@ -54,9 +51,9 @@ export function AthleteTodaysQuestScreen() {
 
       try {
         const [quests, submissions, progress] = await Promise.all([
-          mockQuestRepository.listQuestsForSquad(previewClubId, previewSquadId),
-          mockSubmissionRepository.listSubmissionsForAthlete(previewAthleteId),
-          mockProgressReadRepository.getAthleteProgress(previewAthleteId),
+          questRepository.listQuestsForSquad(previewClubId, previewSquadId),
+          submissionRepository.listSubmissionsForAthlete(previewAthleteId),
+          progressReadRepository.getAthleteProgress(previewAthleteId),
         ]);
 
         if (!isMounted) {

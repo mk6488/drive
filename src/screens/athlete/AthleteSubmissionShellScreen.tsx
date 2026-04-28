@@ -10,13 +10,14 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
-import { mockQuestRepository, mockSubmissionRepository } from '@/src/services/repositories/mockRepositories';
+import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import { getSubmissionStatusLabel, getSubmissionStatusTone } from '@/src/services/submissions/submissionStatus';
 import type { Quest, Submission } from '@/src/types';
 
 const previewClubId = 'club-example-001';
 const previewSquadId = 'squad-example-juniors';
 const previewAthleteId = 'athlete-example-001';
+const { questRepository, submissionRepository } = getRepositoryProvider();
 
 type ScreenState = {
   quest: Quest;
@@ -44,8 +45,8 @@ export function AthleteSubmissionShellScreen() {
 
       try {
         const [quests, submissions] = await Promise.all([
-          mockQuestRepository.listQuestsForSquad(previewClubId, previewSquadId),
-          mockSubmissionRepository.listSubmissionsForAthlete(previewAthleteId),
+          questRepository.listQuestsForSquad(previewClubId, previewSquadId),
+          submissionRepository.listSubmissionsForAthlete(previewAthleteId),
         ]);
 
         if (!isMounted) {

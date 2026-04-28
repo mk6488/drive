@@ -9,16 +9,13 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
-import {
-  mockAthleteRepository,
-  mockQuestRepository,
-  mockSubmissionRepository,
-} from '@/src/services/repositories/mockRepositories';
+import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import { isSubmissionAwaitingCoachReview } from '@/src/services/submissions/submissionStatus';
 import type { Submission } from '@/src/types';
 
 const previewClubId = 'club-example-001';
 const previewSquadId = 'squad-example-juniors';
+const { athleteRepository, questRepository, submissionRepository } = getRepositoryProvider();
 
 type QueueItem = {
   submissionId: string;
@@ -71,14 +68,14 @@ export function CoachVerificationQueueShellScreen() {
 
       try {
         const [quests, athletes] = await Promise.all([
-          mockQuestRepository.listQuestsForSquad(previewClubId, previewSquadId),
-          mockAthleteRepository.listAthletesBySquad(previewClubId, previewSquadId),
+          questRepository.listQuestsForSquad(previewClubId, previewSquadId),
+          athleteRepository.listAthletesBySquad(previewClubId, previewSquadId),
         ]);
 
         const submissionGroups = await Promise.all(
           athletes.map(async (athlete) => ({
             athlete,
-            submissions: await mockSubmissionRepository.listSubmissionsForAthlete(athlete.id),
+            submissions: await submissionRepository.listSubmissionsForAthlete(athlete.id),
           })),
         );
 
