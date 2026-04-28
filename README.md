@@ -63,6 +63,7 @@ Future work must read these documents before implementation:
 - `docs/23-repository-provider-foundation.md`
 - `docs/24-submission-and-verification-command-boundaries.md`
 - `docs/25-auth-and-role-boundary-foundation.md`
+- `docs/26-firebase-app-and-environment-foundation.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -77,6 +78,8 @@ Install dependencies:
 ```bash
 npm install
 ```
+
+`.env.example` lists the Expo public Firebase variables reserved for future Firebase work. Real Firebase values are not required for the current mock-backed preview, and real `.env` files must stay local.
 
 Start the Expo development server:
 
@@ -107,7 +110,7 @@ submit, approve, reject, calculate rewards, or write progress.
 
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, and Step 18's auth and role boundary foundation only.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, and Step 19's Firebase app and environment boundary foundation only.
 
 Step 11 adds `/dev/submission-lifecycle` as a local-state preview for draft, submitted, verified, and rejected lifecycle states only. Real lifecycle actions, reward calculation, and trusted reward/progress writes remain intentionally out of scope.
 
@@ -125,4 +128,6 @@ Step 17 adds TypeScript command input types, pure validation helpers, and pure v
 
 Step 18 adds auth role types, pure role access helpers, static preview sessions, and presentational role-boundary UI copy. It does not add Firebase Auth, real login or signup, user creation, auth state persistence, protected routes, role enforcement against live data, or admin functionality.
 
-Firebase code, authentication, PM5 upload workflows, coach verification actions, reward calculation logic, and future integrations have not been added.
+Step 19 adds the official Firebase SDK, placeholder-only Firebase environment variable guidance, and controlled Firebase app initialisation helpers. It does not add Firebase Auth, Firestore, Storage upload, Firebase repositories, repository provider switching, real workflow actions, or screen-level Firebase imports.
+
+Authentication, PM5 upload workflows, coach verification actions, reward calculation logic, live Firebase data access, and future integrations have not been added.
