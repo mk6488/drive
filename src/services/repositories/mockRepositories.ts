@@ -125,16 +125,6 @@ export const mockTrustedProgressWriteRepository: TrustedProgressWriteRepository 
   },
 };
 
-export const mockRewardRepository = {
-  ...mockRewardReadRepository,
-  ...mockTrustedRewardWriteRepository,
-};
-
-export const mockProgressRepository = {
-  ...mockProgressReadRepository,
-  ...mockTrustedProgressWriteRepository,
-};
-
 // This mock boundary is for preview reads and shape validation only.
 // Reward and progress trusted write boundaries are for service-side workflows only.
 // Athlete-facing previews should depend on read repositories.

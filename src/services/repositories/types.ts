@@ -41,6 +41,3 @@ export interface TrustedProgressWriteRepository {
   // Trusted workflows only; do not call from athlete-facing UI screens.
   saveAthleteProgress(progress: AthleteProgress): Promise<AthleteProgress>;
 }
-
-export type RewardRepository = RewardReadRepository & TrustedRewardWriteRepository;
-export type ProgressRepository = ProgressReadRepository & TrustedProgressWriteRepository;

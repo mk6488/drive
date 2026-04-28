@@ -18,8 +18,10 @@ Added repository contracts:
 - `SquadRepository`
 - `QuestRepository`
 - `SubmissionRepository`
-- `RewardRepository`
-- `ProgressRepository`
+- `RewardReadRepository`
+- `TrustedRewardWriteRepository`
+- `ProgressReadRepository`
+- `TrustedProgressWriteRepository`
 
 Added preview-only mock repositories and mock data:
 
@@ -52,6 +54,7 @@ Repository boundaries are intentionally split:
 - Read repositories can be used by UI screens for previews and display.
 - Trusted write repositories are reserved for verified workflows.
 - Reward and progress writes must never be triggered by athlete-facing UI.
+- There is intentionally no combined reward or progress repository export.
 - Later Firebase repositories and Cloud Functions should preserve this split so clients cannot grant arbitrary progress.
 
 ## What Mock Data Is Allowed For
