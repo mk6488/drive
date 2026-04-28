@@ -215,6 +215,22 @@ export function AthleteTodaysQuestScreen() {
         />
       </Card>
 
+      <Card>
+        <AppText variant="subtitle">Boathouse Builder Preview</AppText>
+        <AppText variant="body" colour={theme.colours.mist}>
+          Open a preview-only rowing world where future coach verified training quality could help the squad build the
+          boathouse together.
+        </AppText>
+        <AppButton
+          title="Open boathouse preview"
+          variant="secondary"
+          onPress={() => {
+            router.push('/athlete/boathouse');
+          }}
+          helperText="Preview shell only. No boathouse progress, rewards, or rankings are written."
+        />
+      </Card>
+
       <AttributeProgressPanel attributes={state.progress.attributes} />
     </Screen>
   );

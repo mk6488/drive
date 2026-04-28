@@ -1,6 +1,7 @@
 import type {
   Athlete,
   AthleteProgress,
+  BoathouseProgress,
   Quest,
   RewardResult,
   RiverMapProgress,
@@ -13,6 +14,7 @@ import type {
 import {
   mockAthlete,
   mockAthleteProgress,
+  mockBoathouseProgress,
   mockQuest,
   mockRiverMapProgress,
   mockSquad,
@@ -41,6 +43,7 @@ const progressStore: AthleteProgress[] = [mockAthleteProgress];
 const squadMissionStore: SquadMission[] = [mockSquadMission];
 const squadMissionProgressStore: SquadMissionProgress[] = [mockSquadMissionProgress];
 const riverMapProgressStore: RiverMapProgress[] = [mockRiverMapProgress];
+const boathouseProgressStore: BoathouseProgress[] = [mockBoathouseProgress];
 const rewardStore: RewardResult[] = [];
 
 export const mockAthleteRepository: AthleteRepository = {
@@ -141,6 +144,10 @@ export const mockProgressReadRepository: ProgressReadRepository = {
   async getRiverMapProgress(squadId) {
     await delay();
     return riverMapProgressStore.find((progress) => progress.squadId === squadId) ?? null;
+  },
+  async getBoathouseProgress(squadId) {
+    await delay();
+    return boathouseProgressStore.find((progress) => progress.squadId === squadId) ?? null;
   },
 };
 

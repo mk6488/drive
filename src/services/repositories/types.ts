@@ -1,6 +1,7 @@
 import type {
   Athlete,
   AthleteProgress,
+  BoathouseProgress,
   Quest,
   RewardResult,
   RiverMapProgress,
@@ -48,6 +49,7 @@ export interface ProgressReadRepository {
   getSquadMission(squadId: string): Promise<SquadMission | null>;
   getSquadMissionProgress(squadId: string): Promise<SquadMissionProgress | null>;
   getRiverMapProgress(squadId: string): Promise<RiverMapProgress | null>;
+  getBoathouseProgress(squadId: string): Promise<BoathouseProgress | null>;
 }
 
 export interface TrustedProgressWriteRepository {

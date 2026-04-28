@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { RiverMapProgressPanel } from '@/src/components/game/RiverMapProgressPanel';
 import { SquadMissionCard } from '@/src/components/game/SquadMissionCard';
+import { AppButton } from '@/src/components/ui/AppButton';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
@@ -20,6 +22,7 @@ type ScreenState = {
 };
 
 export function AthleteProgressShellScreen() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [state, setState] = useState<ScreenState | null>(null);
@@ -139,6 +142,22 @@ export function AthleteProgressShellScreen() {
 
       <SquadMissionCard mission={state.squadMission} progress={state.squadMissionProgress} />
       <RiverMapProgressPanel progress={state.riverMapProgress} />
+
+      <Card>
+        <AppText variant="subtitle">Boathouse Builder Preview</AppText>
+        <AppText variant="body" colour={theme.colours.mutedInk}>
+          The boathouse preview shows the same verification-gated progress idea as a shared rowing game space, without
+          public rankings or live earned resources.
+        </AppText>
+        <AppButton
+          title="Open boathouse preview"
+          variant="secondary"
+          onPress={() => {
+            router.push('/athlete/boathouse');
+          }}
+          helperText="Preview shell only. No boathouse progress or rewards are written."
+        />
+      </Card>
 
       <Card>
         <AppText variant="subtitle">Preview boundaries</AppText>

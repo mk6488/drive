@@ -7,6 +7,45 @@ export type SquadMissionContributionType =
   | 'reflection-quality'
   | 'squad-contribution';
 
+export type TrainingResourceName = 'Energy' | 'Grit' | 'Rhythm' | 'Power' | 'Crew Points' | 'Repair Tokens';
+
+export interface TrainingResourceBalance {
+  name: TrainingResourceName;
+  amount: number;
+  description: string;
+  previewOnly: true;
+}
+
+export type BoathouseUpgradeName =
+  | 'Erg Corner'
+  | 'Blade Rack'
+  | 'Repair Bench'
+  | 'Crew Noticeboard'
+  | 'Trophy Shelf'
+  | 'Regatta Prep Area';
+
+export type BoathouseUpgradeStatus = 'preview-ready' | 'preview-building' | 'preview-locked';
+
+export interface BoathouseUpgrade {
+  id: string;
+  name: BoathouseUpgradeName;
+  status: BoathouseUpgradeStatus;
+  description: string;
+  qualityUnlockExplanation: string;
+  resourceFocus: TrainingResourceName[];
+  previewOnly: true;
+}
+
+export interface BoathouseProgress {
+  squadId: string;
+  title: string;
+  description: string;
+  resourceBalances: TrainingResourceBalance[];
+  upgrades: BoathouseUpgrade[];
+  previewOnly: true;
+  updatedAt: string;
+}
+
 export interface AttributeProgress {
   name: AttributeName;
   value: number;
