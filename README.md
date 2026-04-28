@@ -53,6 +53,7 @@ Future work must read these documents before implementation:
 - `docs/13-athlete-pm5-submission-shell.md`
 - `docs/14-coach-verification-queue-shell.md`
 - `docs/15-submission-status-and-verification-gate.md`
+- `docs/16-reward-rules-foundation.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -88,8 +89,8 @@ npm run lint
 
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, and Step 8's shared submission status plus reward gate foundation layer.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, and Step 9's reward rules design foundation.
 
-Step 8 adds shared status language and verification-gated reward messaging only. Real submit, approve, reject, reward calculation, and trusted reward/progress writes remain intentionally out of scope.
+Step 9 adds static reward policy definitions, a reward gate helper, badge catalogue definitions, and a presentational reward focus preview only. Exact XP calculation, reward unlock processing, and trusted reward/progress writes remain intentionally out of scope.
 
 Firebase code, authentication, PM5 upload workflows, coach verification actions, reward calculation logic, and future integrations have not been added.

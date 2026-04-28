@@ -170,6 +170,9 @@ export function CoachVerificationQueueShellScreen() {
           This queue is a shell preview. Rewards unlock only after trusted coach verification, and actions here are
           intentionally disabled.
         </AppText>
+        <AppText variant="caption" colour={theme.colours.parchmentMuted}>
+          Verification is the future trigger for reward processing, but no real reward processing runs from this screen.
+        </AppText>
       </View>
 
       <Card>
