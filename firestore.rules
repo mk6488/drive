@@ -1,0 +1,170 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isCoach() {
+      return isSignedIn() && request.auth.token.role == 'coach';
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.role == 'admin';
+    }
+
+    function isAthlete() {
+      return isSignedIn() && request.auth.token.role == 'athlete';
+    }
+
+    function userClubId() {
+      return request.auth.token.clubId;
+    }
+
+    function linkedAthleteId() {
+      return request.auth.token.linkedAthleteId;
+    }
+
+    function userSquadIds() {
+      return isSignedIn() && request.auth.token.squadIds is list ? request.auth.token.squadIds : [];
+    }
+
+    function isSameClub(clubId) {
+      return isSignedIn() && userClubId() == clubId;
+    }
+
+    function isLinkedAthlete(athleteId) {
+      return isAthlete() && linkedAthleteId() == athleteId;
+    }
+
+    function isAthleteInSquad(clubId, squadId) {
+      return isAthlete() && isSameClub(clubId) && userSquadIds().hasAny([squadId]);
+    }
+
+    function isCoachForSquad(clubId, squadId) {
+      return isCoach() && isSameClub(clubId) && userSquadIds().hasAny([squadId]);
+    }
+
+    function hasResourceSquad() {
+      return resource.data.squadId is string;
+    }
+
+    function isCoachForResourceSquad(clubId) {
+      return isCoach() && isSameClub(clubId) && hasResourceSquad() && userSquadIds().hasAny([resource.data.squadId]);
+    }
+
+    function isAthleteForResourceSquad(clubId) {
+      return isAthlete() && isSameClub(clubId) && hasResourceSquad() && userSquadIds().hasAny([resource.data.squadId]);
+    }
+
+    function keepsIdentityFields() {
+      return request.resource.data.clubId == resource.data.clubId
+        && request.resource.data.squadId == resource.data.squadId
+        && request.resource.data.athleteId == resource.data.athleteId;
+    }
+
+    match /clubs/{clubId} {
+      allow read: if isSameClub(clubId) && isCoach();
+      allow create, update, delete: if false;
+
+      match /squads/{squadId} {
+        allow read: if isAthleteInSquad(clubId, squadId) || isCoachForSquad(clubId, squadId);
+        allow create, update, delete: if false;
+      }
+
+      match /athletes/{athleteId} {
+        allow read: if (isSameClub(clubId) && isLinkedAthlete(athleteId)) || isCoachForResourceSquad(clubId);
+        allow create, update, delete: if false;
+      }
+
+      match /quests/{questId} {
+        allow read: if isAthleteForResourceSquad(clubId) || isCoachForResourceSquad(clubId);
+
+        allow create: if isCoach()
+          && isSameClub(clubId)
+          && request.resource.data.clubId == clubId
+          && request.resource.data.squadId is string
+          && isCoachForSquad(clubId, request.resource.data.squadId)
+          && request.resource.data.createdByUserId == request.auth.uid;
+
+        allow update: if isCoachForResourceSquad(clubId)
+          && request.resource.data.clubId == resource.data.clubId
+          && request.resource.data.squadId == resource.data.squadId;
+
+        allow delete: if false;
+      }
+
+      match /submissions/{submissionId} {
+        allow read: if (isSameClub(clubId) && isLinkedAthlete(resource.data.athleteId)) || isCoachForResourceSquad(clubId);
+
+        allow create: if isAthlete()
+          && isSameClub(clubId)
+          && request.resource.data.keys().hasAll(['clubId', 'squadId', 'athleteId', 'createdByUserId', 'status'])
+          && request.resource.data.clubId == clubId
+          && request.resource.data.squadId is string
+          && request.resource.data.athleteId == linkedAthleteId()
+          && request.resource.data.createdByUserId == request.auth.uid
+          && request.resource.data.status in ['draft', 'submitted']
+          && !request.resource.data.keys().hasAny(['verifiedAt', 'verifiedByCoachId', 'rewardResultId']);
+
+        allow update: if isAthlete()
+          && isSameClub(clubId)
+          && isLinkedAthlete(resource.data.athleteId)
+          && resource.data.status in ['draft', 'submitted']
+          && keepsIdentityFields()
+          && request.resource.data.status in ['draft', 'submitted']
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'pm5PhotoPath',
+            'reflection',
+            'status',
+            'submittedAt',
+            'updatedAt'
+          ])
+          && !request.resource.data.keys().hasAny(['verifiedAt', 'verifiedByCoachId', 'rewardResultId']);
+
+        allow update: if isCoachForResourceSquad(clubId)
+          && resource.data.status == 'submitted'
+          && keepsIdentityFields()
+          && request.resource.data.status in ['verified', 'rejected']
+          && request.resource.data.verifiedByCoachId == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'status',
+            'verifiedAt',
+            'verifiedByCoachId',
+            'rejectionReason',
+            'coachNotes',
+            'updatedAt'
+          ]);
+
+        allow delete: if false;
+      }
+
+      match /rewardResults/{rewardResultId} {
+        allow read: if (isSameClub(clubId) && isLinkedAthlete(resource.data.athleteId)) || isCoachForResourceSquad(clubId);
+
+        // Reward writes are expected to come from future trusted server workflows, not client UI.
+        allow create, update, delete: if false;
+      }
+
+      match /athleteProgress/{athleteId} {
+        allow read: if (isSameClub(clubId) && isLinkedAthlete(athleteId)) || isCoachForResourceSquad(clubId);
+
+        // Progress writes must remain trusted and verification-gated.
+        allow create, update, delete: if false;
+      }
+
+      match /squadProgress/{squadId} {
+        allow read: if isAthleteInSquad(clubId, squadId) || isCoachForSquad(clubId, squadId);
+
+        // Squad progress writes must remain trusted and verification-gated.
+        allow create, update, delete: if false;
+      }
+    }
+
+    // No public profiles, public rankings, messaging, or direct top-level data access in this foundation.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
