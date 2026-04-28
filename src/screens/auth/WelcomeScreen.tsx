@@ -31,10 +31,18 @@ export function WelcomeScreen() {
         <AppText variant="body" colour={theme.colours.mutedInk}>
           This is not a working login. These routes show the intended athlete and coach spaces before
           real authentication, protected routes, quests, uploads, verification, or rewards are implemented.
+          Step 22 adds a sign in foundation only; preview routes remain available while real role-based routing is
+          still disabled.
         </AppText>
         <View style={styles.actions}>
+          <Link href="/auth/login" asChild>
+            <AppButton
+              title="Open sign in foundation"
+              helperText="No signup or protected routing yet"
+            />
+          </Link>
           <Link href="/athlete" asChild>
-            <AppButton title="Athlete Preview" helperText="Today's Quest shape only" />
+            <AppButton title="Athlete Preview" variant="secondary" helperText="Today's Quest shape only" />
           </Link>
           <Link href="/coach" asChild>
             <AppButton title="Coach Preview" variant="secondary" helperText="Verification role shape only" />
