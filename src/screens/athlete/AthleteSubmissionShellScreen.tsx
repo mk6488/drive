@@ -17,7 +17,7 @@ import type { Quest, Submission } from '@/src/types';
 const previewClubId = 'club-example-001';
 const previewSquadId = 'squad-example-juniors';
 const previewAthleteId = 'athlete-example-001';
-const { questRepository, submissionRepository } = getRepositoryProvider();
+const { questRepository, submissionReadRepository } = getRepositoryProvider();
 
 type ScreenState = {
   quest: Quest;
@@ -46,7 +46,7 @@ export function AthleteSubmissionShellScreen() {
       try {
         const [quests, submissions] = await Promise.all([
           questRepository.listQuestsForSquad(previewClubId, previewSquadId),
-          submissionRepository.listSubmissionsForAthlete(previewAthleteId),
+          submissionReadRepository.listSubmissionsForAthlete(previewAthleteId),
         ]);
 
         if (!isMounted) {

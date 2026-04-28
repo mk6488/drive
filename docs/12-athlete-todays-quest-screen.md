@@ -28,9 +28,9 @@ The screen is designed to reinforce that DRIVE rewards training quality, not raw
 
 This step remains preview-only and mock-backed:
 
-- Quest data is read from `mockQuestRepository`.
-- Submission status is read from `mockSubmissionRepository`.
-- Athlete attribute progress is read from `mockProgressReadRepository`.
+- Quest data is read through the repository provider.
+- Submission status is read through `submissionReadRepository`.
+- Athlete attribute progress is read through the repository provider.
 
 The screen performs read-only loading for local preview state and handles loading, error, and empty states.  
 No business workflow, trusted write, or reward logic is implemented in the screen.

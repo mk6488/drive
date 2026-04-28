@@ -7,6 +7,7 @@ Step 16 adds a small repository provider foundation for DRIVE: Winter Quest:
 - `src/services/repositories/repositoryProvider.ts` defines the screen-facing `RepositoryProvider` type.
 - `mockRepositoryProvider` groups the existing mock read repositories behind that provider shape.
 - `getRepositoryProvider()` returns the mock provider for now.
+- `SubmissionReadRepository` is read only and exposes submission lookup/list methods only.
 - Trusted reward and progress write repositories remain exported separately as trusted boundaries only.
 - Current athlete and coach screens now import repositories through the provider instead of importing mock repositories directly.
 
@@ -15,6 +16,8 @@ Step 16 adds a small repository provider foundation for DRIVE: Winter Quest:
 Screens should depend on stable repository contracts, not on a specific mock implementation. This keeps screens focused on displaying state and collecting local preview input while data access remains behind repository boundaries.
 
 Direct mock imports make future Firebase work harder because each screen would need to be changed when real repositories arrive. The provider keeps that future replacement focused on infrastructure wiring rather than product screen rewrites.
+
+The screen-facing provider deliberately exposes `submissionReadRepository`, not a write-capable submission repository. Draft saving, submit actions, and PM5 upload workflows are future explicit steps.
 
 ## Why The Provider Is Mock Backed Only For Now
 
@@ -35,11 +38,13 @@ Future Firebase repositories can implement the existing repository contracts:
 - `AthleteRepository`
 - `SquadRepository`
 - `QuestRepository`
-- `SubmissionRepository`
+- `SubmissionReadRepository`
 - `RewardReadRepository`
 - `ProgressReadRepository`
 
 When that work is approved, provider selection can be added explicitly so product screens keep using the same provider shape.
+
+Submission writes must not be inferred from this foundation. A future write boundary for draft saving or submit workflows needs separate approval and should not be added to the screen-facing provider casually.
 
 ## Why Trusted Writes Remain Separated
 
@@ -55,7 +60,9 @@ Future agents must not infer from this foundation that:
 - Authentication or role enforcement exists.
 - Firebase config, environment variables, or provider switching are approved.
 - Real PM5 upload or Firebase Storage exists.
+- Submission draft saving exists.
 - Real submit, approve, or reject actions exist.
+- Submission writes may be reintroduced into the screen-facing provider without approval.
 - Reward calculation is implemented.
 - Reward results, athlete progress, squad progress, River Map progress, or Boathouse progress can be written from UI.
 - Mock data should be mutated to simulate real workflows.

@@ -17,7 +17,7 @@ Added repository contracts:
 - `AthleteRepository`
 - `SquadRepository`
 - `QuestRepository`
-- `SubmissionRepository`
+- `SubmissionReadRepository`
 - `RewardReadRepository`
 - `TrustedRewardWriteRepository`
 - `ProgressReadRepository`
@@ -52,6 +52,8 @@ Repositories are added now to lock in product language and workflow boundaries b
 Repository boundaries are intentionally split:
 
 - Read repositories can be used by UI screens for previews and display.
+- `SubmissionReadRepository` is read only and exposes only submission lookup/list methods.
+- Draft saving, submit actions, and PM5 upload workflows are future explicit steps, not part of the current screen-facing provider.
 - Trusted write repositories are reserved for verified workflows.
 - Reward and progress writes must never be triggered by athlete-facing UI.
 - There is intentionally no combined reward or progress repository export.
@@ -74,6 +76,8 @@ From these mocks and interfaces, future agents must **not** infer:
 - Firebase is already wired.
 - Authentication and role enforcement are implemented.
 - Upload, verification, or reward workflows are complete.
+- Submission draft saving or submit workflows are available from screens.
+- Future agents may reintroduce submission writes into the screen-facing provider without approval.
 - Athletes can grant themselves rewards or progress.
 - Mock records represent live or complete product coverage.
 
@@ -84,6 +88,7 @@ This step intentionally does not include:
 - Firebase implementation.
 - Authentication.
 - PM5 upload implementation.
+- Draft saving or submit actions.
 - Coach verification actions.
 - Reward calculation engine logic.
 - Live quests, leaderboards, OCR, Concept2 API, live PM5 Bluetooth, Unity, Godot, messaging, or social features.

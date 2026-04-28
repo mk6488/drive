@@ -26,12 +26,9 @@ export interface QuestRepository {
   listQuestsForSquad(clubId: string, squadId: string): Promise<Quest[]>;
 }
 
-export interface SubmissionRepository {
+export interface SubmissionReadRepository {
   getSubmissionById(submissionId: string): Promise<Submission | null>;
   listSubmissionsForAthlete(athleteId: string): Promise<Submission[]>;
-  saveAthleteSubmissionDraft(
-    submission: Omit<Submission, 'status'> & { status: 'draft' | 'submitted' },
-  ): Promise<Submission>;
 }
 
 export interface RewardReadRepository {

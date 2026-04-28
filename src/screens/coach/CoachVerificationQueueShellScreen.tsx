@@ -15,7 +15,7 @@ import type { Submission } from '@/src/types';
 
 const previewClubId = 'club-example-001';
 const previewSquadId = 'squad-example-juniors';
-const { athleteRepository, questRepository, submissionRepository } = getRepositoryProvider();
+const { athleteRepository, questRepository, submissionReadRepository } = getRepositoryProvider();
 
 type QueueItem = {
   submissionId: string;
@@ -75,7 +75,7 @@ export function CoachVerificationQueueShellScreen() {
         const submissionGroups = await Promise.all(
           athletes.map(async (athlete) => ({
             athlete,
-            submissions: await submissionRepository.listSubmissionsForAthlete(athlete.id),
+            submissions: await submissionReadRepository.listSubmissionsForAthlete(athlete.id),
           })),
         );
 

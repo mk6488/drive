@@ -28,7 +28,7 @@ import type {
   QuestRepository,
   RewardReadRepository,
   SquadRepository,
-  SubmissionRepository,
+  SubmissionReadRepository,
   TrustedProgressWriteRepository,
   TrustedRewardWriteRepository,
 } from './types';
@@ -79,7 +79,7 @@ export const mockQuestRepository: QuestRepository = {
   },
 };
 
-export const mockSubmissionRepository: SubmissionRepository = {
+export const mockSubmissionReadRepository: SubmissionReadRepository = {
   async getSubmissionById(submissionId) {
     await delay();
     return submissionStore.find((submission) => submission.id === submissionId) ?? null;
@@ -87,18 +87,6 @@ export const mockSubmissionRepository: SubmissionRepository = {
   async listSubmissionsForAthlete(athleteId) {
     await delay();
     return submissionStore.filter((submission) => submission.athleteId === athleteId);
-  },
-  async saveAthleteSubmissionDraft(submission) {
-    await delay();
-    const existingSubmissionIndex = submissionStore.findIndex((item) => item.id === submission.id);
-
-    if (existingSubmissionIndex >= 0) {
-      submissionStore[existingSubmissionIndex] = submission;
-    } else {
-      submissionStore.push(submission);
-    }
-
-    return submission;
   },
 };
 

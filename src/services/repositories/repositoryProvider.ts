@@ -4,7 +4,7 @@ import {
   mockQuestRepository,
   mockRewardReadRepository,
   mockSquadRepository,
-  mockSubmissionRepository,
+  mockSubmissionReadRepository,
   mockTrustedProgressWriteRepository,
   mockTrustedRewardWriteRepository,
 } from './mockRepositories';
@@ -14,7 +14,7 @@ import type {
   QuestRepository,
   RewardReadRepository,
   SquadRepository,
-  SubmissionRepository,
+  SubmissionReadRepository,
   TrustedProgressWriteRepository,
   TrustedRewardWriteRepository,
 } from './types';
@@ -23,7 +23,7 @@ export type RepositoryProvider = {
   athleteRepository: AthleteRepository;
   squadRepository: SquadRepository;
   questRepository: QuestRepository;
-  submissionRepository: SubmissionRepository;
+  submissionReadRepository: SubmissionReadRepository;
   rewardReadRepository: RewardReadRepository;
   progressReadRepository: ProgressReadRepository;
 };
@@ -32,10 +32,13 @@ export const mockRepositoryProvider: RepositoryProvider = {
   athleteRepository: mockAthleteRepository,
   squadRepository: mockSquadRepository,
   questRepository: mockQuestRepository,
-  submissionRepository: mockSubmissionRepository,
+  submissionReadRepository: mockSubmissionReadRepository,
   rewardReadRepository: mockRewardReadRepository,
   progressReadRepository: mockProgressReadRepository,
 };
+
+// Submission writes, draft saving, and submit workflows are deliberately not exposed yet.
+// Add them only in a later explicit workflow step with product approval.
 
 // Trusted reward writes are deliberately outside the screen-facing provider.
 // Athlete-facing UI screens must not call this boundary.

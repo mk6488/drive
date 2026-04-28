@@ -24,7 +24,7 @@ import type { AthleteProgress, Quest, Submission } from '@/src/types';
 const previewClubId = 'club-example-001';
 const previewSquadId = 'squad-example-juniors';
 const previewAthleteId = 'athlete-example-001';
-const { progressReadRepository, questRepository, submissionRepository } = getRepositoryProvider();
+const { progressReadRepository, questRepository, submissionReadRepository } = getRepositoryProvider();
 
 type ScreenState = {
   quest: Quest;
@@ -52,7 +52,7 @@ export function AthleteTodaysQuestScreen() {
       try {
         const [quests, submissions, progress] = await Promise.all([
           questRepository.listQuestsForSquad(previewClubId, previewSquadId),
-          submissionRepository.listSubmissionsForAthlete(previewAthleteId),
+          submissionReadRepository.listSubmissionsForAthlete(previewAthleteId),
           progressReadRepository.getAthleteProgress(previewAthleteId),
         ]);
 
