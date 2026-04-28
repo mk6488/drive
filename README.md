@@ -46,6 +46,7 @@ Future work must read these documents before implementation:
 - `docs/06-firestore-schema.md`
 - `docs/07-build-roadmap.md`
 - `docs/08-definition-of-done.md`
+- `docs/09-development-setup.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -53,8 +54,34 @@ Use `docs/08-definition-of-done.md` before finishing substantive tasks to check 
 
 Project rules live in `.cursor/rules/` and are intended to keep future agent work aligned with the DRIVE brief.
 
+## Development Setup
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the Expo development server:
+
+```bash
+npm run start
+```
+
+Run typecheck:
+
+```bash
+npm run typecheck
+```
+
+Run lint:
+
+```bash
+npm run lint
+```
+
 ## Current Status
 
-This repository currently contains guardrails only.
+This repository currently contains the DRIVE guardrails and the Step 2 Expo React Native TypeScript app foundation.
 
-No Expo app, package installation, screens, or Firebase code has been created in step 1.
+The app currently shows only a minimal DRIVE placeholder screen. Firebase code, product workflows, reward logic, verification flows, and future integrations have not been added.

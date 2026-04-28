@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "DRIVE: Winter Quest",
+    "slug": "drive-winter-quest",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "drive",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "resizeMode": "contain",
+          "backgroundColor": "#F5F2E8",
+          "dark": {
+            "backgroundColor": "#0E1511"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
