@@ -8,6 +8,9 @@ import {
   mockTrustedProgressWriteRepository,
   mockTrustedRewardWriteRepository,
 } from './mockRepositories';
+import { firebaseRepositoryProvider } from './firebase';
+import { getMissingFirebaseConfigKeys, isFirebaseConfigComplete } from '@/src/services/firebase/firebaseConfig';
+import { getRepositoryProviderModeStatus, getRequestedRepositoryProviderMode } from './repositoryProviderMode';
 import type {
   AthleteRepository,
   ProgressReadRepository,
@@ -48,8 +51,28 @@ export const trustedRewardWriteRepository: TrustedRewardWriteRepository = mockTr
 // Athlete-facing UI screens must not write XP, attributes, squad, River Map, or Boathouse progress.
 export const trustedProgressWriteRepository: TrustedProgressWriteRepository = mockTrustedProgressWriteRepository;
 
+export function getRepositoryProviderStatus() {
+  const modeStatus = getRepositoryProviderModeStatus();
+  const firebaseConfigComplete = isFirebaseConfigComplete();
+  const firebaseModeCanActivate = modeStatus.isFirebaseExplicitlyRequested && firebaseConfigComplete;
+
+  return {
+    ...modeStatus,
+    activeProviderMode: firebaseModeCanActivate ? ('firebase' as const) : ('mock' as const),
+    firebaseConfigComplete,
+    missingFirebaseConfigKeys: getMissingFirebaseConfigKeys(),
+    isUsingMockFallback: modeStatus.isFirebaseExplicitlyRequested && !firebaseConfigComplete,
+  };
+}
+
 export function getRepositoryProvider(): RepositoryProvider {
-  // Mock backed only for now. Firebase provider selection is a later explicit step.
-  // Future agents must not add Firebase, auth, config, or environment switching here without approval.
+  const requestedProviderMode = getRequestedRepositoryProviderMode();
+
+  if (requestedProviderMode === 'firebase' && isFirebaseConfigComplete()) {
+    return firebaseRepositoryProvider;
+  }
+
+  // Mock remains the safe default for preview mode, missing env values, invalid env values,
+  // and explicitly requested Firebase mode without complete Firebase config.
   return mockRepositoryProvider;
 }
