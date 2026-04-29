@@ -2,10 +2,11 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
 import { theme } from '@/src/constants/theme';
+import { AuthProvider } from '@/src/services/auth/AuthProvider';
 
 export default function RootLayout() {
   return (
-    <>
+    <AuthProvider>
       <Stack
         screenOptions={{
           headerStyle: { backgroundColor: theme.colours.riverNight },
@@ -19,6 +20,6 @@ export default function RootLayout() {
         <Stack.Screen name="coach/index" options={{ title: 'Coach Preview' }} />
       </Stack>
       <StatusBar style="light" />
-    </>
+    </AuthProvider>
   );
 }

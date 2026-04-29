@@ -2,15 +2,19 @@ import { Link } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { AuthBoundaryPanel } from '@/src/components/game/AuthBoundaryPanel';
+import { AuthSessionStatusPanel } from '@/src/components/game/AuthSessionStatusPanel';
 import { AppButton } from '@/src/components/ui/AppButton';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { theme } from '@/src/constants/theme';
+import { useDriveAuth } from '@/src/services/auth/AuthProvider';
 import { unauthenticatedPreviewSession } from '@/src/services/auth/mockAuthSession';
 
 export function WelcomeScreen() {
+  const { session, isLoading, authErrorMessage } = useDriveAuth();
+
   return (
     <Screen centred>
       <View style={styles.hero}>
@@ -49,6 +53,8 @@ export function WelcomeScreen() {
           </Link>
         </View>
       </Card>
+
+      <AuthSessionStatusPanel session={session} isLoading={isLoading} authErrorMessage={authErrorMessage} />
 
       <AuthBoundaryPanel
         session={unauthenticatedPreviewSession}

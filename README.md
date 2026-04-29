@@ -67,6 +67,7 @@ Future work must read these documents before implementation:
 - `docs/27-firestore-security-rules-foundation.md`
 - `docs/28-storage-rules-and-pm5-evidence-paths.md`
 - `docs/29-firebase-auth-service-foundation.md`
+- `docs/30-controlled-auth-provider-shell.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -113,7 +114,7 @@ submit, approve, reject, calculate rewards, or write progress.
 
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, Step 19's Firebase app and environment boundary foundation only, Step 20's Firestore rules, indexes, config, and path foundation only, Step 21's Firebase Storage rules and PM5 evidence path foundations only, and Step 22's Firebase Auth service foundation and sign in shell only.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, Step 19's Firebase app and environment boundary foundation only, Step 20's Firestore rules, indexes, config, and path foundation only, Step 21's Firebase Storage rules and PM5 evidence path foundations only, Step 22's Firebase Auth service foundation and sign in shell only, and Step 23's controlled Auth Provider shell only.
 
 Step 11 adds `/dev/submission-lifecycle` as a local-state preview for draft, submitted, verified, and rejected lifecycle states only. Real lifecycle actions, reward calculation, and trusted reward/progress writes remain intentionally out of scope.
 
@@ -138,5 +139,7 @@ Step 20 adds planning-level Firestore security rules, a minimal indexes placehol
 Step 21 adds planning-level Firebase Storage rules for private PM5 evidence and pure Storage path helpers. Firebase Storage is not connected to the app yet: there is no Storage initialisation in app code, no image picking, no upload workflow, and no public file access.
 
 Step 22 adds lazy Firebase Auth initialisation, a DRIVE auth service boundary, safe auth error messages, and `/auth/login` as a sign in foundation for existing Firebase users only. Role-based routing and protected routes are not enabled yet, and the app still keeps preview routes available.
+
+Step 23 adds a central `AuthProvider` that observes Firebase Auth session state through the DRIVE auth service and exposes loading, unauthenticated, authenticated, warning, and sign-out state to preview UI. Preview routes remain available, protected routes are still not enabled, and the provider does not redirect, guard routes, read Firestore, write Firestore, or switch the mock-backed repository provider.
 
 Public signup, account creation, PM5 upload workflows, coach verification actions, reward calculation logic, live Firebase data access, and future integrations have not been added.

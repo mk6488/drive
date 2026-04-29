@@ -6,22 +6,18 @@ import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
+import { AuthSessionStatusPanel } from '@/src/components/game/AuthSessionStatusPanel';
 import { theme } from '@/src/constants/theme';
 import { getDriveAuthErrorMessage, incompleteDriveAccessMessage } from '@/src/services/auth/authErrors';
-import { signInWithEmailAndPasswordForDrive, signOutOfDrive } from '@/src/services/auth/authService';
-import type { AuthSession } from '@/src/services/auth/authTypes';
-
-const initialSession: AuthSession = {
-  status: 'unauthenticated',
-  user: null,
-};
+import { signInWithEmailAndPasswordForDrive } from '@/src/services/auth/authService';
+import { useDriveAuth } from '@/src/services/auth/AuthProvider';
 
 export function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [session, setSession] = useState<AuthSession>(initialSession);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { session, isLoading, authErrorMessage, signOut } = useDriveAuth();
 
   async function handleSignIn() {
     setIsSubmitting(true);
@@ -29,13 +25,11 @@ export function LoginScreen() {
 
     try {
       const nextSession = await signInWithEmailAndPasswordForDrive(email, password);
-      setSession(nextSession);
 
       if (nextSession.status !== 'authenticated') {
         setErrorMessage(incompleteDriveAccessMessage);
       }
     } catch (error) {
-      setSession(initialSession);
       setErrorMessage(getDriveAuthErrorMessage(error));
     } finally {
       setIsSubmitting(false);
@@ -47,8 +41,7 @@ export function LoginScreen() {
     setErrorMessage(null);
 
     try {
-      await signOutOfDrive();
-      setSession(initialSession);
+      await signOut();
     } catch (error) {
       setErrorMessage(getDriveAuthErrorMessage(error));
     } finally {
@@ -72,6 +65,8 @@ export function LoginScreen() {
         </AppText>
       </View>
 
+      <AuthSessionStatusPanel session={session} isLoading={isLoading} authErrorMessage={authErrorMessage} />
+
       <Card>
         {session.status === 'authenticated' ? (
           <View style={styles.stack}>
@@ -87,7 +82,7 @@ export function LoginScreen() {
               title="Sign out"
               variant="secondary"
               helperText="Clears this Firebase Auth session only"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
               onPress={handleSignOut}
             />
           </View>
@@ -137,7 +132,7 @@ export function LoginScreen() {
             <AppButton
               title={isSubmitting ? 'Checking sign in...' : 'Sign in'}
               helperText="Calls the DRIVE auth service only"
-              disabled={isSubmitting || email.trim().length === 0 || password.length === 0}
+              disabled={isSubmitting || isLoading || email.trim().length === 0 || password.length === 0}
               onPress={handleSignIn}
             />
           </View>
