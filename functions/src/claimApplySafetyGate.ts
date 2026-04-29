@@ -143,7 +143,12 @@ function getSafetySummary(
 export function getClaimApplyChecklist(input: ClaimApplySafetyGateInput): ClaimApplySafetyChecklist {
   const validationPassed = input.validationResult?.status === 'readyForFutureTrustedWorkflow';
   const hasAuditDraft = input.auditDraft !== null;
-  const hasRequestedApplyMode = input.requestedApplyMode === 'dryRun' || input.requestedApplyMode === 'apply';
+  // dryRun and apply are planning labels for reports. Only live may pass the
+  // future apply gate, and it still needs the environment flag and safety checks.
+  const hasRequestedApplyMode =
+    input.requestedApplyMode === 'dryRun' ||
+    input.requestedApplyMode === 'apply' ||
+    input.requestedApplyMode === 'live';
   const role = getRole(input);
   const confirmationPhrase = input.confirmationPhrase;
   const hasConfirmationPhrase = hasText(confirmationPhrase);
