@@ -1,6 +1,11 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import {
+  evaluateClaimApplySafetyGate,
+  getClaimApplySafetyMessage,
+  type ClaimApplyMode,
+} from './claimApplySafetyGate';
 import { createRoleAssignmentAuditDraft, getRoleAssignmentAuditSummary } from './roleAssignmentAudit';
 import { validateClaimAssignmentRequest } from './roleClaimValidation';
 
@@ -24,6 +29,18 @@ function formatList(values: readonly string[]) {
   return values.join(', ');
 }
 
+function getText(value: unknown) {
+  return typeof value === 'string' ? value : null;
+}
+
+function getApplyMode(value: unknown): ClaimApplyMode | null {
+  if (value === 'dryRun' || value === 'apply') {
+    return value;
+  }
+
+  return null;
+}
+
 function readJsonFile(filePath: string) {
   const absolutePath = resolve(process.cwd(), filePath);
   const rawJson = readFileSync(absolutePath, 'utf8');
@@ -40,6 +57,15 @@ function printDryRunReport(filePath: string, input: unknown) {
   const validation = validateClaimAssignmentRequest(input);
   const auditDraft = createRoleAssignmentAuditDraft(input, validation);
   const auditSummary = getRoleAssignmentAuditSummary(auditDraft);
+  const safetyGate = evaluateClaimApplySafetyGate({
+    validationResult: validation,
+    auditDraft,
+    confirmationPhrase: getText(request.confirmationPhrase),
+    requestedApplyMode: getApplyMode(request.requestedApplyMode),
+    trustedActorId: getText(request.trustedActorId),
+    auditReason: getText(request.auditReason),
+    environmentName: getText(request.environmentName),
+  });
 
   console.log('DRIVE trusted claims dry run');
   console.log('==============================');
@@ -70,6 +96,23 @@ function printDryRunReport(filePath: string, input: unknown) {
   });
   console.log(`Audit record written: ${auditSummary.auditRecordWasWritten ? 'yes' : 'no'}`);
   console.log(`Custom claims set: ${auditSummary.customClaimsWereSet ? 'yes' : 'no'}`);
+  console.log('Future apply safety gate:');
+  console.log(`Dry run validation passed: ${safetyGate.checklist.validationPassed ? 'yes' : 'no'}`);
+  console.log(`Dry run validation display allowed: ${safetyGate.canDisplayDryRunValidation ? 'yes' : 'no'}`);
+  console.log(`Future apply currently blocked: ${safetyGate.futureApplyWouldBeBlocked ? 'yes' : 'no'}`);
+  console.log(`Requested apply mode: ${formatValue(safetyGate.requestedApplyMode)}`);
+  console.log(`Environment: ${formatValue(safetyGate.checklist.environmentName)}`);
+  console.log(`Required confirmation phrase: ${safetyGate.requiredConfirmationPhrase}`);
+  console.log(`Confirmation phrase matched: ${safetyGate.checklist.confirmationPhraseMatched ? 'yes' : 'no'}`);
+  console.log(`Block reasons: ${formatList(safetyGate.blockReasons)}`);
+  console.log(`Safety gate message: ${getClaimApplySafetyMessage(safetyGate)}`);
+  console.log('Safety gate checklist:');
+  safetyGate.checklist.summary.forEach((message) => {
+    console.log(`- ${message}`);
+  });
+  console.log('Reminder: no Firebase custom claims were set.');
+  console.log('Reminder: no role assignment audit record was written.');
+  console.log('Reminder: Firebase Admin was not initialised.');
   console.log('Result: no Firebase custom claims were set.');
   console.log('Result: no role assignment audit record was written.');
   console.log('Firebase Admin was not initialised, and no Firestore data was read or written.');

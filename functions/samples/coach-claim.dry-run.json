@@ -2,6 +2,9 @@
   "targetUserId": "example-firebase-uid-coach",
   "trustedActorId": "local-dry-run-trusted-actor",
   "auditReason": "Local dry run only",
+  "confirmationPhrase": "APPLY_DRIVE_ROLE_CLAIMS",
+  "requestedApplyMode": "apply",
+  "environmentName": "local-dry-run",
   "claims": {
     "role": "coach",
     "clubId": "example-club",
