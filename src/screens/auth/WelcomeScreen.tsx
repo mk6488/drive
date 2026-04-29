@@ -35,7 +35,7 @@ export function WelcomeScreen() {
         <AppText variant="body" colour={theme.colours.mutedInk}>
           This is not a working login. These routes show the intended athlete and coach spaces before
           real authentication, protected routes, quests, uploads, verification, or rewards are implemented.
-          Step 22 adds a sign in foundation only; preview routes remain available while real role-based routing is
+          Step 24 adds role gate decision rules only; preview routes remain available while real role-based routing is
           still disabled.
         </AppText>
         <View style={styles.actions}>

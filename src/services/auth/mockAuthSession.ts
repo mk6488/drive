@@ -23,6 +23,16 @@ export const exampleCoachSession = {
   },
 } as const satisfies AuthSession;
 
+export const exampleAdminFutureSession = {
+  status: 'authenticated',
+  user: {
+    userId: 'user-preview-admin-001',
+    role: 'admin',
+    displayName: 'Admin future preview',
+    squadIds: [],
+  },
+} as const satisfies AuthSession;
+
 export const unauthenticatedPreviewSession = {
   status: 'unauthenticated',
   user: null,
@@ -35,6 +45,10 @@ export function getPreviewAuthSession(role: AuthRole | 'none'): AuthSession {
 
   if (role === 'coach') {
     return exampleCoachSession;
+  }
+
+  if (role === 'admin') {
+    return exampleAdminFutureSession;
   }
 
   return unauthenticatedPreviewSession;

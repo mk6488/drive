@@ -74,8 +74,8 @@ export function AuthSessionStatusPanel({ session, isLoading, authErrorMessage }:
       </View>
 
       <AppText variant="caption" colour={theme.colours.mutedInk}>
-        Protected routes, redirects, Firestore profile lookup, and repository provider switching are still deliberately
-        out of scope.
+        Role gate rules now exist as a preview foundation, but protected routes, redirects, Firestore profile lookup,
+        and repository provider switching are still deliberately out of scope.
       </AppText>
     </Card>
   );
