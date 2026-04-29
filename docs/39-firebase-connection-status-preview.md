@@ -43,6 +43,8 @@ It does not sign users in, create users, add public signup, create accounts, ins
 
 Mock remains the default provider for normal preview mode. This preview reports whether the active repository provider is still mock backed, but it does not call `getRepositoryProvider()`, change provider selection, or connect product screens to Firebase repositories.
 
+The preview shows both requested provider mode and active provider mode so accidental Firebase mode requests are visible before any product route is connected to live data.
+
 Firebase mode remains future controlled testing only and is not enabled by default.
 
 ## Why Normal Mock Preview Needs No Firebase Project

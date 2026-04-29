@@ -15,6 +15,7 @@ type FirebaseConnectionPanelStatus = {
   firebaseConfigComplete: boolean;
   missingFirebaseConfigKeys: string[];
   firebaseAppInitialisationCheck: FirebaseAppInitialisationCheckStatus;
+  requestedRepositoryProviderMode: 'mock' | 'firebase';
   activeRepositoryProviderMode: 'mock' | 'firebase';
   repositoryProviderIsMockBacked: boolean;
   firebaseModeEnabledByDefault: boolean;
@@ -73,6 +74,10 @@ export function FirebaseConnectionStatusPanel({ status }: FirebaseConnectionStat
       <View style={styles.statusList}>
         <StatusRow label="Firebase config appears complete" value={formatBoolean(status.firebaseConfigComplete)} />
         <StatusRow label="Firebase app initialisation check passed" value={appCheckLabel} />
+        <StatusRow
+          label="Requested repository provider"
+          value={formatProviderMode(status.requestedRepositoryProviderMode)}
+        />
         <StatusRow label="Active repository provider" value={formatProviderMode(status.activeRepositoryProviderMode)} />
         <StatusRow label="Repository provider still mock backed" value={formatBoolean(status.repositoryProviderIsMockBacked)} />
         <StatusRow label="Firebase mode enabled by default" value={formatBoolean(status.firebaseModeEnabledByDefault)} />
