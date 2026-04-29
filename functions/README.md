@@ -1,6 +1,6 @@
 # DRIVE Functions Workspace
 
-This workspace is for trusted server-side planning for DRIVE: Winter Quest. It is not deployed, it does not expose a live role assignment function, and it does not set Firebase custom claims.
+This workspace is for trusted server-side planning for DRIVE: Winter Quest. It is not deployed, it does not expose a live role assignment function, and normal project work must not set Firebase custom claims.
 
 ## Trusted Claims Dry Runs
 
@@ -20,10 +20,14 @@ No Firebase Admin SDK claim setting happens here. The dry run does not call `set
 
 See `../docs/46-trusted-claims-live-apply-runbook.md` and `CLAIMS_RUNBOOK.md` before any future claim apply work.
 
-Dry run is currently the only supported local claim workflow. Live apply is not implemented yet, no deployment has happened, and this workspace must not set Firebase custom claims without a later explicit approved step.
+A guarded live apply script foundation now exists at `src/applyRoleClaimAssignment.ts`, with the npm entry `npm run apply:claims -- <path-to-live-claim-json>`.
+
+Do not run it casually. It refuses to apply unless the operator passes a JSON file path, `DRIVE_CLAIMS_LIVE_APPLY=true` is set in the local runtime, the input confirmation phrase is exactly `APPLY_DRIVE_ROLE_CLAIMS`, the requested apply mode is `live`, validation passes, an audit draft can be created, and the safety gate allows apply. `adminFuture` remains blocked.
+
+Dry run output should always be reviewed first. The client app still cannot assign roles, promote users, or set custom claims.
 
 ## Secrets And Sample Data
 
-Do not store service account keys in this workspace. No service account key is needed for the current dry run tool.
+Do not store service account keys in this workspace. No service account key is needed for the current dry run tool. If future local credentials are used for the guarded live script, they must stay local and must never be committed.
 
 The files in `samples/` are fake local examples only. Do not put real junior names, real Firebase user ids, real Firebase config, parent details, service account data, or other sensitive data in sample files.

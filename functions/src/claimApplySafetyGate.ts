@@ -3,7 +3,7 @@ import type { RoleAssignmentAuditDraft } from './roleAssignmentAudit';
 
 export const REQUIRED_CLAIM_APPLY_CONFIRMATION_PHRASE = 'APPLY_DRIVE_ROLE_CLAIMS';
 
-export type ClaimApplyMode = 'dryRun' | 'apply';
+export type ClaimApplyMode = 'dryRun' | 'apply' | 'live';
 
 export type ClaimApplyBlockReason =
   | 'invalidClaimValidation'
@@ -16,6 +16,8 @@ export type ClaimApplyBlockReason =
   | 'missingConfirmationPhrase'
   | 'confirmationPhraseMismatch'
   | 'missingRequestedApplyMode'
+  | 'requestedApplyModeNotLive'
+  | 'liveApplyEnvironmentNotEnabled'
   | 'realApplyNotImplemented';
 
 export type ClaimApplySafetyGateInput = {
@@ -26,6 +28,8 @@ export type ClaimApplySafetyGateInput = {
   trustedActorId: string | null;
   auditReason: string | null;
   environmentName: string | null;
+  liveApplyEnvironmentEnabled?: boolean;
+  liveApplyExecutionAllowed?: boolean;
 };
 
 export type ClaimApplySafetyChecklist = {
@@ -43,17 +47,18 @@ export type ClaimApplySafetyChecklist = {
   confirmationPhraseMatched: boolean;
   requiredConfirmationPhrase: typeof REQUIRED_CLAIM_APPLY_CONFIRMATION_PHRASE;
   environmentName: string;
-  realApplyExecutionAllowed: false;
-  firebaseAdminInitialisationAvoided: true;
-  customClaimWritingAvoided: true;
+  liveApplyEnvironmentEnabled: boolean;
+  realApplyExecutionAllowed: boolean;
+  firebaseAdminInitialisationAvoided: boolean;
+  customClaimWritingAvoided: boolean;
   auditRecordWritingAvoided: true;
   summary: readonly string[];
 };
 
 export type ClaimApplySafetyGateResult = {
-  status: 'blocked';
+  status: 'blocked' | 'allowed';
   canDisplayDryRunValidation: true;
-  canApplyClaimsNow: false;
+  canApplyClaimsNow: boolean;
   futureApplyWouldBeBlocked: boolean;
   requestedApplyMode: ClaimApplyMode | null;
   requiredConfirmationPhrase: typeof REQUIRED_CLAIM_APPLY_CONFIRMATION_PHRASE;
@@ -120,12 +125,18 @@ function getSafetySummary(
     checklist.confirmationPhraseMatched
       ? 'Required confirmation phrase matched exactly.'
       : 'Required confirmation phrase did not match exactly.',
+    checklist.requestedApplyMode === 'live'
+      ? 'Requested apply mode is live.'
+      : 'Requested apply mode is not live, so custom claim apply must stay blocked.',
+    checklist.liveApplyEnvironmentEnabled
+      ? 'Live apply environment flag is enabled.'
+      : 'Live apply environment flag is not enabled.',
     checklist.adminFutureApplyBlocked
       ? 'adminFuture remains blocked for apply in this foundation.'
       : 'Requested role is not adminFuture.',
-    blockReasons.includes('realApplyNotImplemented')
-      ? 'Real custom claim apply is intentionally not implemented in this step.'
-      : 'No real apply implementation is available from this helper.',
+    checklist.realApplyExecutionAllowed
+      ? 'Real custom claim apply may be reached by a trusted caller after all gates pass.'
+      : 'Real custom claim apply is intentionally unavailable unless a trusted live caller enables it.',
   ];
 }
 
@@ -137,6 +148,11 @@ export function getClaimApplyChecklist(input: ClaimApplySafetyGateInput): ClaimA
   const confirmationPhrase = input.confirmationPhrase;
   const hasConfirmationPhrase = hasText(confirmationPhrase);
   const confirmationPhraseMatched = confirmationPhrase === REQUIRED_CLAIM_APPLY_CONFIRMATION_PHRASE;
+  const liveApplyEnvironmentEnabled = input.liveApplyEnvironmentEnabled === true;
+  const realApplyExecutionAllowed =
+    input.liveApplyExecutionAllowed === true &&
+    input.requestedApplyMode === 'live' &&
+    liveApplyEnvironmentEnabled;
   const checklistWithoutSummary = {
     dryRunValidationDisplayAllowed: true,
     validationPassed,
@@ -152,9 +168,10 @@ export function getClaimApplyChecklist(input: ClaimApplySafetyGateInput): ClaimA
     confirmationPhraseMatched,
     requiredConfirmationPhrase: REQUIRED_CLAIM_APPLY_CONFIRMATION_PHRASE,
     environmentName: getEnvironmentName(input),
-    realApplyExecutionAllowed: false,
-    firebaseAdminInitialisationAvoided: true,
-    customClaimWritingAvoided: true,
+    liveApplyEnvironmentEnabled,
+    realApplyExecutionAllowed,
+    firebaseAdminInitialisationAvoided: !realApplyExecutionAllowed,
+    customClaimWritingAvoided: !realApplyExecutionAllowed,
     auditRecordWritingAvoided: true,
   } satisfies Omit<ClaimApplySafetyChecklist, 'summary'>;
   const blockReasons = getClaimApplyBlockReasonsFromChecklist(checklistWithoutSummary);
@@ -208,7 +225,17 @@ function getClaimApplyBlockReasonsFromChecklist(
     blockReasons.push('missingRequestedApplyMode');
   }
 
-  blockReasons.push('realApplyNotImplemented');
+  if (checklist.requestedApplyMode !== 'live') {
+    blockReasons.push('requestedApplyModeNotLive');
+  }
+
+  if (!checklist.liveApplyEnvironmentEnabled) {
+    blockReasons.push('liveApplyEnvironmentNotEnabled');
+  }
+
+  if (!checklist.realApplyExecutionAllowed) {
+    blockReasons.push('realApplyNotImplemented');
+  }
 
   return Array.from(new Set(blockReasons));
 }
@@ -216,12 +243,13 @@ function getClaimApplyBlockReasonsFromChecklist(
 export function evaluateClaimApplySafetyGate(input: ClaimApplySafetyGateInput): ClaimApplySafetyGateResult {
   const checklist = getClaimApplyChecklist(input);
   const blockReasons = getClaimApplyBlockReasonsFromChecklist(checklist);
+  const canApplyClaimsNow = blockReasons.length === 0 && checklist.realApplyExecutionAllowed;
 
   return {
-    status: 'blocked',
+    status: canApplyClaimsNow ? 'allowed' : 'blocked',
     canDisplayDryRunValidation: true,
-    canApplyClaimsNow: false,
-    futureApplyWouldBeBlocked: blockReasons.length > 0,
+    canApplyClaimsNow,
+    futureApplyWouldBeBlocked: !canApplyClaimsNow,
     requestedApplyMode: checklist.requestedApplyMode,
     requiredConfirmationPhrase: REQUIRED_CLAIM_APPLY_CONFIRMATION_PHRASE,
     blockReasons,
@@ -230,6 +258,10 @@ export function evaluateClaimApplySafetyGate(input: ClaimApplySafetyGateInput): 
 }
 
 export function getClaimApplySafetyMessage(result: ClaimApplySafetyGateResult) {
+  if (result.canApplyClaimsNow) {
+    return 'Live apply safety gate allowed claim setting for this trusted caller only.';
+  }
+
   if (result.blockReasons.includes('realApplyNotImplemented')) {
     return 'Future apply is blocked: this foundation only evaluates safety and never sets Firebase custom claims.';
   }
