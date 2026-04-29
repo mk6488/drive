@@ -26,6 +26,14 @@ Do not run it casually. It refuses to apply unless the operator passes a JSON fi
 
 Dry run output should always be reviewed first. The client app still cannot assign roles, promote users, or set custom claims.
 
+## Local Live Input Hygiene
+
+Real live claim input files must stay local in `functions/live-inputs/`. That folder is ignored by Git, along with local live claim JSON patterns, so real Firebase UIDs, junior data, service account data, or operational role assignment inputs are not committed by accident.
+
+Committed files in `functions/samples/` are fake examples only. `samples/live-coach-claim.example.json` is a safe rehearsal example with placeholder values; it must not contain real Firebase UIDs, real junior names, real club private data, or service account data, and it must not be treated as an apply shortcut.
+
+The next safe rehearsal may run `npm run apply:claims -- <local-live-input-json>` without setting `DRIVE_CLAIMS_LIVE_APPLY=true`. That rehearsal should block on purpose and report that no Firebase custom claims were set. No live apply has been run yet.
+
 ## Secrets And Sample Data
 
 Do not store service account keys in this workspace. No service account key is needed for the current dry run tool. If future local credentials are used for the guarded live script, they must stay local and must never be committed.

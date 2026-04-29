@@ -6,6 +6,10 @@ build/
 coverage/
 functions/node_modules/
 functions/lib/
+functions/live-inputs/
+functions/*.live.json
+functions/**/*live*.local.json
+functions/**/*claims.local.json
 functions/.runtimeconfig.json
 functions/.env
 functions/.env.local

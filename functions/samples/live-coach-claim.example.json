@@ -1,0 +1,14 @@
+{
+  "targetUserId": "example-firebase-uid-coach",
+  "trustedActorId": "example-trusted-actor",
+  "auditReason": "Example live apply rehearsal only",
+  "confirmationPhrase": "APPLY_DRIVE_ROLE_CLAIMS",
+  "requestedApplyMode": "live",
+  "environmentName": "example-local-rehearsal",
+  "claims": {
+    "role": "coach",
+    "clubId": "example-club",
+    "squadIds": ["example-j15-squad", "example-j16-squad"],
+    "displayName": "Example Coach"
+  }
+}
