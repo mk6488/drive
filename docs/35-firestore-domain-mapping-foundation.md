@@ -39,6 +39,12 @@ Submission status remains only:
 
 `pending` is not a domain status because `submitted` already means the athlete has sent evidence and is waiting for coach review. Adding another waiting state would duplicate meaning and increase inconsistency risk across screens, repositories, rules, and future workflows.
 
+## Submission Draft Mapper Boundary
+
+The submission draft mapper is intentionally limited to future athlete-side draft or submit document data. Its status type is limited to `draft` or `submitted`.
+
+It excludes `reviewedByUserId`, `reviewedAt`, `coachNote`, and `rewardResultId` because athlete-facing code must not create reviewed submissions, mark work as verified or rejected, or attach reward outcomes. `verified` and `rejected` belong to future trusted coach review workflows only, behind a separate mapper or command boundary.
+
 ## Why Firebase Timestamp Is Not Imported
 
 The mapper foundation uses `FirestoreDateValue = string | number | Date | { toDate: () => Date }` instead of importing Firebase `Timestamp`.

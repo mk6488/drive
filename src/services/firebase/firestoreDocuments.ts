@@ -9,6 +9,7 @@ import type {
 } from '@/src/types';
 
 export type FirestoreDateValue = string | number | Date | { toDate: () => Date };
+export type SubmissionDraftDocumentStatus = 'draft' | 'submitted';
 
 export interface ClubDocument {
   name: string;
@@ -122,20 +123,18 @@ export interface SquadProgressDocument {
 export type QuestDocumentDraft = Omit<QuestDocument, 'createdAt' | 'updatedAt'> &
   Partial<Pick<QuestDocument, 'createdAt' | 'updatedAt'>>;
 
-export type SubmissionDocumentDraft = Pick<
-  SubmissionDocument,
-  'questId' | 'clubId' | 'squadId' | 'athleteId' | 'pm5PhotoPath' | 'reflection' | 'status'
-> &
-  Partial<
-    Pick<
-      SubmissionDocument,
-      | 'createdByUserId'
-      | 'submittedAt'
-      | 'reviewedByUserId'
-      | 'reviewedAt'
-      | 'coachNote'
-      | 'rewardResultId'
-      | 'createdAt'
-      | 'updatedAt'
-    >
-  >;
+// Athlete-side future draft and submit document data only.
+// Coach review fields belong to a separate future trusted coach review mapper or workflow.
+export interface SubmissionDocumentDraft {
+  questId: string;
+  clubId: string;
+  squadId: string;
+  athleteId: string;
+  createdByUserId?: string;
+  pm5PhotoPath: string;
+  reflection: string;
+  status: SubmissionDraftDocumentStatus;
+  submittedAt?: FirestoreDateValue;
+  createdAt?: FirestoreDateValue;
+  updatedAt?: FirestoreDateValue;
+}

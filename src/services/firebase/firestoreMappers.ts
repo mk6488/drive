@@ -18,6 +18,7 @@ import type {
   RewardResultDocument,
   SquadDocument,
   SquadProgressDocument,
+  SubmissionDraftDocumentStatus,
   SubmissionDocument,
   SubmissionDocumentDraft,
 } from './firestoreDocuments';
@@ -29,6 +30,20 @@ import type {
 
 const attributeNames: readonly AttributeName[] = ['Engine', 'Discipline', 'Rhythm', 'Grit'];
 const submissionStatuses: readonly SubmissionStatus[] = ['draft', 'submitted', 'verified', 'rejected'];
+
+export interface SubmissionDraftMapperInput {
+  questId: string;
+  clubId: string;
+  squadId: string;
+  athleteId: string;
+  createdByUserId?: string;
+  pm5PhotoPath: string;
+  reflection: string;
+  status: SubmissionDraftDocumentStatus;
+  submittedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
 
 export function normaliseFirestoreDateValue(value: FirestoreDateValue): string {
   if (typeof value === 'string') {
@@ -205,13 +220,10 @@ export function mapQuestDraftToQuestDocumentDraft(
   };
 }
 
-export function mapSubmissionDraftToSubmissionDocumentDraft(
-  draft: Omit<Submission, 'id'> & {
-    createdByUserId?: string;
-    createdAt?: string;
-    updatedAt?: string;
-  },
-): SubmissionDocumentDraft {
+// This mapper is for future athlete-side draft or submit document data only.
+// It does not review, verify, or reject submissions, and it does not unlock rewards.
+// Coach review document changes need a separate future trusted mapper or command boundary.
+export function mapSubmissionDraftToSubmissionDocumentDraft(draft: SubmissionDraftMapperInput): SubmissionDocumentDraft {
   return {
     questId: draft.questId,
     clubId: draft.clubId,
@@ -222,9 +234,6 @@ export function mapSubmissionDraftToSubmissionDocumentDraft(
     reflection: draft.reflection,
     status: draft.status,
     submittedAt: draft.submittedAt,
-    reviewedByUserId: draft.reviewedByUserId,
-    reviewedAt: draft.reviewedAt,
-    coachNote: draft.coachNote,
     createdAt: draft.createdAt,
     updatedAt: draft.updatedAt,
   };
