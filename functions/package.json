@@ -1,0 +1,21 @@
+{
+  "name": "drive-functions",
+  "version": "1.0.0",
+  "description": "Trusted server workspace foundation for DRIVE: Winter Quest role claims.",
+  "private": true,
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.8.0",
+    "firebase-functions": "^7.2.5"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
