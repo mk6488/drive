@@ -16,6 +16,12 @@ Each dry run builds the TypeScript workspace, reads a local sample JSON file, va
 
 No Firebase Admin SDK claim setting happens here. The dry run does not call `setCustomUserClaims`, does not create users, does not read Firestore, and does not write Firestore.
 
+## Trusted Claims Live Apply Runbook
+
+See `../docs/46-trusted-claims-live-apply-runbook.md` and `CLAIMS_RUNBOOK.md` before any future claim apply work.
+
+Dry run is currently the only supported local claim workflow. Live apply is not implemented yet, no deployment has happened, and this workspace must not set Firebase custom claims without a later explicit approved step.
+
 ## Secrets And Sample Data
 
 Do not store service account keys in this workspace. No service account key is needed for the current dry run tool.
