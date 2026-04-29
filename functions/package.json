@@ -9,7 +9,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dryrun:coach": "npm run build && node lib/dryRunRoleClaimAssignment.js samples/coach-claim.dry-run.json",
+    "dryrun:athlete": "npm run build && node lib/dryRunRoleClaimAssignment.js samples/athlete-claim.dry-run.json",
+    "dryrun:incomplete": "npm run build && node lib/dryRunRoleClaimAssignment.js samples/incomplete-claim.dry-run.json"
   },
   "dependencies": {
     "firebase-admin": "^13.8.0",

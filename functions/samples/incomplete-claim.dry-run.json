@@ -1,0 +1,10 @@
+{
+  "targetUserId": "example-firebase-uid-incomplete",
+  "trustedActorId": "local-dry-run-trusted-actor",
+  "claims": {
+    "role": "athlete",
+    "clubId": "example-club",
+    "squadIds": [],
+    "displayName": "Example Athlete"
+  }
+}

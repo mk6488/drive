@@ -1,0 +1,12 @@
+{
+  "targetUserId": "example-firebase-uid-athlete",
+  "trustedActorId": "local-dry-run-trusted-actor",
+  "auditReason": "Local dry run only",
+  "claims": {
+    "role": "athlete",
+    "clubId": "example-club",
+    "squadIds": ["example-j15-squad"],
+    "linkedAthleteId": "example-athlete",
+    "displayName": "Example Athlete"
+  }
+}
