@@ -73,6 +73,7 @@ Future work must read these documents before implementation:
 - `docs/33-preview-route-boundary-wrapping.md`
 - `docs/34-firestore-and-storage-service-foundation.md`
 - `docs/35-firestore-domain-mapping-foundation.md`
+- `docs/36-firestore-read-repository-foundation.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -90,7 +91,7 @@ npm install
 
 `.env.example` lists the Expo public Firebase variables reserved for future Firebase work. Real Firebase values are not required for the current mock-backed preview, and real `.env` files must stay local.
 
-The current app still runs as a mock-backed preview. Firestore and Storage helpers are lazy service boundaries only, so the preview app does not require real Firebase values yet.
+The current app still runs as a mock-backed preview. Firestore and Storage helpers plus the disconnected Firestore read repository foundations are not wired into the provider, so the preview app does not require a Firebase project or real Firebase values yet.
 
 Start the Expo development server:
 
@@ -140,7 +141,7 @@ mocks.
 
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, Step 19's Firebase app and environment boundary foundation only, Step 20's Firestore rules, indexes, config, and path foundation only, Step 21's Firebase Storage rules and PM5 evidence path foundations only, Step 22's Firebase Auth service foundation and sign in shell only, Step 23's controlled Auth Provider shell only, Step 24's role gate and route access foundation only, Step 25's protected route component foundation only, Step 26's preview-only route boundary wrapping for athlete and coach preview routes, Step 27's lazy Firestore and Storage service helpers only, and Step 28's pure Firestore document and domain mapping foundations only.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, Step 19's Firebase app and environment boundary foundation only, Step 20's Firestore rules, indexes, config, and path foundation only, Step 21's Firebase Storage rules and PM5 evidence path foundations only, Step 22's Firebase Auth service foundation and sign in shell only, Step 23's controlled Auth Provider shell only, Step 24's role gate and route access foundation only, Step 25's protected route component foundation only, Step 26's preview-only route boundary wrapping for athlete and coach preview routes, Step 27's lazy Firestore and Storage service helpers only, Step 28's pure Firestore document and domain mapping foundations only, and Step 29's disconnected Firestore read repository foundations only.
 
 Step 11 adds `/dev/submission-lifecycle` as a local-state preview for draft, submitted, verified, and rejected lifecycle states only. Real lifecycle actions, reward calculation, and trusted reward/progress writes remain intentionally out of scope.
 
@@ -178,4 +179,6 @@ Step 27 adds lazy Firestore and Storage service boundary helpers. They do not ad
 
 Step 28 adds planning-level Firestore document types and pure domain mapper helpers for future repositories. It does not add Firestore repositories, app Firestore reads or writes, repository provider switching, reward calculation, reward result writes, or progress writes.
 
-Public signup, account creation, PM5 upload workflows, coach verification actions, reward calculation logic, live Firebase data access, and future integrations have not been added.
+Step 29 adds read-only Firestore repository implementations behind the existing repository contracts. They are exported separately, are not connected to product screens or the repository provider, do not write Firestore, and do not require a Firebase project for mock-backed preview mode.
+
+Public signup, account creation, PM5 upload workflows, coach verification actions, reward calculation logic, product screen Firebase data access, and future integrations have not been added.

@@ -46,7 +46,7 @@ export function AthleteSubmissionShellScreen() {
       try {
         const [quests, submissions] = await Promise.all([
           questRepository.listQuestsForSquad(previewClubId, previewSquadId),
-          submissionReadRepository.listSubmissionsForAthlete(previewAthleteId),
+          submissionReadRepository.listSubmissionsForAthlete(previewClubId, previewSquadId, previewAthleteId),
         ]);
 
         if (!isMounted) {

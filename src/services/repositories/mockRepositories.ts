@@ -47,9 +47,9 @@ const boathouseProgressStore: BoathouseProgress[] = [mockBoathouseProgress];
 const rewardStore: RewardResult[] = [];
 
 export const mockAthleteRepository: AthleteRepository = {
-  async getAthleteById(athleteId) {
+  async getAthleteById(clubId, athleteId) {
     await delay();
-    return athleteStore.find((athlete) => athlete.id === athleteId) ?? null;
+    return athleteStore.find((athlete) => athlete.clubId === clubId && athlete.id === athleteId) ?? null;
   },
   async listAthletesBySquad(clubId, squadId) {
     await delay();
@@ -58,9 +58,9 @@ export const mockAthleteRepository: AthleteRepository = {
 };
 
 export const mockSquadRepository: SquadRepository = {
-  async getSquadById(squadId) {
+  async getSquadById(clubId, squadId) {
     await delay();
-    return squadStore.find((squad) => squad.id === squadId) ?? null;
+    return squadStore.find((squad) => squad.clubId === clubId && squad.id === squadId) ?? null;
   },
   async listSquadsByClub(clubId) {
     await delay();
@@ -69,9 +69,9 @@ export const mockSquadRepository: SquadRepository = {
 };
 
 export const mockQuestRepository: QuestRepository = {
-  async getQuestById(questId) {
+  async getQuestById(clubId, questId) {
     await delay();
-    return questStore.find((quest) => quest.id === questId) ?? null;
+    return questStore.find((quest) => quest.clubId === clubId && quest.id === questId) ?? null;
   },
   async listQuestsForSquad(clubId, squadId) {
     await delay();
@@ -80,24 +80,48 @@ export const mockQuestRepository: QuestRepository = {
 };
 
 export const mockSubmissionReadRepository: SubmissionReadRepository = {
-  async getSubmissionById(submissionId) {
+  async getSubmissionById(clubId, squadId, athleteId, submissionId) {
     await delay();
-    return submissionStore.find((submission) => submission.id === submissionId) ?? null;
+    return (
+      submissionStore.find(
+        (submission) =>
+          submission.clubId === clubId &&
+          submission.squadId === squadId &&
+          submission.athleteId === athleteId &&
+          submission.id === submissionId,
+      ) ?? null
+    );
   },
-  async listSubmissionsForAthlete(athleteId) {
+  async listSubmissionsForAthlete(clubId, squadId, athleteId) {
     await delay();
-    return submissionStore.filter((submission) => submission.athleteId === athleteId);
+    return submissionStore.filter(
+      (submission) =>
+        submission.clubId === clubId && submission.squadId === squadId && submission.athleteId === athleteId,
+    );
   },
 };
 
 export const mockRewardReadRepository: RewardReadRepository = {
-  async getRewardResultByVerifiedSubmissionId(verifiedSubmissionId) {
+  async getRewardResultByVerifiedSubmissionId(clubId, athleteId, verifiedSubmissionId) {
     await delay();
-    return rewardStore.find((reward) => reward.verifiedSubmissionId === verifiedSubmissionId) ?? null;
+    const submission = submissionStore.find(
+      (item) =>
+        item.clubId === clubId && item.athleteId === athleteId && item.id === verifiedSubmissionId && item.status === 'verified',
+    );
+
+    if (!submission) {
+      return null;
+    }
+
+    return rewardStore.find((reward) => reward.athleteId === athleteId && reward.verifiedSubmissionId === verifiedSubmissionId) ?? null;
   },
-  async listRewardsForAthlete(athleteId) {
+  async listRewardsForAthlete(clubId, athleteId) {
     await delay();
-    return rewardStore.filter((reward) => reward.athleteId === athleteId);
+    const clubSubmissionIds = new Set(
+      submissionStore.filter((submission) => submission.clubId === clubId).map((submission) => submission.id),
+    );
+
+    return rewardStore.filter((reward) => reward.athleteId === athleteId && clubSubmissionIds.has(reward.verifiedSubmissionId));
   },
 };
 
@@ -117,25 +141,29 @@ export const mockTrustedRewardWriteRepository: TrustedRewardWriteRepository = {
 };
 
 export const mockProgressReadRepository: ProgressReadRepository = {
-  async getAthleteProgress(athleteId) {
+  async getAthleteProgress(clubId, athleteId) {
     await delay();
-    return progressStore.find((progress) => progress.athleteId === athleteId) ?? null;
+    return progressStore.find((progress) => progress.clubId === clubId && progress.athleteId === athleteId) ?? null;
   },
-  async getSquadMission(squadId) {
+  async getSquadMission(clubId, squadId) {
     await delay();
-    return squadMissionStore.find((mission) => mission.squadId === squadId) ?? null;
+    const squad = squadStore.find((item) => item.clubId === clubId && item.id === squadId);
+    return squad ? (squadMissionStore.find((mission) => mission.squadId === squadId) ?? null) : null;
   },
-  async getSquadMissionProgress(squadId) {
+  async getSquadMissionProgress(clubId, squadId) {
     await delay();
-    return squadMissionProgressStore.find((progress) => progress.squadId === squadId) ?? null;
+    const squad = squadStore.find((item) => item.clubId === clubId && item.id === squadId);
+    return squad ? (squadMissionProgressStore.find((progress) => progress.squadId === squadId) ?? null) : null;
   },
-  async getRiverMapProgress(squadId) {
+  async getRiverMapProgress(clubId, squadId) {
     await delay();
-    return riverMapProgressStore.find((progress) => progress.squadId === squadId) ?? null;
+    const squad = squadStore.find((item) => item.clubId === clubId && item.id === squadId);
+    return squad ? (riverMapProgressStore.find((progress) => progress.squadId === squadId) ?? null) : null;
   },
-  async getBoathouseProgress(squadId) {
+  async getBoathouseProgress(clubId, squadId) {
     await delay();
-    return boathouseProgressStore.find((progress) => progress.squadId === squadId) ?? null;
+    const squad = squadStore.find((item) => item.clubId === clubId && item.id === squadId);
+    return squad ? (boathouseProgressStore.find((progress) => progress.squadId === squadId) ?? null) : null;
   },
 };
 

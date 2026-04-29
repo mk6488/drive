@@ -54,8 +54,8 @@ export function AthleteTodaysQuestScreen() {
       try {
         const [quests, submissions, progress] = await Promise.all([
           questRepository.listQuestsForSquad(previewClubId, previewSquadId),
-          submissionReadRepository.listSubmissionsForAthlete(previewAthleteId),
-          progressReadRepository.getAthleteProgress(previewAthleteId),
+          submissionReadRepository.listSubmissionsForAthlete(previewClubId, previewSquadId, previewAthleteId),
+          progressReadRepository.getAthleteProgress(previewClubId, previewAthleteId),
         ]);
 
         if (!isMounted) {

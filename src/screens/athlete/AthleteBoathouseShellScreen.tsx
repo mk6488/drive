@@ -10,6 +10,7 @@ import { theme } from '@/src/constants/theme';
 import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import type { BoathouseProgress } from '@/src/types';
 
+const previewClubId = 'club-example-001';
 const previewSquadId = 'squad-example-juniors';
 const { progressReadRepository } = getRepositoryProvider();
 
@@ -26,7 +27,7 @@ export function AthleteBoathouseShellScreen() {
       setHasError(false);
 
       try {
-        const boathouseProgress = await progressReadRepository.getBoathouseProgress(previewSquadId);
+        const boathouseProgress = await progressReadRepository.getBoathouseProgress(previewClubId, previewSquadId);
 
         if (!isMounted) {
           return;

@@ -77,7 +77,11 @@ export function CoachVerificationQueueShellScreen() {
         const submissionGroups = await Promise.all(
           athletes.map(async (athlete) => ({
             athlete,
-            submissions: await submissionReadRepository.listSubmissionsForAthlete(athlete.id),
+            submissions: await submissionReadRepository.listSubmissionsForAthlete(
+              previewClubId,
+              previewSquadId,
+              athlete.id,
+            ),
           })),
         );
 

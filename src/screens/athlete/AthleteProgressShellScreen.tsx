@@ -13,6 +13,7 @@ import { theme } from '@/src/constants/theme';
 import { getRepositoryProvider } from '@/src/services/repositories/repositoryProvider';
 import type { RiverMapProgress, SquadMission, SquadMissionProgress } from '@/src/types';
 
+const previewClubId = 'club-example-001';
 const previewSquadId = 'squad-example-juniors';
 const { progressReadRepository } = getRepositoryProvider();
 
@@ -37,9 +38,9 @@ export function AthleteProgressShellScreen() {
 
       try {
         const [squadMission, squadMissionProgress, riverMapProgress] = await Promise.all([
-          progressReadRepository.getSquadMission(previewSquadId),
-          progressReadRepository.getSquadMissionProgress(previewSquadId),
-          progressReadRepository.getRiverMapProgress(previewSquadId),
+          progressReadRepository.getSquadMission(previewClubId, previewSquadId),
+          progressReadRepository.getSquadMissionProgress(previewClubId, previewSquadId),
+          progressReadRepository.getRiverMapProgress(previewClubId, previewSquadId),
         ]);
 
         if (!isMounted) {
