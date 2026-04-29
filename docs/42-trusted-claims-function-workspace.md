@@ -13,6 +13,12 @@ Step 35 adds a minimal Firebase Functions TypeScript workspace for future truste
 
 No function is deployed, no custom claim is set, and no live role assignment endpoint exists.
 
+## Repository Hygiene
+
+The functions workspace should keep only source, package metadata, and TypeScript config in git. `functions/node_modules/` is local dependency install output and must not be committed. `functions/lib/` is generated build output and must not be committed.
+
+Local functions environment and runtime files such as `functions/.env`, `functions/.env.local`, `functions/.env.*.local`, and `functions/.runtimeconfig.json` must also stay out of git. This workspace is still not deployed, and it still does not set custom claims.
+
 ## Why A Server Workspace Is Needed
 
 DRIVE role claims decide who may eventually access athlete or coach areas involving junior training context, private PM5 evidence, coach judgement, and reward-sensitive progress.

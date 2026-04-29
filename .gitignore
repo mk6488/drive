@@ -4,7 +4,12 @@ node_modules/
 dist/
 build/
 coverage/
+functions/node_modules/
 functions/lib/
+functions/.runtimeconfig.json
+functions/.env
+functions/.env.local
+functions/.env.*.local
 .env
 .env.local
 .env.*.local
