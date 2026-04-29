@@ -88,6 +88,10 @@ function getAthleteAreaDecision(
 ): RouteAccessDecision {
   const user = getSessionUser(session);
 
+  if (session?.status === 'incomplete') {
+    return baseDecision(session, 'athlete', 'incomplete-claims', false);
+  }
+
   if (!user) {
     return baseDecision(session, 'athlete', 'unauthenticated-future-protected-area', false);
   }
@@ -112,6 +116,10 @@ function getCoachAreaDecision(
   options: RouteAccessOptions,
 ): RouteAccessDecision {
   const user = getSessionUser(session);
+
+  if (session?.status === 'incomplete') {
+    return baseDecision(session, 'coach', 'incomplete-claims', false);
+  }
 
   if (!user) {
     return baseDecision(session, 'coach', 'unauthenticated-future-protected-area', false);

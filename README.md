@@ -77,6 +77,7 @@ Future work must read these documents before implementation:
 - `docs/37-repository-provider-mode-foundation.md`
 - `docs/38-repository-provider-status-preview.md`
 - `docs/39-firebase-connection-status-preview.md`
+- `docs/40-auth-role-claims-diagnostic-foundation.md`
 
 Use `docs/08-definition-of-done.md` before finishing substantive tasks to check scope, safeguarding, architecture boundaries, verification-gated rewards, and final reporting.
 
@@ -161,9 +162,19 @@ This route can be used to check local Firebase config and run an explicit Fireba
 touching live data. The app remains mock backed by default and this preview does not read Firestore, write Firestore,
 test Storage upload, or sign in with Firebase Auth.
 
+Developer auth claims diagnostic preview route:
+
+```bash
+/dev/auth-claims
+```
+
+This route can be used to inspect whether the current Firebase Auth session has complete DRIVE role claims. A signed-in
+test user without role claims should show "Account is not ready for DRIVE access yet". The diagnostic does not assign
+claims, create accounts, protect routes, read Firestore, write Firestore, or upload PM5 evidence.
+
 ## Current Status
 
-This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, Step 19's Firebase app and environment boundary foundation only, Step 20's Firestore rules, indexes, config, and path foundation only, Step 21's Firebase Storage rules and PM5 evidence path foundations only, Step 22's Firebase Auth service foundation and sign in shell only, Step 23's controlled Auth Provider shell only, Step 24's role gate and route access foundation only, Step 25's protected route component foundation only, Step 26's preview-only route boundary wrapping for athlete and coach preview routes, Step 27's lazy Firestore and Storage service helpers only, Step 28's pure Firestore document and domain mapping foundations only, Step 29's disconnected Firestore read repository foundations only, Step 30's repository provider mode foundation only, Step 31's developer-only repository provider status preview only, and Step 32's Firebase connection status preview only.
+This repository currently contains DRIVE guardrails, the Step 2 Expo React Native TypeScript app foundation, the Step 3 static UI shell, Step 4 domain model plus mock repository boundaries, Step 5's mock-backed athlete Today's Quest screen, Step 6's athlete PM5 evidence submission shell preview, Step 7's coach verification queue shell preview, Step 8's shared submission status plus reward gate foundation layer, Step 9's reward rules design foundation, Step 10's submission lifecycle timeline foundation, Step 11's developer-only lifecycle preview harness, Step 12's coach quest builder shell preview, Step 13's static quest template catalogue with a local template picker only, Step 14's preview-only squad mission and River Map progress shell, Step 15's preview-only Boathouse Builder shell, Step 16's mock-backed repository provider foundation only, Step 17's submission and verification command boundary foundation only, Step 18's auth and role boundary foundation only, Step 19's Firebase app and environment boundary foundation only, Step 20's Firestore rules, indexes, config, and path foundation only, Step 21's Firebase Storage rules and PM5 evidence path foundations only, Step 22's Firebase Auth service foundation and sign in shell only, Step 23's controlled Auth Provider shell only, Step 24's role gate and route access foundation only, Step 25's protected route component foundation only, Step 26's preview-only route boundary wrapping for athlete and coach preview routes, Step 27's lazy Firestore and Storage service helpers only, Step 28's pure Firestore document and domain mapping foundations only, Step 29's disconnected Firestore read repository foundations only, Step 30's repository provider mode foundation only, Step 31's developer-only repository provider status preview only, Step 32's Firebase connection status preview only, and Step 33's Firebase Auth role claims diagnostics only.
 
 Step 11 adds `/dev/submission-lifecycle` as a local-state preview for draft, submitted, verified, and rejected lifecycle states only. Real lifecycle actions, reward calculation, and trusted reward/progress writes remain intentionally out of scope.
 
@@ -208,5 +219,7 @@ Step 30 adds explicit repository provider mode selection. Mock remains the defau
 Step 31 adds `/dev/repository-provider` as a developer-only provider status preview. It reports requested mode, active mode, mock fallback, Firebase config completeness, and missing config keys without reading Firestore, writing Firestore, testing Storage, or changing repository provider behaviour.
 
 Step 32 adds `/dev/firebase-status` as a developer-only Firebase connection status preview. It checks local Firebase config completeness and can explicitly test Firebase app initialisation only; it does not read Firestore, write Firestore, upload to Storage, sign in with Auth, protect routes, or switch the app away from the mock-backed provider by default.
+
+Step 33 adds pure Firebase Auth role claim validation helpers, an incomplete signed-in session state for missing DRIVE claims, the auth claims diagnostic panel, and `/dev/auth-claims` as a developer-only diagnostic route. A signed-in Firebase test user without role claims should show "Account is not ready for DRIVE access yet"; the step does not add signup, account creation, claim writing, Firebase Admin SDK, Cloud Functions, protected routes, Firestore reads or writes, Storage upload, real PM5 submission, reward calculation, or progress writes.
 
 Public signup, account creation, PM5 upload workflows, coach verification actions, reward calculation logic, product screen Firebase data access, and future integrations have not been added.

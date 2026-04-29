@@ -1,4 +1,5 @@
 import type { Role } from '@/src/types/role';
+import type { DriveAuthClaimValidationResult } from '@/src/services/auth/authClaims';
 
 export type AuthRole = Role;
 
@@ -38,7 +39,14 @@ export type UnauthenticatedSession = {
   user: null;
 };
 
-export type AuthSession = AuthenticatedSession | UnauthenticatedSession;
+export type IncompleteAuthSession = {
+  status: 'incomplete';
+  user: null;
+  firebaseUserId: string;
+  claimValidation: DriveAuthClaimValidationResult;
+};
+
+export type AuthSession = AuthenticatedSession | IncompleteAuthSession | UnauthenticatedSession;
 
 export type AuthBoundaryState = {
   session: AuthSession;

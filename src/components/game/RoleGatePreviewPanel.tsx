@@ -22,6 +22,10 @@ function getSessionLabel(session: AuthSession) {
     return 'Unauthenticated preview session';
   }
 
+  if (session.status === 'incomplete') {
+    return 'Signed in, but DRIVE claims are incomplete';
+  }
+
   return `${session.user.displayName} (${session.user.role})`;
 }
 

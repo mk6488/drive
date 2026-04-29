@@ -33,6 +33,10 @@ function getSessionStateLabel(session: AuthSession, isLoading: boolean, authErro
     return `${session.user.displayName} (${session.user.role})`;
   }
 
+  if (session.status === 'incomplete') {
+    return 'Signed in, but DRIVE claims are incomplete';
+  }
+
   return 'Unauthenticated session';
 }
 

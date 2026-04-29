@@ -25,6 +25,10 @@ function getStatusLabel(session: AuthSession, isLoading: boolean, authErrorMessa
     return 'Authenticated session';
   }
 
+  if (session.status === 'incomplete') {
+    return 'Incomplete DRIVE claims';
+  }
+
   return 'Unauthenticated session';
 }
 
@@ -41,6 +45,10 @@ function getStatusCopy(session: AuthSession, isLoading: boolean, authErrorMessag
     return `${session.user.displayName} is signed in as ${session.user.role}. This does not enable protected athlete or coach routes yet.`;
   }
 
+  if (session.status === 'incomplete') {
+    return 'Account is not ready for DRIVE access yet. Firebase Auth is signed in, but trusted DRIVE role claims are missing or incomplete.';
+  }
+
   return 'No DRIVE session is active. Preview routes remain open because protected routing is not enabled yet.';
 }
 
@@ -55,6 +63,10 @@ function getStatusTone(session: AuthSession, isLoading: boolean, authErrorMessag
 
   if (session.status === 'authenticated') {
     return 'success';
+  }
+
+  if (session.status === 'incomplete') {
+    return 'attention';
   }
 
   return 'bronze';

@@ -24,6 +24,10 @@ function getRoleLabel(session: AuthSession) {
     return 'Unauthenticated preview';
   }
 
+  if (session.status === 'incomplete') {
+    return 'Incomplete DRIVE claims';
+  }
+
   if (session.user.role === 'admin') {
     return 'Admin future role';
   }

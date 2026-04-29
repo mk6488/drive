@@ -7,6 +7,7 @@ import { Card } from '@/src/components/ui/Card';
 import { Screen } from '@/src/components/ui/Screen';
 import { StatusPill } from '@/src/components/ui/StatusPill';
 import { AuthSessionStatusPanel } from '@/src/components/game/AuthSessionStatusPanel';
+import { AuthClaimsDiagnosticPanel } from '@/src/components/game/AuthClaimsDiagnosticPanel';
 import { theme } from '@/src/constants/theme';
 import { getDriveAuthErrorMessage, incompleteDriveAccessMessage } from '@/src/services/auth/authErrors';
 import { signInWithEmailAndPasswordForDrive } from '@/src/services/auth/authService';
@@ -86,6 +87,26 @@ export function LoginScreen() {
               onPress={handleSignOut}
             />
           </View>
+        ) : session.status === 'incomplete' ? (
+          <View style={styles.stack}>
+            <AppText variant="subtitle">Account is not ready for DRIVE access yet</AppText>
+            <AppText variant="body" colour={theme.colours.mutedInk}>
+              This Firebase Auth user is signed in, but DRIVE role claims are missing or incomplete. Athlete and coach
+              access must wait for trusted role assignment outside this client app.
+            </AppText>
+            {errorMessage ? (
+              <AppText variant="caption" colour={theme.colours.danger}>
+                {errorMessage}
+              </AppText>
+            ) : null}
+            <AppButton
+              title="Sign out"
+              variant="secondary"
+              helperText="Clears this Firebase Auth session only"
+              disabled={isSubmitting || isLoading}
+              onPress={handleSignOut}
+            />
+          </View>
         ) : (
           <View style={styles.stack}>
             <AppText variant="subtitle">Sign in foundation</AppText>
@@ -138,6 +159,10 @@ export function LoginScreen() {
           </View>
         )}
       </Card>
+
+      {session.status === 'authenticated' || session.status === 'incomplete' ? (
+        <AuthClaimsDiagnosticPanel session={session} />
+      ) : null}
     </Screen>
   );
 }

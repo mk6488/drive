@@ -7,19 +7,13 @@ import {
 } from 'firebase/auth';
 
 import type { AuthSession, AuthUser } from '@/src/services/auth/authTypes';
+import { validateDriveAuthClaims } from '@/src/services/auth/authClaims';
+import type { DriveAuthClaimValidationResult } from '@/src/services/auth/authClaims';
 import { getFirebaseAuth } from '@/src/services/firebase/firebaseAuth';
 
 const unauthenticatedSession: AuthSession = {
   status: 'unauthenticated',
   user: null,
-};
-
-type DriveCustomClaims = {
-  role?: unknown;
-  clubId?: unknown;
-  squadIds?: unknown;
-  linkedAthleteId?: unknown;
-  displayName?: unknown;
 };
 
 export async function signInWithEmailAndPasswordForDrive(email: string, password: string): Promise<AuthSession> {
@@ -42,11 +36,17 @@ export async function getDriveAuthSessionFromFirebaseUser(user: User | null): Pr
   }
 
   const tokenResult = await user.getIdTokenResult();
-  const claims = tokenResult.claims as DriveCustomClaims;
-  const authUser = getAuthUserFromClaims(user.uid, claims);
+  const claims = tokenResult.claims;
+  const claimValidation = validateDriveAuthClaims(claims);
+  const authUser = getAuthUserFromClaims(user.uid, claims, claimValidation);
 
   if (!authUser) {
-    return unauthenticatedSession;
+    return {
+      status: 'incomplete',
+      user: null,
+      firebaseUserId: user.uid,
+      claimValidation,
+    };
   }
 
   return {
@@ -63,12 +63,20 @@ export function subscribeToDriveAuthSession(callback: (session: AuthSession) => 
   });
 }
 
-function getAuthUserFromClaims(userId: string, claims: DriveCustomClaims): AuthUser | null {
+function getAuthUserFromClaims(
+  userId: string,
+  claims: Record<string, unknown>,
+  claimValidation: DriveAuthClaimValidationResult,
+): AuthUser | null {
+  if (!claimValidation.canGrantAccess) {
+    return null;
+  }
+
   const displayName = getStringClaim(claims.displayName);
   const clubId = getStringClaim(claims.clubId);
   const squadIds = getStringArrayClaim(claims.squadIds);
 
-  if (!displayName || !squadIds) {
+  if (!displayName) {
     return null;
   }
 
@@ -84,7 +92,7 @@ function getAuthUserFromClaims(userId: string, claims: DriveCustomClaims): AuthU
       role: 'athlete',
       displayName,
       clubId,
-      squadIds,
+      squadIds: squadIds ?? [],
       linkedAthleteId,
     };
   }
@@ -99,17 +107,7 @@ function getAuthUserFromClaims(userId: string, claims: DriveCustomClaims): AuthU
       role: 'coach',
       displayName,
       clubId,
-      squadIds,
-    };
-  }
-
-  if (claims.role === 'admin') {
-    return {
-      userId,
-      role: 'admin',
-      displayName,
-      clubId: clubId || undefined,
-      squadIds,
+      squadIds: squadIds ?? [],
     };
   }
 
