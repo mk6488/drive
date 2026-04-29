@@ -60,6 +60,12 @@ Athletes cannot write `rewardResults`, `athleteProgress`, or `squadProgress`. Co
 
 Reward and progress writes are expected to come later from trusted server workflows, such as Cloud Functions or another server-side process using appropriate privileged credentials. Client UI must not be able to grant arbitrary progress.
 
+## Future Role Assignment Audit Records
+
+Future trusted role assignment may need a server-only audit collection that records who authorised a role assignment, why it was authorised, which user was targeted, and what narrow club or squad scope was granted.
+
+Step 37 does not add that collection, does not write audit records, and does not loosen Firestore rules. Any future audit record storage needs a later explicit server-side rules and workflow step.
+
 ## Deliberately Absent Features
 
 This foundation does not add public profiles, public rankings, public leaderboards, direct messaging, social feeds, or public sharing rules. Those features are absent because they would increase safeguarding risk and are outside the DRIVE: Winter Quest MVP.

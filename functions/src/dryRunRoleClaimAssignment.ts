@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import { createRoleAssignmentAuditDraft, getRoleAssignmentAuditSummary } from './roleAssignmentAudit';
 import { validateClaimAssignmentRequest } from './roleClaimValidation';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -37,6 +38,8 @@ function printDryRunReport(filePath: string, input: unknown) {
   const request = isRecord(input) ? input : {};
   const claims = isRecord(request.claims) ? request.claims : {};
   const validation = validateClaimAssignmentRequest(input);
+  const auditDraft = createRoleAssignmentAuditDraft(input, validation);
+  const auditSummary = getRoleAssignmentAuditSummary(auditDraft);
 
   console.log('DRIVE trusted claims dry run');
   console.log('==============================');
@@ -53,7 +56,22 @@ function printDryRunReport(filePath: string, input: unknown) {
   validation.safetyMessages.forEach((message) => {
     console.log(`- ${message}`);
   });
+  console.log('Audit trail planning:');
+  console.log(`Audit status: ${auditSummary.auditStatus}`);
+  console.log(`Target user id: ${formatValue(auditSummary.targetUserId)}`);
+  console.log(`Trusted actor id: ${formatValue(auditSummary.trustedActorId)}`);
+  console.log(`Audit reason: ${formatValue(auditSummary.auditReason)}`);
+  console.log(`Requested role: ${formatValue(auditSummary.requestedRole)}`);
+  console.log('Proposed claim scope:');
+  console.log(formatValue(auditSummary.proposedClaimScope));
+  console.log('Safety checklist summary:');
+  auditSummary.safetyChecklistSummary.forEach((message) => {
+    console.log(`- ${message}`);
+  });
+  console.log(`Audit record written: ${auditSummary.auditRecordWasWritten ? 'yes' : 'no'}`);
+  console.log(`Custom claims set: ${auditSummary.customClaimsWereSet ? 'yes' : 'no'}`);
   console.log('Result: no Firebase custom claims were set.');
+  console.log('Result: no role assignment audit record was written.');
   console.log('Firebase Admin was not initialised, and no Firestore data was read or written.');
 }
 
