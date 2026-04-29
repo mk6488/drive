@@ -1,4 +1,10 @@
 export { firebaseConfig, getMissingFirebaseConfigKeys, isFirebaseConfigComplete } from './firebaseConfig';
+export {
+  checkFirebaseAppInitialisation,
+  getFirebaseConnectionStatus,
+  type FirebaseAppInitialisationCheck,
+  type FirebaseConnectionStatus,
+} from './firebaseConnectionStatus';
 export { getFirebaseApp } from './firebaseApp';
 export { getFirebaseAuth } from './firebaseAuth';
 export { getDriveFirestore } from './firebaseFirestore';
