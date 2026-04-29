@@ -1,5 +1,10 @@
+import { ProtectedRouteBoundary } from '@/src/components/auth/ProtectedRouteBoundary';
 import { AthleteProgressShellScreen } from '@/src/screens/athlete/AthleteProgressShellScreen';
 
 export default function AthleteProgressRoute() {
-  return <AthleteProgressShellScreen />;
+  return (
+    <ProtectedRouteBoundary area="athlete" previewModeEnabled={true}>
+      <AthleteProgressShellScreen />
+    </ProtectedRouteBoundary>
+  );
 }

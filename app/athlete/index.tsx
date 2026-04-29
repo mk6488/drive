@@ -1,5 +1,10 @@
+import { ProtectedRouteBoundary } from '@/src/components/auth/ProtectedRouteBoundary';
 import { AthleteTodaysQuestScreen } from '@/src/screens/athlete/AthleteTodaysQuestScreen';
 
 export default function AthleteIndex() {
-  return <AthleteTodaysQuestScreen />;
+  return (
+    <ProtectedRouteBoundary area="athlete" previewModeEnabled={true}>
+      <AthleteTodaysQuestScreen />
+    </ProtectedRouteBoundary>
+  );
 }

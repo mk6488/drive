@@ -54,7 +54,7 @@ function getAreaLabel(area: DriveAppArea) {
 }
 
 function getDecisionLabel(decision: RouteAccessDecision) {
-  return decision.isAllowed ? 'Decision: described as allowed' : 'Decision: not authorised';
+  return decision.isAllowed ? 'Preview: allowed later' : 'Preview: not authorised later';
 }
 
 function getDecisionTone(decision: RouteAccessDecision) {
@@ -74,9 +74,9 @@ export function ProtectedRouteStatusPanel({
       <View style={styles.header}>
         <View style={styles.titleGroup}>
           <AppText variant="eyebrow" colour={theme.colours.bronze}>
-            Protected route preview
+            Preview-only route boundary
           </AppText>
-          <AppText variant="subtitle">Route boundary status</AppText>
+          <AppText variant="subtitle">Future access status</AppText>
         </View>
         <StatusPill label={getDecisionLabel(decision)} tone={getDecisionTone(decision)} />
       </View>
@@ -107,9 +107,8 @@ export function ProtectedRouteStatusPanel({
       </AppText>
 
       <AppText variant="caption" colour={theme.colours.mutedInk}>
-        Route protection is not enabled yet. Preview mode is {previewModeEnabled ? 'on' : 'off'}, but this foundation
-        still does not redirect, hide children, mutate navigation, read Firestore, write Firestore, or enforce protected
-        access.
+        Preview mode is {previewModeEnabled ? 'on' : 'off'}: screens stay visible. No redirects, hidden children,
+        navigation changes, Firestore access, or protected-route enforcement are enabled.
       </AppText>
     </Card>
   );
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
     gap: theme.spacing.xs,
   },
   detailGrid: {
-    gap: theme.spacing.md,
+    gap: theme.spacing.sm,
   },
   detailItem: {
     gap: theme.spacing.xs,
