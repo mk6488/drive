@@ -125,7 +125,8 @@ export function AuthClaimsDiagnosticPanel({ session }: AuthClaimsDiagnosticPanel
         <AppText variant="label">Trusted assignment boundary</AppText>
         <AppText variant="body" colour={theme.colours.mutedInk}>
           DRIVE role claims must be assigned later by a trusted admin process outside this client app. This app does not
-          assign claims, create accounts, set custom claims, or grant access when claims are missing.
+          assign claims, create accounts, set custom claims, or grant access when claims are missing. Missing role claims
+          must be assigned by a future trusted process, not from the client app.
         </AppText>
       </View>
     </Card>
