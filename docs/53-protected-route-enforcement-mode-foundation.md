@@ -44,6 +44,9 @@ Enforced mode can block unauthorised children inside wrapped athlete and coach r
 
 This step does not turn local development or normal preview routes into enforced routes by default.
 
+Step 47 recorded the first manual protected route test in `docs/54-protected-route-manual-test-results.md`. That test
+confirms the expected difference between preview messaging and enforced blocking, but it does not change the default mode.
+
 ## Why Redirects Are Still Out Of Scope
 
 Redirects would introduce navigation policy, destination choices, unauthorised state design, and edge cases around loading or incomplete claims. Those decisions need a later explicit step.
