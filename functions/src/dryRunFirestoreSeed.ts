@@ -37,6 +37,7 @@ function printDryRunReport() {
   console.log('Safety result: no Firestore reads were performed.');
   console.log('Safety result: no Firebase Admin write happened.');
   console.log('Safety result: Firebase Admin was not initialised.');
+  console.log('Safety result: apply:seed exists as a separate guarded workflow and was not run.');
   console.log('Safety result: no real junior data is included.');
   console.log('Safety result: no real club private data is included.');
   console.log('Safety result: submitted seed submissions omit review fields until coach review exists.');

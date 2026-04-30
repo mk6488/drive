@@ -149,7 +149,7 @@ export function createFirestoreSeedPlan(seedData: FirestoreSeedData): FirestoreS
       'Dry run only: no Firestore reads are performed.',
       'Firebase Admin is not initialised by this seed plan.',
       'Use fake example data only; do not add real junior, parent, Firebase UID, or club-private data.',
-      'Live seed application is deliberately not implemented.',
+      'Live seed application is guarded by apply:seed and must not run without explicit approval.',
     ],
     noFirestoreWrites: true,
     noFirestoreReads: true,

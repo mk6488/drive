@@ -45,11 +45,11 @@ Submitted seed submissions should omit `reviewedByUserId`, `reviewedAt`, and `co
 
 This keeps fake seed data aligned with the current Firestore mapper and domain model, where review fields are optional before a submission is verified or rejected.
 
-## Why Live Seed Application Is Out Of Scope
+## Live Seed Application Status
 
-Live seed application would be a privileged operational workflow. It needs explicit approval, Firestore rules review, data ownership checks, audit expectations, and a clear decision about whether test data may be written to a Firebase project.
+Live seed application is a privileged operational workflow. It needs explicit approval, Firestore rules review, data ownership checks, audit expectations, and a clear decision about whether test data may be written to a Firebase project.
 
-This foundation deliberately avoids `seed:apply`, `seed:live`, and any other script that could write Firestore.
+Step 48 did not add a write-capable seed script and did not write Firestore. Step 49 later added `apply:seed` as a separate guarded foundation only; it must not be run casually and remains blocked unless every live safety gate is explicitly satisfied.
 
 ## Repository Provider Status
 
@@ -64,7 +64,7 @@ Firestore rules deployment and testing remain separate future work. The dry-run 
 Future agents must not infer from this foundation that:
 
 - Firestore seed data has been written.
-- Live seed scripts are approved.
+- Live seed scripts are approved for casual use.
 - Firebase Admin should be initialised by seed dry runs.
 - The app should switch to Firebase repository mode.
 - Firestore reads or writes are approved.
@@ -75,4 +75,4 @@ Future agents must not infer from this foundation that:
 
 ## Deliberately Out Of Scope
 
-This step intentionally excludes deployment, Firestore reads, Firestore writes, live seed application, Firebase Admin initialisation for seed dry runs, user creation, custom claim setting, running `apply:claims`, enabling `DRIVE_CLAIMS_LIVE_APPLY`, repository provider switching, Firebase Storage upload, PM5 upload, submit actions, approve or reject actions, reward calculation, reward result writes, athlete progress writes, squad progress writes, leaderboards, OCR, Concept2 API, live PM5 Bluetooth, Unity, Godot, messaging, and social features.
+This step intentionally excludes deployment, Firestore reads, Firestore writes, running live seed application, Firebase Admin initialisation for seed dry runs, user creation, custom claim setting, running `apply:claims`, enabling `DRIVE_CLAIMS_LIVE_APPLY`, repository provider switching, Firebase Storage upload, PM5 upload, submit actions, approve or reject actions, reward calculation, reward result writes, athlete progress writes, squad progress writes, leaderboards, OCR, Concept2 API, live PM5 Bluetooth, Unity, Godot, messaging, and social features.
