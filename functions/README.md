@@ -24,7 +24,15 @@ Dry run output is validation only. It can say that no claims were set and Fireba
 
 The seed dry run prints planned document paths, document types, validation messages, and safety warnings. It does not initialise Firebase Admin, does not read Firestore, does not write Firestore, does not create users, and does not upload PM5 evidence. No real junior data, real Firebase UIDs, parent details, service account data, or real club private data should ever be used in seed definitions or local seed input files.
 
-Live seed application is not implemented yet. Do not add or run `seed:apply`, `seed:live`, or any script that writes Firestore without a later explicit approval step. Firebase repository mode is also not enabled by this dry run; the app remains mock backed by default.
+## Guarded Firestore Seed Apply Foundation
+
+A guarded seed apply script foundation now exists at `src/applyFirestoreSeed.ts`, with the npm entry `npm run apply:seed -- <path-to-local-seed-apply-json>`.
+
+Do not run it casually. It refuses to write unless the operator passes a JSON file path, `DRIVE_FIRESTORE_SEED_APPLY=true` is set in the local runtime, the input confirmation phrase is exactly `APPLY_DRIVE_FIRESTORE_SEED`, the requested apply mode is `live`, the seed plan validates, the safety gate allows apply, and the input includes a trusted actor id, audit reason, and environment name.
+
+No live seed apply has been run yet. Only fake example data for `example-club`, `example-j15-squad`, and `example-athlete` is allowed at this stage. The committed `samples/firestore-seed.example.json` file is a fake shape example only; real local seed inputs must stay ignored in `functions/seed-inputs/` or local `*.seed.local.json` files and must never contain credentials, real junior data, real Firebase UIDs, or real club private data.
+
+The dry run remains safe and write free. `npm run dryrun:seed` must not initialise Firebase Admin, read Firestore, write Firestore, or require service account files. Firebase repository mode is also not enabled by either seed script; the app remains mock backed by default.
 
 ## Firebase Admin Readiness Check
 

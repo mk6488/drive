@@ -1,0 +1,7 @@
+{
+  "trustedActorId": "example-trusted-actor",
+  "auditReason": "Example Firestore seed apply rehearsal only",
+  "confirmationPhrase": "APPLY_DRIVE_FIRESTORE_SEED",
+  "requestedApplyMode": "live",
+  "environmentName": "example-local-seed-rehearsal"
+}
