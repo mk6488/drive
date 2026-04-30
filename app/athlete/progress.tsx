@@ -3,7 +3,7 @@ import { AthleteProgressShellScreen } from '@/src/screens/athlete/AthleteProgres
 
 export default function AthleteProgressRoute() {
   return (
-    <ProtectedRouteBoundary area="athlete" previewModeEnabled={true}>
+    <ProtectedRouteBoundary area="athlete">
       <AthleteProgressShellScreen />
     </ProtectedRouteBoundary>
   );

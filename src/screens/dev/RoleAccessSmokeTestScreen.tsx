@@ -12,11 +12,13 @@ import {
   getExpectedAccessSummaryForRole,
   getRoleAccessSmokeTestResults,
 } from '@/src/services/auth/roleAccessSmokeTest';
+import { getRouteProtectionModeStatus } from '@/src/services/auth/routeProtectionMode';
 
 export function RoleAccessSmokeTestScreen() {
   const { session, isLoading, authErrorMessage } = useDriveAuth();
   const smokeTest = useMemo(() => getRoleAccessSmokeTestResults(session), [session]);
   const expectedSummary = useMemo(() => getExpectedAccessSummaryForRole(smokeTest.role), [smokeTest.role]);
+  const routeProtectionModeStatus = useMemo(() => getRouteProtectionModeStatus(), []);
 
   return (
     <Screen>
@@ -39,6 +41,14 @@ export function RoleAccessSmokeTestScreen() {
         <AppText variant="subtitle">Current auth provider state</AppText>
         <AppText variant="body" colour={theme.colours.mutedInk}>
           Auth provider check: {isLoading ? 'checking current Firebase Auth state' : 'current state loaded'}.
+        </AppText>
+        <AppText variant="body" colour={theme.colours.mutedInk}>
+          Route protection mode: {routeProtectionModeStatus.activeRouteProtectionMode}. Enforcement active:{' '}
+          {routeProtectionModeStatus.isEnforcementActive ? 'yes' : 'no'}.
+        </AppText>
+        <AppText variant="caption" colour={theme.colours.mutedInk}>
+          Preview mode leaves wrapped route children visible. Enforced mode can block unauthorised wrapped children but
+          still does not redirect or change public and developer routes.
         </AppText>
         {authErrorMessage ? (
           <AppText variant="caption" colour={theme.colours.danger}>

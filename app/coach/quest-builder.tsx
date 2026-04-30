@@ -3,7 +3,7 @@ import { CoachQuestBuilderShellScreen } from '@/src/screens/coach/CoachQuestBuil
 
 export default function CoachQuestBuilderRoute() {
   return (
-    <ProtectedRouteBoundary area="coach" previewModeEnabled={true}>
+    <ProtectedRouteBoundary area="coach">
       <CoachQuestBuilderShellScreen />
     </ProtectedRouteBoundary>
   );

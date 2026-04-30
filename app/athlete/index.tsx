@@ -3,7 +3,7 @@ import { AthleteTodaysQuestScreen } from '@/src/screens/athlete/AthleteTodaysQue
 
 export default function AthleteIndex() {
   return (
-    <ProtectedRouteBoundary area="athlete" previewModeEnabled={true}>
+    <ProtectedRouteBoundary area="athlete">
       <AthleteTodaysQuestScreen />
     </ProtectedRouteBoundary>
   );

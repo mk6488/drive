@@ -10,6 +10,7 @@ import {
   type DriveAppArea,
   type RouteAccessDecision,
 } from '@/src/services/auth/routeAccess';
+import type { getRouteProtectionModeStatus } from '@/src/services/auth/routeProtectionMode';
 
 type ProtectedRouteStatusPanelProps = {
   session: AuthSession;
@@ -18,6 +19,7 @@ type ProtectedRouteStatusPanelProps = {
   area: DriveAppArea;
   decision: RouteAccessDecision;
   previewModeEnabled: boolean;
+  routeProtectionModeStatus: ReturnType<typeof getRouteProtectionModeStatus>;
 };
 
 function getSessionStateLabel(session: AuthSession, isLoading: boolean, authErrorMessage?: string | null) {
@@ -61,8 +63,44 @@ function getDecisionLabel(decision: RouteAccessDecision) {
   return decision.isAllowed ? 'Preview: allowed later' : 'Preview: not authorised later';
 }
 
-function getDecisionTone(decision: RouteAccessDecision) {
+function getDecisionLabelForMode(decision: RouteAccessDecision, isEnforcementActive: boolean, previewModeEnabled: boolean) {
+  if (previewModeEnabled) {
+    return decision.isAllowed ? 'Preview: allowed later' : 'Preview: not authorised later';
+  }
+
+  if (isEnforcementActive) {
+    return decision.isAllowed ? 'Enforced: allowed' : 'Enforced: blocked';
+  }
+
+  return getDecisionLabel(decision);
+}
+
+function getDecisionTone(decision: RouteAccessDecision, previewModeEnabled: boolean) {
+  if (!previewModeEnabled && !decision.isAllowed) {
+    return 'attention';
+  }
+
   return decision.isAllowed ? 'success' : 'attention';
+}
+
+function formatBoolean(value: boolean) {
+  return value ? 'Yes' : 'No';
+}
+
+function formatMode(mode: string) {
+  return mode === 'enforced' ? 'Enforced' : 'Preview';
+}
+
+function getRequestedModeCopy(routeProtectionModeStatus: ReturnType<typeof getRouteProtectionModeStatus>) {
+  if (routeProtectionModeStatus.hasInvalidModeValue) {
+    return `${formatMode(routeProtectionModeStatus.requestedRouteProtectionMode)} (invalid env value fell back to preview)`;
+  }
+
+  if (!routeProtectionModeStatus.rawRequestedMode) {
+    return 'Preview (env value is unset)';
+  }
+
+  return formatMode(routeProtectionModeStatus.requestedRouteProtectionMode);
 }
 
 export function ProtectedRouteStatusPanel({
@@ -72,6 +110,7 @@ export function ProtectedRouteStatusPanel({
   area,
   decision,
   previewModeEnabled,
+  routeProtectionModeStatus,
 }: ProtectedRouteStatusPanelProps) {
   return (
     <Card>
@@ -82,7 +121,14 @@ export function ProtectedRouteStatusPanel({
           </AppText>
           <AppText variant="subtitle">Future access status</AppText>
         </View>
-        <StatusPill label={getDecisionLabel(decision)} tone={getDecisionTone(decision)} />
+        <StatusPill
+          label={getDecisionLabelForMode(
+            decision,
+            routeProtectionModeStatus.isEnforcementActive,
+            previewModeEnabled,
+          )}
+          tone={getDecisionTone(decision, previewModeEnabled)}
+        />
       </View>
 
       <View style={styles.detailGrid}>
@@ -104,6 +150,24 @@ export function ProtectedRouteStatusPanel({
           </AppText>
           <AppText variant="body">{decision.reason}</AppText>
         </View>
+        <View style={styles.detailItem}>
+          <AppText variant="caption" colour={theme.colours.mutedInk}>
+            Requested route protection mode
+          </AppText>
+          <AppText variant="body">{getRequestedModeCopy(routeProtectionModeStatus)}</AppText>
+        </View>
+        <View style={styles.detailItem}>
+          <AppText variant="caption" colour={theme.colours.mutedInk}>
+            Active route protection mode
+          </AppText>
+          <AppText variant="body">{formatMode(routeProtectionModeStatus.activeRouteProtectionMode)}</AppText>
+        </View>
+        <View style={styles.detailItem}>
+          <AppText variant="caption" colour={theme.colours.mutedInk}>
+            Enforcement active
+          </AppText>
+          <AppText variant="body">{formatBoolean(routeProtectionModeStatus.isEnforcementActive)}</AppText>
+        </View>
       </View>
 
       <AppText variant="body" colour={theme.colours.mutedInk}>
@@ -111,8 +175,9 @@ export function ProtectedRouteStatusPanel({
       </AppText>
 
       <AppText variant="caption" colour={theme.colours.mutedInk}>
-        Preview mode is {previewModeEnabled ? 'on' : 'off'}: screens stay visible. No redirects, hidden children,
-        navigation changes, Firestore access, or protected-route enforcement are enabled.
+        Preview mode is {previewModeEnabled ? 'on' : 'off'}: preview leaves children visible. Enforced mode can block
+        unauthorised children inside wrapped routes only, but still does not redirect, hide public or developer routes,
+        change navigation, read Firestore, or write Firestore.
       </AppText>
     </Card>
   );

@@ -3,7 +3,7 @@ import { AthleteSubmissionShellScreen } from '@/src/screens/athlete/AthleteSubmi
 
 export default function AthleteSubmissionRoute() {
   return (
-    <ProtectedRouteBoundary area="athlete" previewModeEnabled={true}>
+    <ProtectedRouteBoundary area="athlete">
       <AthleteSubmissionShellScreen />
     </ProtectedRouteBoundary>
   );

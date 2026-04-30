@@ -3,7 +3,7 @@ import { CoachHomePlaceholderScreen } from '@/src/screens/coach/CoachHomePlaceho
 
 export default function CoachIndex() {
   return (
-    <ProtectedRouteBoundary area="coach" previewModeEnabled={true}>
+    <ProtectedRouteBoundary area="coach">
       <CoachHomePlaceholderScreen />
     </ProtectedRouteBoundary>
   );

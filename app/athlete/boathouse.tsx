@@ -3,7 +3,7 @@ import { AthleteBoathouseShellScreen } from '@/src/screens/athlete/AthleteBoatho
 
 export default function AthleteBoathouseRoute() {
   return (
-    <ProtectedRouteBoundary area="athlete" previewModeEnabled={true}>
+    <ProtectedRouteBoundary area="athlete">
       <AthleteBoathouseShellScreen />
     </ProtectedRouteBoundary>
   );

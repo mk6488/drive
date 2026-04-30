@@ -3,7 +3,7 @@ import { CoachVerificationQueueShellScreen } from '@/src/screens/coach/CoachVeri
 
 export default function CoachVerificationQueueRoute() {
   return (
-    <ProtectedRouteBoundary area="coach" previewModeEnabled={true}>
+    <ProtectedRouteBoundary area="coach">
       <CoachVerificationQueueShellScreen />
     </ProtectedRouteBoundary>
   );
