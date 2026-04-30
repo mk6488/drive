@@ -24,6 +24,14 @@ Dry run output is validation only. It can say that no claims were set and Fireba
 
 The seed dry run prints planned document paths, document types, validation messages, and safety warnings. It does not initialise Firebase Admin, does not read Firestore, does not write Firestore, does not create users, and does not upload PM5 evidence. No real junior data, real Firebase UIDs, parent details, service account data, or real club private data should ever be used in seed definitions or local seed input files.
 
+## Firestore Seed Verification Read
+
+`npm run verify:seed` builds the functions workspace and reads the expected fake Firestore seed document paths for `example-club`, `example-j15-squad`, and `example-athlete` only.
+
+Use it after a deliberately approved fake seed apply to confirm that the planned fake club, squad, athlete, quest, submission, athlete progress, and squad progress documents exist and still match the expected fake ids. The command uses Firebase Admin only inside the local functions script when the command is run.
+
+`npm run verify:seed` is read only. It does not write Firestore data, delete Firestore data, mutate seeded documents, set Firebase custom claims, create users, upload PM5 evidence, run reward processing, or connect the app to Firestore. The app repository provider remains mock backed until a later explicit step changes that boundary.
+
 ## Guarded Firestore Seed Apply Foundation
 
 A guarded seed apply script foundation now exists at `src/applyFirestoreSeed.ts`, with the npm entry `npm run apply:seed -- <path-to-local-seed-apply-json>`.
@@ -32,7 +40,7 @@ Do not run it casually. It refuses to write unless the operator passes a JSON fi
 
 No live seed apply has been run yet. Only fake example data for `example-club`, `example-j15-squad`, and `example-athlete` is allowed at this stage. The committed `samples/firestore-seed.example.json` file is a fake shape example only; real local seed inputs must stay ignored in `functions/seed-inputs/` or local `*.seed.local.json` files and must never contain credentials, real junior data, real Firebase UIDs, or real club private data.
 
-The dry run remains safe and write free. `npm run dryrun:seed` must not initialise Firebase Admin, read Firestore, write Firestore, or require service account files. Firebase repository mode is also not enabled by either seed script; the app remains mock backed by default.
+The dry run remains safe and write free. `npm run dryrun:seed` must not initialise Firebase Admin, read Firestore, write Firestore, or require service account files. `npm run apply:seed` writes fake seed data only when explicitly enabled and all safety gates pass. `npm run verify:seed` reads fake seeded documents to confirm they exist, but it must not write or delete Firestore data. Firebase repository mode is also not enabled by any seed command; the app remains mock backed by default.
 
 ## Firebase Admin Readiness Check
 

@@ -14,6 +14,7 @@
     "dryrun:athlete": "npm run build && node lib/dryRunRoleClaimAssignment.js samples/athlete-claim.dry-run.json",
     "dryrun:incomplete": "npm run build && node lib/dryRunRoleClaimAssignment.js samples/incomplete-claim.dry-run.json",
     "dryrun:seed": "npm run build && node lib/dryRunFirestoreSeed.js",
+    "verify:seed": "npm run build && node lib/verifyFirestoreSeed.js",
     "admin:check": "npm run build && node lib/checkFirebaseAdminReadiness.js",
     "apply:claims": "node lib/applyRoleClaimAssignment.js",
     "apply:seed": "node lib/applyFirestoreSeed.js"
