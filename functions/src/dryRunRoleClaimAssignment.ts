@@ -55,7 +55,7 @@ function printDryRunReport(filePath: string, input: unknown) {
   const request = isRecord(input) ? input : {};
   const claims = isRecord(request.claims) ? request.claims : {};
   const validation = validateClaimAssignmentRequest(input);
-  const auditDraft = createRoleAssignmentAuditDraft(input, validation);
+  const auditDraft = createRoleAssignmentAuditDraft(input, validation, 'dryRun');
   const auditSummary = getRoleAssignmentAuditSummary(auditDraft);
   const safetyGate = evaluateClaimApplySafetyGate({
     validationResult: validation,

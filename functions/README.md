@@ -16,6 +16,8 @@ Each dry run builds the TypeScript workspace, reads a local sample JSON file, va
 
 No Firebase Admin SDK claim setting happens here. The dry run does not call `setCustomUserClaims`, does not create users, does not read Firestore, and does not write Firestore.
 
+Dry run output is validation only. It can say that no claims were set and Firebase Admin was not initialised because the dry run path never performs live execution.
+
 ## Firebase Admin Readiness Check
 
 `npm run admin:check` builds the functions workspace and runs a local Firebase Admin credential readiness diagnostic only. It attempts Firebase Admin initialisation through the existing trusted Admin boundary and reports whether local credentials are available, plus the project id if it can be resolved safely.
@@ -33,6 +35,8 @@ A guarded live apply script foundation now exists at `src/applyRoleClaimAssignme
 Do not run it casually. It refuses to apply unless the operator passes a JSON file path, `DRIVE_CLAIMS_LIVE_APPLY=true` is set in the local runtime, the input confirmation phrase is exactly `APPLY_DRIVE_ROLE_CLAIMS`, the requested apply mode is `live`, validation passes, an audit draft can be created, and the safety gate allows apply. `adminFuture` remains blocked.
 
 Step 42 implements the guarded Firebase Admin custom claim setting path behind those gates. Dry run output and a blocked rehearsal must always be reviewed before any real apply. Real credentials must stay local and ignored; do not commit service account files or local live inputs. The client app still cannot assign roles, promote users, or set custom claims.
+
+Live apply output has a separate final execution result that says whether claims were set or were not set because the run was blocked or failed. Audit records are still not written yet; claim setting and audit writing are separate concerns until a later approved audit persistence step.
 
 ## Local Live Input Hygiene
 

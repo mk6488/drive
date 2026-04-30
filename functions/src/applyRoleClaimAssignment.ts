@@ -119,6 +119,18 @@ function getLiveApplyBlockReasons(
   return Array.from(new Set(blockReasons));
 }
 
+function getExecutionBlockedReason(liveApplyBlockReasons: readonly LiveApplyBlockReason[], claimsToApply: DriveCustomClaims | null) {
+  if (liveApplyBlockReasons.length > 0) {
+    return 'the live apply run was blocked';
+  }
+
+  if (!claimsToApply) {
+    return 'the proposed claims could not be built for a live apply role';
+  }
+
+  return 'the live apply run failed';
+}
+
 function buildClaimsForLiveApply(input: unknown): DriveCustomClaims | null {
   const claims = getClaims(input);
 
@@ -184,9 +196,19 @@ async function runLiveApply(filePath: string) {
   console.log(formatValue(claims));
   console.log(`Validation missing fields: ${formatList(validation.missingFields)}`);
   console.log(`Validation invalid fields: ${formatList(validation.invalidFields)}`);
-  console.log('Audit draft summary:');
-  console.log(formatValue(auditSummary));
-  console.log('Safety gate:');
+  console.log('Planned audit summary:');
+  console.log(`Audit record written: ${auditSummary.auditRecordWasWritten ? 'yes' : 'no'}`);
+  console.log(`Audit status: ${auditSummary.auditStatus}`);
+  console.log(`Proposed role: ${formatValue(auditSummary.requestedRole)}`);
+  console.log('Proposed claim scope:');
+  console.log(formatValue(auditSummary.proposedClaimScope));
+  console.log(`Trusted actor id: ${formatValue(auditSummary.trustedActorId)}`);
+  console.log(`Audit reason: ${formatValue(auditSummary.auditReason)}`);
+  console.log('Planned audit checklist:');
+  auditSummary.safetyChecklistSummary.forEach((message) => {
+    console.log(`- ${message}`);
+  });
+  console.log('Safety gate result:');
   console.log(`Status: ${safetyGate.status}`);
   console.log(`Can apply claims now: ${safetyGate.canApplyClaimsNow ? 'yes' : 'no'}`);
   console.log(`Block reasons: ${formatList(safetyGate.blockReasons)}`);
@@ -194,12 +216,16 @@ async function runLiveApply(filePath: string) {
   console.log(`Live apply block reasons: ${formatList(liveApplyBlockReasons)}`);
 
   if (liveApplyBlockReasons.length > 0 || !claimsToApply) {
+    console.log('Execution result:');
+    console.log(`Claims were not set because ${getExecutionBlockedReason(liveApplyBlockReasons, claimsToApply)}.`);
     console.log('Result: blocked. No Firebase custom claims were set.');
     process.exitCode = 1;
     return;
   }
 
   await applyDriveCustomClaims(String(request.targetUserId).trim(), claimsToApply);
+  console.log('Execution result:');
+  console.log('Claims were set for the target user.');
   console.log('Result: Firebase custom claims were set for the target user.');
 }
 
@@ -218,7 +244,8 @@ async function main() {
   } catch (error) {
     console.error('Unable to run trusted claims live apply foundation.');
     console.error(error instanceof Error ? error.message : String(error));
-    console.error('Result: blocked or failed. No further Firebase custom claim action was attempted.');
+    console.error('Execution result: claims were not set because the run failed before a successful apply result was reported.');
+    console.error('Result: blocked or failed. No Firebase custom claims were confirmed as set.');
     process.exitCode = 1;
   }
 }

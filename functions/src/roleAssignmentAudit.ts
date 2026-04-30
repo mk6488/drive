@@ -75,6 +75,8 @@ export type RoleAssignmentAuditSummary = {
   customClaimsWereSet: false;
 };
 
+export type RoleAssignmentAuditReportMode = 'dryRun' | 'liveApplyPlan';
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -126,18 +128,29 @@ function getAuditId(request: Record<string, unknown>, targetUserId: string, role
 export function getRoleAssignmentAuditSafetyChecklist(
   input: unknown,
   validationResult: ClaimAssignmentValidationResult,
+  reportMode: RoleAssignmentAuditReportMode = 'liveApplyPlan',
 ): RoleAssignmentAuditSafetyChecklist {
   const request = getInputRecord(input);
   const claims = getClaimsRecord(input);
   const role = validationResult.role;
   const squadIds = getStringArray(claims.squadIds);
   const hasLinkedAthleteForAthleteRole = role !== 'athlete' || hasText(claims.linkedAthleteId);
+  const executionSummary =
+    reportMode === 'dryRun'
+      ? [
+          'Firebase custom claims were not set.',
+          'Firebase Admin claim setting was avoided.',
+          'No Firestore read or write was performed.',
+          'No service account file is needed for this dry run.',
+        ]
+      : [
+          'Proposed claims are documented for operator review; the caller reports whether claim setting was attempted.',
+          'The audit helper did not initialise Firebase Admin or mutate Firebase Auth.',
+          'The audit helper did not read or write Firestore.',
+        ];
   const summary = [
     'Audit model is planning-only; no audit record was written.',
-    'Firebase custom claims were not set.',
-    'Firebase Admin claim setting was avoided.',
-    'No Firestore read or write was performed.',
-    'No service account file is needed for this dry run.',
+    ...executionSummary,
     hasText(request.trustedActorId)
       ? 'Trusted actor id is present for future review.'
       : 'Trusted actor id is missing; future role assignment must stay blocked.',
@@ -175,6 +188,7 @@ export function getRoleAssignmentAuditSafetyChecklist(
 export function createRoleAssignmentAuditDraft(
   input: unknown,
   validationResult: ClaimAssignmentValidationResult,
+  reportMode: RoleAssignmentAuditReportMode = 'liveApplyPlan',
 ): RoleAssignmentAuditDraft {
   const request = getInputRecord(input);
   const claims = getClaimsRecord(input);
@@ -196,7 +210,7 @@ export function createRoleAssignmentAuditDraft(
     linkedAthleteId: getOptionalText(claims.linkedAthleteId),
     displayName: getOptionalText(claims.displayName),
     proposedClaims: { ...claims },
-    safetyChecklist: getRoleAssignmentAuditSafetyChecklist(input, validationResult),
+    safetyChecklist: getRoleAssignmentAuditSafetyChecklist(input, validationResult, reportMode),
     createdAt: getOptionalText(request.createdAt) ?? 'dry-run-only-not-persisted',
     reviewedAt: getOptionalText(request.reviewedAt),
     appliedAt: null,

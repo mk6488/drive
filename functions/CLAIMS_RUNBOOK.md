@@ -8,6 +8,10 @@ Step 42 implements the guarded Firebase Admin custom claim setting path behind t
 
 Always review the dry run and a blocked rehearsal first. Real credentials must stay local and ignored. Do not add service account files to this workspace, do not commit credentials, and do not involve the client app in role assignment. The client app still cannot assign roles or set custom claims.
 
+Dry run output is validation only: it confirms no custom claims were set, Firebase Admin was not initialised, no Firestore read or write happened, and no audit record was written. Live apply output is different: it has a planned audit summary, a safety gate result, and a separate final execution result that says whether claims were set or not set.
+
+Audit records are still not written yet. Claim setting and audit writing are separate concerns for now, so a successful live apply may set Firebase custom claims without creating a persisted audit record.
+
 ## Firebase Admin Readiness Before Future Live Apply
 
 Before any future live claim apply is approved, the local dry run must pass, the blocked rehearsal must pass, and `npm run admin:check` should pass from the functions workspace. The readiness check confirms local Firebase Admin credential availability only; it does not set claims, read Firestore, write Firestore, create users, or deploy anything.
