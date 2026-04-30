@@ -15,11 +15,19 @@ export function getDriveFirebaseAdminApp(): App {
     return cachedApp;
   }
 
-  // Credentials must be supplied locally through the standard Admin SDK environment,
-  // such as application default credentials. Never commit service account files.
-  cachedApp = initializeApp({
-    credential: applicationDefault(),
-  });
+  try {
+    // Credentials must be supplied locally through the standard Admin SDK environment,
+    // such as application default credentials. Never commit service account files.
+    cachedApp = initializeApp({
+      credential: applicationDefault(),
+    });
+  } catch (error) {
+    throw new Error(
+      `Firebase Admin could not be initialised for DRIVE trusted claim apply. Use standard local Admin SDK credentials only, keep credentials out of git, and do not create service account files in this repository. ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+  }
 
   return cachedApp;
 }

@@ -24,7 +24,7 @@ A guarded live apply script foundation now exists at `src/applyRoleClaimAssignme
 
 Do not run it casually. It refuses to apply unless the operator passes a JSON file path, `DRIVE_CLAIMS_LIVE_APPLY=true` is set in the local runtime, the input confirmation phrase is exactly `APPLY_DRIVE_ROLE_CLAIMS`, the requested apply mode is `live`, validation passes, an audit draft can be created, and the safety gate allows apply. `adminFuture` remains blocked.
 
-Dry run output should always be reviewed first. The client app still cannot assign roles, promote users, or set custom claims.
+Step 42 implements the guarded Firebase Admin custom claim setting path behind those gates. Dry run output and a blocked rehearsal must always be reviewed before any real apply. Real credentials must stay local and ignored; do not commit service account files or local live inputs. The client app still cannot assign roles, promote users, or set custom claims.
 
 ## Local Live Input Hygiene
 

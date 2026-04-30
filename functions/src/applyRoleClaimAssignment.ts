@@ -144,7 +144,7 @@ function buildClaimsForLiveApply(input: unknown): DriveCustomClaims | null {
   return null;
 }
 
-async function setDriveCustomUserClaims(targetUserId: string, claims: DriveCustomClaims) {
+async function applyDriveCustomClaims(targetUserId: string, claims: DriveCustomClaims) {
   await getDriveFirebaseAdminAuth().setCustomUserClaims(targetUserId, claims);
 }
 
@@ -199,7 +199,7 @@ async function runLiveApply(filePath: string) {
     return;
   }
 
-  await setDriveCustomUserClaims(String(request.targetUserId), claimsToApply);
+  await applyDriveCustomClaims(String(request.targetUserId).trim(), claimsToApply);
   console.log('Result: Firebase custom claims were set for the target user.');
 }
 

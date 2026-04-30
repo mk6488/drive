@@ -17,8 +17,7 @@ export type ClaimApplyBlockReason =
   | 'confirmationPhraseMismatch'
   | 'missingRequestedApplyMode'
   | 'requestedApplyModeNotLive'
-  | 'liveApplyEnvironmentNotEnabled'
-  | 'realApplyNotImplemented';
+  | 'liveApplyEnvironmentNotEnabled';
 
 export type ClaimApplySafetyGateInput = {
   validationResult: ClaimAssignmentValidationResult | null;
@@ -154,21 +153,34 @@ export function getClaimApplyChecklist(input: ClaimApplySafetyGateInput): ClaimA
   const hasConfirmationPhrase = hasText(confirmationPhrase);
   const confirmationPhraseMatched = confirmationPhrase === REQUIRED_CLAIM_APPLY_CONFIRMATION_PHRASE;
   const liveApplyEnvironmentEnabled = input.liveApplyEnvironmentEnabled === true;
+  const hasTrustedActorIdValue = hasTrustedActorId(input);
+  const hasAuditReasonValue = hasAuditReason(input);
+  const hasNarrowClubScope = hasClubScope(input);
+  const hasLinkedAthleteIdForAthleteRoleValue = hasLinkedAthleteIdForAthleteRole(input);
+  const adminFutureApplyBlocked = role === 'adminFuture';
   const realApplyExecutionAllowed =
     input.liveApplyExecutionAllowed === true &&
     input.requestedApplyMode === 'live' &&
-    liveApplyEnvironmentEnabled;
+    liveApplyEnvironmentEnabled &&
+    validationPassed &&
+    hasAuditDraft &&
+    hasTrustedActorIdValue &&
+    hasAuditReasonValue &&
+    hasNarrowClubScope &&
+    hasLinkedAthleteIdForAthleteRoleValue &&
+    !adminFutureApplyBlocked &&
+    confirmationPhraseMatched;
   const checklistWithoutSummary = {
     dryRunValidationDisplayAllowed: true,
     validationPassed,
     hasAuditDraft,
-    hasTrustedActorId: hasTrustedActorId(input),
-    hasAuditReason: hasAuditReason(input),
+    hasTrustedActorId: hasTrustedActorIdValue,
+    hasAuditReason: hasAuditReasonValue,
     hasRequestedApplyMode,
     requestedApplyMode: hasRequestedApplyMode ? input.requestedApplyMode : null,
-    hasNarrowClubScope: hasClubScope(input),
-    hasLinkedAthleteIdForAthleteRole: hasLinkedAthleteIdForAthleteRole(input),
-    adminFutureApplyBlocked: role === 'adminFuture',
+    hasNarrowClubScope,
+    hasLinkedAthleteIdForAthleteRole: hasLinkedAthleteIdForAthleteRoleValue,
+    adminFutureApplyBlocked,
     hasConfirmationPhrase,
     confirmationPhraseMatched,
     requiredConfirmationPhrase: REQUIRED_CLAIM_APPLY_CONFIRMATION_PHRASE,
@@ -238,10 +250,6 @@ function getClaimApplyBlockReasonsFromChecklist(
     blockReasons.push('liveApplyEnvironmentNotEnabled');
   }
 
-  if (!checklist.realApplyExecutionAllowed) {
-    blockReasons.push('realApplyNotImplemented');
-  }
-
   return Array.from(new Set(blockReasons));
 }
 
@@ -267,9 +275,5 @@ export function getClaimApplySafetyMessage(result: ClaimApplySafetyGateResult) {
     return 'Live apply safety gate allowed claim setting for this trusted caller only.';
   }
 
-  if (result.blockReasons.includes('realApplyNotImplemented')) {
-    return 'Future apply is blocked: this foundation only evaluates safety and never sets Firebase custom claims.';
-  }
-
-  return 'Dry run validation can be displayed, but this helper never applies Firebase custom claims.';
+  return 'Dry run validation can be displayed, but Firebase custom claims remain blocked until every live apply safety gate passes.';
 }
