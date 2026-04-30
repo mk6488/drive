@@ -123,6 +123,10 @@ export function RoleAccessPreviewScreen() {
           Local React state selects static example sessions and app areas only. This preview does not create accounts,
           sign users up, switch repository providers, upload PM5 evidence, or perform real actions.
         </AppText>
+        <AppText variant="caption" colour={theme.colours.parchmentMuted}>
+          For the current signed-in Firebase Auth session, use `/dev/role-access-smoke-test`. This screen stays focused
+          on fake local sessions for comparing expected role boundaries.
+        </AppText>
       </View>
 
       <Card>
