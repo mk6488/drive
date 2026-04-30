@@ -18,6 +18,14 @@ No Firebase Admin SDK claim setting happens here. The dry run does not call `set
 
 Dry run output is validation only. It can say that no claims were set and Firebase Admin was not initialised because the dry run path never performs live execution.
 
+## Firestore Seed Dry Run
+
+`npm run dryrun:seed` builds the functions workspace and previews a fake Firestore seed plan for `example-club`, `example-j15-squad`, and `example-athlete` only.
+
+The seed dry run prints planned document paths, document types, validation messages, and safety warnings. It does not initialise Firebase Admin, does not read Firestore, does not write Firestore, does not create users, and does not upload PM5 evidence. No real junior data, real Firebase UIDs, parent details, service account data, or real club private data should ever be used in seed definitions or local seed input files.
+
+Live seed application is not implemented yet. Do not add or run `seed:apply`, `seed:live`, or any script that writes Firestore without a later explicit approval step. Firebase repository mode is also not enabled by this dry run; the app remains mock backed by default.
+
 ## Firebase Admin Readiness Check
 
 `npm run admin:check` builds the functions workspace and runs a local Firebase Admin credential readiness diagnostic only. It attempts Firebase Admin initialisation through the existing trusted Admin boundary and reports whether local credentials are available, plus the project id if it can be resolved safely.

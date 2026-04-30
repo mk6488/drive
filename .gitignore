@@ -7,9 +7,12 @@ coverage/
 functions/node_modules/
 functions/lib/
 functions/live-inputs/
+functions/seed-inputs/
 functions/*.live.json
+functions/*.seed.local.json
 functions/**/*live*.local.json
 functions/**/*claims.local.json
+functions/**/*seed*.local.json
 functions/.runtimeconfig.json
 functions/.env
 functions/.env.local
