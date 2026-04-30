@@ -39,6 +39,12 @@ DRIVE handles junior athletes aged 14 to 18, so seed examples must avoid unneces
 
 The committed records use obvious fake ids and example display names only.
 
+## Submission Review Fields
+
+Submitted seed submissions should omit `reviewedByUserId`, `reviewedAt`, and `coachNote` until coach review exists. They should not store those review fields as `null`.
+
+This keeps fake seed data aligned with the current Firestore mapper and domain model, where review fields are optional before a submission is verified or rejected.
+
 ## Why Live Seed Application Is Out Of Scope
 
 Live seed application would be a privileged operational workflow. It needs explicit approval, Firestore rules review, data ownership checks, audit expectations, and a clear decision about whether test data may be written to a Firebase project.

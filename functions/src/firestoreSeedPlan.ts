@@ -36,6 +36,7 @@ export interface FirestoreSeedPlanSummary {
 
 const allowedSubmissionStatuses: readonly FirestoreSeedSubmissionStatus[] = ['draft', 'submitted', 'verified', 'rejected'];
 const forbiddenFieldNames = new Set(['pending', 'verifiedByCoachId', 'verifiedAt', 'coachNotes', 'rejectionReason']);
+const submissionReviewFieldNames = ['reviewedByUserId', 'reviewedAt', 'coachNote'] as const;
 
 function clubPath(clubId: string): string {
   return `clubs/${clubId}`;
@@ -183,6 +184,19 @@ export function validateFirestoreSeedPlan(plan: FirestoreSeedPlan): FirestoreSee
         (fieldName) => `${operation.documentType} ${operation.documentId} uses forbidden field name: ${fieldName}.`,
       ),
     ),
+    ...plan.operations.flatMap((operation) => {
+      if (operation.documentType !== 'submission') {
+        return [];
+      }
+
+      return submissionReviewFieldNames.flatMap((fieldName) =>
+        operation.data[fieldName] === null
+          ? [
+              `Submission ${operation.documentId} has null ${fieldName}; review fields should be omitted until review exists, not stored as null.`,
+            ]
+          : [],
+      );
+    }),
     ...plan.operations.flatMap((operation) =>
       asString(operation.data.clubId) && !operation.path.startsWith(`clubs/${asString(operation.data.clubId)}`)
         ? [`${operation.documentType} ${operation.documentId} path does not match its clubId.`]

@@ -39,6 +39,7 @@ function printDryRunReport() {
   console.log('Safety result: Firebase Admin was not initialised.');
   console.log('Safety result: no real junior data is included.');
   console.log('Safety result: no real club private data is included.');
+  console.log('Safety result: submitted seed submissions omit review fields until coach review exists.');
   console.log('Safety result: repository provider mode was not changed.');
 }
 
