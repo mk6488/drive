@@ -3,6 +3,9 @@ import { getAuth, type Auth } from 'firebase-admin/auth';
 
 let cachedApp: App | null = null;
 
+const FIREBASE_ADMIN_CREDENTIAL_GUIDANCE =
+  'Firebase Admin could not be initialised for DRIVE trusted functions. Configure standard local Admin SDK credentials outside this repository, keep credentials out of git, and do not create or commit service account files for this workspace.';
+
 export function getDriveFirebaseAdminApp(): App {
   if (cachedApp) {
     return cachedApp;
@@ -21,12 +24,8 @@ export function getDriveFirebaseAdminApp(): App {
     cachedApp = initializeApp({
       credential: applicationDefault(),
     });
-  } catch (error) {
-    throw new Error(
-      `Firebase Admin could not be initialised for DRIVE trusted claim apply. Use standard local Admin SDK credentials only, keep credentials out of git, and do not create service account files in this repository. ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
+  } catch {
+    throw new Error(FIREBASE_ADMIN_CREDENTIAL_GUIDANCE);
   }
 
   return cachedApp;

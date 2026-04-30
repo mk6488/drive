@@ -8,6 +8,12 @@ Step 42 implements the guarded Firebase Admin custom claim setting path behind t
 
 Always review the dry run and a blocked rehearsal first. Real credentials must stay local and ignored. Do not add service account files to this workspace, do not commit credentials, and do not involve the client app in role assignment. The client app still cannot assign roles or set custom claims.
 
+## Firebase Admin Readiness Before Future Live Apply
+
+Before any future live claim apply is approved, the local dry run must pass, the blocked rehearsal must pass, and `npm run admin:check` should pass from the functions workspace. The readiness check confirms local Firebase Admin credential availability only; it does not set claims, read Firestore, write Firestore, create users, or deploy anything.
+
+Local credentials must be configured safely through standard Admin SDK mechanisms and must stay outside source control. No service account file should be committed or added to this repository. A passing readiness check is still not approval to apply claims: live apply requires a separate explicit approval step, `DRIVE_CLAIMS_LIVE_APPLY=true`, exact confirmation text, and the guarded live apply safety checks.
+
 ## Local Live Input Hygiene
 
 Real live claim input files belong in `functions/live-inputs/` and must remain local. That folder is ignored by Git so real Firebase UIDs, junior athlete data, coach assignment data, club-private details, and operational rehearsal inputs do not enter source control.

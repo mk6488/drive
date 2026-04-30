@@ -13,6 +13,7 @@
     "dryrun:coach": "npm run build && node lib/dryRunRoleClaimAssignment.js samples/coach-claim.dry-run.json",
     "dryrun:athlete": "npm run build && node lib/dryRunRoleClaimAssignment.js samples/athlete-claim.dry-run.json",
     "dryrun:incomplete": "npm run build && node lib/dryRunRoleClaimAssignment.js samples/incomplete-claim.dry-run.json",
+    "admin:check": "npm run build && node lib/checkFirebaseAdminReadiness.js",
     "apply:claims": "node lib/applyRoleClaimAssignment.js"
   },
   "dependencies": {

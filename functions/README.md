@@ -16,6 +16,14 @@ Each dry run builds the TypeScript workspace, reads a local sample JSON file, va
 
 No Firebase Admin SDK claim setting happens here. The dry run does not call `setCustomUserClaims`, does not create users, does not read Firestore, and does not write Firestore.
 
+## Firebase Admin Readiness Check
+
+`npm run admin:check` builds the functions workspace and runs a local Firebase Admin credential readiness diagnostic only. It attempts Firebase Admin initialisation through the existing trusted Admin boundary and reports whether local credentials are available, plus the project id if it can be resolved safely.
+
+The diagnostic does not set claims, does not call `setCustomUserClaims`, does not create users, does not read or write Firestore, and does not deploy anything. It is not a live apply rehearsal and it is not approval to run `apply:claims`.
+
+Credentials must stay local and must never be committed. This step still does not require service account files in the repository; use only standard local Admin SDK credential mechanisms outside source control.
+
 ## Trusted Claims Live Apply Runbook
 
 See `../docs/46-trusted-claims-live-apply-runbook.md` and `CLAIMS_RUNBOOK.md` before any future claim apply work.
