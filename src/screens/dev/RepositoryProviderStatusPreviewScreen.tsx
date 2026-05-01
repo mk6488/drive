@@ -43,6 +43,10 @@ export function RepositoryProviderStatusPreviewScreen() {
           Future agents must not treat this route as proof that Firebase-backed product screens, protected routes,
           account creation, live uploads, or trusted reward workflows are complete.
         </AppText>
+        <AppText variant="caption" colour={theme.colours.parchmentMuted}>
+          Use `/dev/repository-read-smoke-test` for the separate manual read-only check against expected fake repository
+          records.
+        </AppText>
       </Card>
     </Screen>
   );
