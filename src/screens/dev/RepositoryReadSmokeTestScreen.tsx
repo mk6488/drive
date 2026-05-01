@@ -44,8 +44,8 @@ export function RepositoryReadSmokeTestScreen() {
           Repository Read Smoke Test
         </AppText>
         <AppText variant="body" colour={theme.colours.mist}>
-          Run a manual read-only check against the active repository provider to see whether the expected fake DRIVE
-          seed records can be loaded through the provider boundary.
+          Run a manual read-only check against the active repository provider to see whether the provider-appropriate
+          fake DRIVE records can be loaded through the provider boundary.
         </AppText>
         <AppText variant="caption" colour={theme.colours.parchmentMuted}>
           This preview does not write Firestore, switch provider mode, edit environment values, upload PM5 evidence,
@@ -58,8 +58,8 @@ export function RepositoryReadSmokeTestScreen() {
       <Card>
         <AppText variant="subtitle">Manual read check</AppText>
         <AppText variant="body" colour={theme.colours.mutedInk}>
-          Press the button to read the fixed fake example records. Firebase repository mode should only be enabled
-          intentionally with environment configuration; mock remains the safe default.
+          Press the button to read the expected dataset for the currently active provider. Firebase repository mode
+          should only be enabled intentionally with environment configuration; mock remains the safe default.
         </AppText>
         <AppButton
           title={isRunning ? 'Running read smoke test...' : 'Run read smoke test'}

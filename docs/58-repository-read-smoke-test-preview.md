@@ -11,10 +11,10 @@ Step 51 adds a developer-only repository read smoke test preview for DRIVE: Wint
 
 The existing repository provider status preview now points developers to the separate read smoke test route.
 
-The smoke test chooses its expected fixture from the active provider mode:
+The smoke test chooses the expected dataset from the active provider mode:
 
-- Mock mode uses the mock preview fixture: `club-example-001`, `squad-example-juniors`, `athlete-example-001`, `quest-example-001`, and `submission-example-001`.
-- Firebase mode uses the fake seed fixture: `example-club`, `example-j15-squad`, `example-athlete`, `example-quest-rate-20`, and `example-submission-rate-20`.
+- Mock mode uses the existing mock preview data: `club-example-001`, `squad-example-juniors`, `athlete-example-001`, `quest-example-001`, and `submission-example-001`.
+- Firebase mode uses the seeded Firestore example data: `example-club`, `example-j15-squad`, `example-athlete`, `example-quest-rate-20`, and `example-submission-rate-20`.
 
 ## Why This Preview Exists After Seed Verification
 
@@ -24,7 +24,9 @@ Step 50 verified from the trusted functions workspace that the fake Firestore se
 - `example-j15-squad`
 - `example-athlete`
 
-That server-side verification proves the expected fake documents exist at planned paths. This preview is the next safe client-side diagnostic: in default mock mode it checks the existing mock preview fixture, and in intentionally configured Firebase mode it checks whether the app can load the seeded fake records through the active repository provider boundary.
+That server-side verification proves the expected fake documents exist at planned paths. This preview is the next safe client-side diagnostic: in default mock mode it checks the existing mock preview records, and in intentionally configured Firebase mode it checks whether the app can load the seeded fake records through the active repository provider boundary.
+
+This prevents default mock mode from falsely failing just because the Firestore seed ids are different from the mock preview ids.
 
 ## Why It Reads Through The Repository Provider Only
 
@@ -32,7 +34,7 @@ Screens and developer previews must depend on repository contracts, not Firebase
 
 This keeps Firebase selection centralised and prevents product screens from learning Firestore paths, Firebase SDK details, or repository implementation names.
 
-The service owns fixture selection so screens and presentational components do not import mock repositories, Firebase repositories, Firebase SDKs, or provider implementation details.
+The service owns dataset selection so screens and presentational components do not import mock repositories, Firebase repositories, Firebase SDKs, or provider implementation details.
 
 ## Why Screens Must Not Import Firebase Repositories Directly
 
@@ -65,7 +67,7 @@ Mock remains the safe default. Missing or invalid `EXPO_PUBLIC_DRIVE_REPOSITORY_
 
 This preview does not change environment values, does not switch provider mode, and does not make Firebase the default for product screens.
 
-In the normal safe default, `/dev/repository-read-smoke-test` should pass against the mock preview fixture. That default pass does not prove Firestore access. It only proves that the active mock provider can satisfy the same repository contracts.
+In the normal safe default, `/dev/repository-read-smoke-test` should check the mock preview dataset. That default pass does not prove Firestore access. It only proves that the active mock provider can satisfy the same repository contracts.
 
 ## How This Helps Future Firebase Mode Testing
 
@@ -73,7 +75,7 @@ When Firebase mode is intentionally enabled in a local development environment, 
 
 That helps test repository wiring without adding product workflows, exposing broad Firestore reads, or creating new data.
 
-Firebase mode still targets only the fake seed fixture. Future agents must not replace those ids with real junior or club data.
+Firebase mode still targets only the seeded fake example dataset. Future agents must not replace those ids with real junior or club data.
 
 ## What Future Agents Must Not Infer
 

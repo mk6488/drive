@@ -17,14 +17,17 @@ export type RepositoryReadSmokeTestReport = {
   activeProviderMode: RepositoryProviderMode;
   isUsingMockFallback: boolean;
   firebaseConfigComplete: boolean;
-  fixtureLabel: string;
+  expectedDatasetLabel: string;
+  expectedClubId: string;
+  expectedSquadId: string;
+  expectedAthleteId: string;
   status: RepositoryReadSmokeTestStatus;
   checks: RepositoryReadSmokeTestCheck[];
   readOnlyNotice: string;
   limitationNotice: string;
 };
 
-type RepositoryReadSmokeTestFixture = {
+type RepositoryReadSmokeTestExpectedDataset = {
   label: string;
   clubId: string;
   squadId: string;
@@ -33,27 +36,24 @@ type RepositoryReadSmokeTestFixture = {
   submissionId: string;
 };
 
-function getSmokeTestFixture(providerMode: RepositoryProviderMode): RepositoryReadSmokeTestFixture {
-  if (providerMode === 'firebase') {
-    return {
-      label: 'Firebase seed fixture',
-      clubId: 'example-club',
-      squadId: 'example-j15-squad',
-      athleteId: 'example-athlete',
-      questId: 'example-quest-rate-20',
-      submissionId: 'example-submission-rate-20',
-    };
-  }
-
-  return {
-    label: 'Mock preview fixture',
+const expectedDatasetsByProviderMode: Record<RepositoryProviderMode, RepositoryReadSmokeTestExpectedDataset> = {
+  mock: {
+    label: 'Mock preview dataset',
     clubId: 'club-example-001',
     squadId: 'squad-example-juniors',
     athleteId: 'athlete-example-001',
     questId: 'quest-example-001',
     submissionId: 'submission-example-001',
-  };
-}
+  },
+  firebase: {
+    label: 'Firebase seeded example dataset',
+    clubId: 'example-club',
+    squadId: 'example-j15-squad',
+    athleteId: 'example-athlete',
+    questId: 'example-quest-rate-20',
+    submissionId: 'example-submission-rate-20',
+  },
+};
 
 type SmokeTestRead<T> = () => Promise<T | null>;
 type SmokeTestMatch<T> = (record: T) => boolean;
@@ -134,62 +134,62 @@ export async function runRepositoryReadSmokeTest(): Promise<RepositoryReadSmokeT
   const providerStatus = getRepositoryProviderStatus();
   const provider = getRepositoryProvider();
   const providerMode = providerStatus.activeProviderMode;
-  const fixture = getSmokeTestFixture(providerMode);
+  const expectedDataset = expectedDatasetsByProviderMode[providerMode];
 
   const checks: RepositoryReadSmokeTestCheck[] = await Promise.all([
     runReadCheck({
       id: 'athlete',
       label: 'Example athlete',
-      expectedId: fixture.athleteId,
+      expectedId: expectedDataset.athleteId,
       providerMode,
-      read: () => provider.athleteRepository.getAthleteById(fixture.clubId, fixture.athleteId),
-      matchesExpectedRecord: (athlete) => athlete.id === fixture.athleteId,
+      read: () => provider.athleteRepository.getAthleteById(expectedDataset.clubId, expectedDataset.athleteId),
+      matchesExpectedRecord: (athlete) => athlete.id === expectedDataset.athleteId,
     }),
     runReadCheck({
       id: 'squad',
       label: 'Example squad',
-      expectedId: fixture.squadId,
+      expectedId: expectedDataset.squadId,
       providerMode,
-      read: () => provider.squadRepository.getSquadById(fixture.clubId, fixture.squadId),
-      matchesExpectedRecord: (squad) => squad.id === fixture.squadId,
+      read: () => provider.squadRepository.getSquadById(expectedDataset.clubId, expectedDataset.squadId),
+      matchesExpectedRecord: (squad) => squad.id === expectedDataset.squadId,
     }),
     runReadCheck({
       id: 'quest',
       label: 'Example quest',
-      expectedId: fixture.questId,
+      expectedId: expectedDataset.questId,
       providerMode,
-      read: () => provider.questRepository.getQuestById(fixture.clubId, fixture.questId),
-      matchesExpectedRecord: (quest) => quest.id === fixture.questId,
+      read: () => provider.questRepository.getQuestById(expectedDataset.clubId, expectedDataset.questId),
+      matchesExpectedRecord: (quest) => quest.id === expectedDataset.questId,
     }),
     runReadCheck({
       id: 'submission',
       label: 'Example submission',
-      expectedId: fixture.submissionId,
+      expectedId: expectedDataset.submissionId,
       providerMode,
       read: () =>
         provider.submissionReadRepository.getSubmissionById(
-          fixture.clubId,
-          fixture.squadId,
-          fixture.athleteId,
-          fixture.submissionId,
+          expectedDataset.clubId,
+          expectedDataset.squadId,
+          expectedDataset.athleteId,
+          expectedDataset.submissionId,
         ),
-      matchesExpectedRecord: (submission) => submission.id === fixture.submissionId,
+      matchesExpectedRecord: (submission) => submission.id === expectedDataset.submissionId,
     }),
     runReadCheck({
       id: 'athlete-progress',
       label: 'Example athlete progress',
-      expectedId: fixture.athleteId,
+      expectedId: expectedDataset.athleteId,
       providerMode,
-      read: () => provider.progressReadRepository.getAthleteProgress(fixture.clubId, fixture.athleteId),
-      matchesExpectedRecord: (progress) => progress.athleteId === fixture.athleteId,
+      read: () => provider.progressReadRepository.getAthleteProgress(expectedDataset.clubId, expectedDataset.athleteId),
+      matchesExpectedRecord: (progress) => progress.athleteId === expectedDataset.athleteId,
     }),
     runReadCheck({
       id: 'squad-progress',
       label: 'Example squad progress',
-      expectedId: fixture.squadId,
+      expectedId: expectedDataset.squadId,
       providerMode,
-      read: () => provider.progressReadRepository.getSquadMissionProgress(fixture.clubId, fixture.squadId),
-      matchesExpectedRecord: (progress) => progress.squadId === fixture.squadId,
+      read: () => provider.progressReadRepository.getSquadMissionProgress(expectedDataset.clubId, expectedDataset.squadId),
+      matchesExpectedRecord: (progress) => progress.squadId === expectedDataset.squadId,
     }),
   ]);
 
@@ -198,7 +198,10 @@ export async function runRepositoryReadSmokeTest(): Promise<RepositoryReadSmokeT
     activeProviderMode: providerStatus.activeProviderMode,
     isUsingMockFallback: providerStatus.isUsingMockFallback,
     firebaseConfigComplete: providerStatus.firebaseConfigComplete,
-    fixtureLabel: fixture.label,
+    expectedDatasetLabel: expectedDataset.label,
+    expectedClubId: expectedDataset.clubId,
+    expectedSquadId: expectedDataset.squadId,
+    expectedAthleteId: expectedDataset.athleteId,
     status: getReportStatus(checks),
     checks,
     readOnlyNotice:
