@@ -6,6 +6,8 @@ Step 53 records the first successful Firebase repository read smoke test after F
 
 The test proved that the seeded fake Firestore example dataset can be read through the active repository provider when Firebase mode is intentionally enabled. It did not broaden normal app behaviour: the repository provider was returned to mock afterwards, route protection remained in preview mode, and the working tree was clean after testing.
 
+Step 54 later recorded the first manual product screen loading check in Firebase mode. See `docs/61-firebase-product-screen-manual-test-results.md` for the result record and current safe state.
+
 ## What Was Tested
 
 The developer-only repository read smoke test was run manually after rules propagation with Firebase repository mode intentionally enabled.
