@@ -97,6 +97,7 @@ export function RepositoryReadSmokeTestPanel({ report }: RepositoryReadSmokeTest
       <View style={styles.detailGrid}>
         <DetailRow label="Requested provider mode" value={formatMode(report.requestedProviderMode)} />
         <DetailRow label="Active provider mode" value={formatMode(report.activeProviderMode)} />
+        <DetailRow label="Fixture set used" value={report.fixtureLabel} />
         <DetailRow label="Mock fallback active" value={formatBoolean(report.isUsingMockFallback)} />
         <DetailRow label="Firebase config appears complete" value={formatBoolean(report.firebaseConfigComplete)} />
       </View>
