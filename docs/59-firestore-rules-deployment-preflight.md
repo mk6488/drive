@@ -112,6 +112,10 @@ It reads `firestore.rules` and `firebase.json`, checks that Firebase config refe
 
 It does not use Firebase Admin, does not contact Firestore, does not read or write Firestore data, does not mutate the app repository provider, and does not deploy rules.
 
+## Later Result
+
+Step 53 later recorded that Firestore rules were deployed manually with `firebase deploy --only firestore:rules --project drive-winter-quest`, then the Firebase repository read smoke test passed against the seeded fake example dataset. See `docs/60-firebase-read-smoke-test-results.md` for the result record.
+
 ## What Future Agents Must Not Infer
 
 Future agents must not infer from this preflight foundation that:

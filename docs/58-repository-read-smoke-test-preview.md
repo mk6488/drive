@@ -77,6 +77,8 @@ That helps test repository wiring without adding product workflows, exposing bro
 
 Firebase mode still targets only the seeded fake example dataset. Future agents must not replace those ids with real junior or club data.
 
+Step 53 later recorded the first successful Firebase read smoke test after Firestore rules were deployed manually. See `docs/60-firebase-read-smoke-test-results.md` for the result record and the restored mock-mode safe state.
+
 ## What Future Agents Must Not Infer
 
 Future agents must not infer from this preview that:
