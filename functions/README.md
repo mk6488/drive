@@ -32,6 +32,12 @@ Use it after a deliberately approved fake seed apply to confirm that the planned
 
 `npm run verify:seed` is read only. It does not write Firestore data, delete Firestore data, mutate seeded documents, set Firebase custom claims, create users, upload PM5 evidence, run reward processing, or connect the app to Firestore. The app repository provider remains mock backed until a later explicit step changes that boundary.
 
+## Firestore Rules Deployment Preflight
+
+`npm run preflight:rules` builds the functions workspace and checks local rule configuration files only. It reads `../firestore.rules` and `../firebase.json`, confirms Firebase config points at the local rules file, checks expected collection match paths, and warns if an obvious public blanket read/write rule appears.
+
+`npm run preflight:rules` does not deploy rules, does not run `firebase deploy`, does not use Firebase Admin, does not contact Firestore, and does not read or write Firestore data. Real Firestore rules deployment remains a manual explicit step for later review.
+
 ## Guarded Firestore Seed Apply Foundation
 
 A guarded seed apply script foundation now exists at `src/applyFirestoreSeed.ts`, with the npm entry `npm run apply:seed -- <path-to-local-seed-apply-json>`.
