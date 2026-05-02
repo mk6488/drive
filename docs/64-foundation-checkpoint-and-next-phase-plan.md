@@ -105,6 +105,8 @@ Recommended Step 58:
 
 This should be a planning step, not the implementation itself. It should review the existing submission command boundaries, Firestore submission rules, PM5 evidence path expectations, role claims, fake test users, dry-run needs, and rollback expectations before any submission write workflow is built.
 
+Step 58 is now captured in `docs/65-submission-write-boundary-review-and-plan.md`. That plan expands this checkpoint's recommended submission write boundary review and keeps Step 59 focused on command service foundations before any live write workflow.
+
 ## DRIVE Brief Fit
 
 This checkpoint supports DRIVE by protecting the transition from read-only foundations into careful write workflows. The product remains centred on junior-safe, coach-verified erg training that rewards execution quality, not raw speed, metres, public comparison, or unverified uploads.
