@@ -6,6 +6,9 @@ Step 55 records successful role-based Firebase product screen testing for DRIVE:
 
 This test happened after the general Firebase product screen test in `docs/61-firebase-product-screen-manual-test-results.md` because Step 54 proved the current preview screens could load in Firebase repository mode. Step 55 then checked the same read-only Firebase path while signed in as fake coach and athlete Firebase test users, so the role boundary messaging could be reviewed against the central route access rules.
 
+Step 56 later recorded the follow-up Firebase mode test with route protection temporarily enforced. See
+`docs/63-firebase-enforced-route-manual-test-results.md`.
+
 ## Temporary Test Configuration
 
 Local `.env` was temporarily set to:
