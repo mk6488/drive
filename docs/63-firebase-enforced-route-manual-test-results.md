@@ -11,6 +11,9 @@ users could load the current product screens in Firebase repository mode while r
 56 then checked the next safety layer: whether enforced route protection blocks opposite-role areas while Firebase read
 mode is active.
 
+Step 57 later consolidated this result into the foundation checkpoint and next phase plan. See
+`docs/64-foundation-checkpoint-and-next-phase-plan.md`.
+
 ## Temporary Test Configuration
 
 Local `.env` was temporarily set to:
