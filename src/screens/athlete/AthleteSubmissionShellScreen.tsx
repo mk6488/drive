@@ -140,6 +140,10 @@ export function AthleteSubmissionShellScreen() {
           This is a shell preview of the next step after Today&apos;s Quest. Upload and submit actions are disabled on
           purpose.
         </AppText>
+        <AppText variant="caption" colour={theme.colours.parchmentMuted}>
+          A developer-only submission write plan preview now exists for checking future draft and submit validation, but
+          this athlete screen still does not save drafts, upload PM5 evidence, or submit for coach review.
+        </AppText>
       </View>
 
       <Card tone="river">
