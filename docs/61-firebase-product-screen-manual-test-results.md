@@ -6,6 +6,8 @@ Step 54 records the first successful manual product screen loading check for DRI
 
 The test proved that current preview product screens can load through the Firebase read path against seeded fake Firestore data without app writes, real junior data, permission errors, or crashes. This happened after the successful repository read smoke test because Step 53 had already proved the fixed fake seeded records were readable through the active repository provider boundary.
 
+Step 55 later recorded role-based Firebase screen tests for fake coach and athlete Firebase test users. See `docs/62-firebase-role-based-product-screen-test-results.md`.
+
 ## Temporary Test Configuration
 
 Local `.env` was temporarily set to:
