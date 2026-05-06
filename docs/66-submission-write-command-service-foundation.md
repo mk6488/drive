@@ -52,6 +52,8 @@ Reflection text must stay short and training focused. It should support coach re
 
 `/dev/submission-write-plan` is a developer-only local-state preview. It shows fake athlete draft and submit inputs, displays whether the plan is valid or blocked, lists block reasons, and previews the plain future document shape.
 
+Step 60 recorded the first manual preview check in `docs/67-submission-write-plan-manual-test-results.md`.
+
 The preview clearly states:
 
 - no Firestore write happens
