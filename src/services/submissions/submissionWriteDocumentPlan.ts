@@ -1,6 +1,3 @@
-import type { SubmissionDocumentDraft } from '@/src/services/firebase/firestoreDocuments';
-import { mapSubmissionDraftToSubmissionDocumentDraft } from '@/src/services/firebase/firestoreMappers';
-
 import {
   createAthleteDraftSubmissionWritePlan,
   createAthleteSubmitForReviewWritePlan,
@@ -9,11 +6,24 @@ import {
   type SubmissionWritePlan,
 } from './submissionWriteCommandService';
 
+export interface AthleteSubmissionDocumentDraftPreview {
+  questId: string;
+  clubId: string;
+  squadId: string;
+  athleteId: string;
+  createdByUserId?: string;
+  pm5PhotoPath: string;
+  reflection: string;
+  status: 'draft' | 'submitted';
+  submittedAt?: string;
+  updatedAt: string;
+}
+
 export interface SubmissionWriteDocumentPlan {
   writePlan: SubmissionWritePlan;
   submissionId: string;
   documentPath: string;
-  documentDraft: SubmissionDocumentDraft | null;
+  documentDraft: AthleteSubmissionDocumentDraftPreview | null;
   notes: string[];
 }
 
@@ -24,8 +34,8 @@ function buildSubmissionDocumentPath(clubId: string, submissionId: string): stri
 function buildDraftDocument(
   input: AthleteDraftSubmissionWriteInput | AthleteSubmitForReviewWriteInput,
   status: 'draft' | 'submitted',
-): SubmissionDocumentDraft {
-  return mapSubmissionDraftToSubmissionDocumentDraft({
+): AthleteSubmissionDocumentDraftPreview {
+  return {
     questId: input.questId.trim(),
     clubId: input.clubId.trim(),
     squadId: input.squadId.trim(),
@@ -36,7 +46,7 @@ function buildDraftDocument(
     status,
     submittedAt: status === 'submitted' ? new Date(0).toISOString() : undefined,
     updatedAt: new Date(0).toISOString(),
-  });
+  };
 }
 
 function createDocumentPlan(
