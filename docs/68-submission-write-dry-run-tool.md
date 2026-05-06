@@ -11,6 +11,8 @@ Step 61 adds a local functions-side submission write dry run foundation:
 
 The tool previews future athlete draft and submit submission document shapes for the fixed fake ids only. It does not create real submission documents.
 
+Step 62 recorded the manual dry run results in `docs/69-submission-write-dry-run-manual-test-results.md`.
+
 ## Why This Exists Before Live Writes
 
 Submission writes affect private PM5 evidence, athlete reflections, coach review, and future reward eligibility. DRIVE needs the write shape to be visible and reviewable before any live Firestore write, Storage upload, app submit action, or coach review action is introduced.
