@@ -32,6 +32,20 @@ Use it after a deliberately approved fake seed apply to confirm that the planned
 
 `npm run verify:seed` is read only. It does not write Firestore data, delete Firestore data, mutate seeded documents, set Firebase custom claims, create users, upload PM5 evidence, run reward processing, or connect the app to Firestore. The app repository provider remains mock backed until a later explicit step changes that boundary.
 
+## Submission Write Dry Runs
+
+Submission write dry runs are local and write-free. They preview future athlete draft and submit document shapes for fake example ids only:
+
+```bash
+npm run dryrun:submission:draft
+npm run dryrun:submission:submit
+npm run dryrun:submission:invalid
+```
+
+The dry run prints the planned submission document path, planned future document shape, validation status, and blocked reasons. It does not initialise Firebase Admin, read Firestore, write Firestore, upload PM5 evidence, write reward results, write athlete progress, or write squad progress.
+
+`dryrun:submission:invalid` is expected to complete as a blocked rehearsal. Live submission draft saving, live submit for coach review, PM5 upload, and coach approve or reject actions are not implemented yet.
+
 ## Firestore Rules Deployment Preflight
 
 `npm run preflight:rules` builds the functions workspace and checks local rule configuration files only. It reads `../firestore.rules` and `../firebase.json`, confirms Firebase config points at the local rules file, checks expected collection match paths, and warns if an obvious public blanket read/write rule appears.

@@ -1,0 +1,13 @@
+{
+  "mode": "submit",
+  "clubId": "example-club",
+  "squadId": "example-j15-squad",
+  "athleteId": "example-athlete",
+  "questId": "example-quest-rate-20",
+  "submissionId": "example-submission-rate-20",
+  "createdByUserId": "example-athlete-user",
+  "pm5PhotoPath": "clubs/example-club/submissions/example-submission-rate-20/pm5/example-pm5-screen.jpg",
+  "reflection": "Held the rate cap and reset my rhythm when the split drifted late.",
+  "status": "submitted",
+  "currentStatus": "draft"
+}

@@ -1,0 +1,14 @@
+{
+  "mode": "submit",
+  "clubId": "example-club",
+  "squadId": "example-j15-squad",
+  "athleteId": "example-athlete",
+  "questId": "example-quest-rate-20",
+  "submissionId": "example-submission-rate-20",
+  "createdByUserId": "example-athlete-user",
+  "pm5PhotoPath": "",
+  "reflection": "Held a controlled rate and checked the split after each piece.",
+  "status": "verified",
+  "currentStatus": "draft",
+  "reviewedByUserId": "example-coach-user"
+}

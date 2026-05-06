@@ -1,0 +1,13 @@
+{
+  "mode": "draft",
+  "clubId": "example-club",
+  "squadId": "example-j15-squad",
+  "athleteId": "example-athlete",
+  "questId": "example-quest-rate-20",
+  "submissionId": "example-submission-rate-20",
+  "createdByUserId": "example-athlete-user",
+  "pm5PhotoPath": "",
+  "reflection": "Focused on a steady rhythm and keeping the rate controlled through the session.",
+  "status": "draft",
+  "currentStatus": null
+}

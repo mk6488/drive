@@ -16,6 +16,9 @@
     "dryrun:seed": "npm run build && node lib/dryRunFirestoreSeed.js",
     "verify:seed": "npm run build && node lib/verifyFirestoreSeed.js",
     "preflight:rules": "npm run build && node lib/firestoreRulesPreflight.js",
+    "dryrun:submission:draft": "npm run build && node lib/dryRunSubmissionWrite.js samples/submission-draft.dry-run.json",
+    "dryrun:submission:submit": "npm run build && node lib/dryRunSubmissionWrite.js samples/submission-submit.dry-run.json",
+    "dryrun:submission:invalid": "npm run build && node lib/dryRunSubmissionWrite.js samples/submission-invalid.dry-run.json",
     "admin:check": "npm run build && node lib/checkFirebaseAdminReadiness.js",
     "apply:claims": "node lib/applyRoleClaimAssignment.js",
     "apply:seed": "node lib/applyFirestoreSeed.js"
