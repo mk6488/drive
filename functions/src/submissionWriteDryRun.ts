@@ -5,6 +5,11 @@ export type SubmissionWriteDryRunCheckStatus = 'passed' | 'blocked';
 
 export interface SubmissionWriteDryRunInput {
   readonly mode: SubmissionWriteDryRunMode | string;
+  readonly requestedApplyMode?: string;
+  readonly confirmationPhrase?: string;
+  readonly trustedActorId?: string;
+  readonly auditReason?: string;
+  readonly environmentName?: string;
   readonly clubId?: string;
   readonly squadId?: string;
   readonly athleteId?: string;

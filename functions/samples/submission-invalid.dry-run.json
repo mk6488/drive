@@ -1,5 +1,10 @@
 {
   "mode": "submit",
+  "requestedApplyMode": "dryRun",
+  "confirmationPhrase": "APPLY_DRIVE_SUBMISSION_WRITE",
+  "trustedActorId": "example-trusted-submission-actor",
+  "auditReason": "Fake local submission write dry run review only.",
+  "environmentName": "local-dry-run",
   "clubId": "example-club",
   "squadId": "example-j15-squad",
   "athleteId": "example-athlete",

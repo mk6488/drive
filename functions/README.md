@@ -46,6 +46,8 @@ The dry run prints the planned submission document path, planned future document
 
 `dryrun:submission:invalid` is expected to complete as a blocked rehearsal. Live submission draft saving, live submit for coach review, PM5 upload, and coach approve or reject actions are not implemented yet.
 
+Dry run output now includes a future apply safety gate section. The gate is pure display logic only: it does not write Firestore, upload to Storage, initialise Firebase Admin, create rewards, or write athlete or squad progress. Future live submission writes are still not implemented, and any later live write must pass this gate first with the exact confirmation phrase, explicit environment flag, fake example data for early rehearsals, and no review, reward, or progress fields.
+
 ## Firestore Rules Deployment Preflight
 
 `npm run preflight:rules` builds the functions workspace and checks local rule configuration files only. It reads `../firestore.rules` and `../firebase.json`, confirms Firebase config points at the local rules file, checks expected collection match paths, and warns if an obvious public blanket read/write rule appears.
